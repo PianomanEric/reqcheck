@@ -12,14 +12,14 @@
 3. Fill out the table below
 
 
-| Student Name | Student Email | GitHub Username |
-|    :---:     |     :---:     |     :---:       |
-| member1      |               |                 |
-| member2      |               |                 |
-| member3      |               |                 |
-| member4      |               |                 |
-| member5      |               |                 |
-| member6      |               |                 |
+|        Student Name            |        Student Email          |       GitHub Username       |
+|           :---:                |            :---:              |            :---:            |
+| Vivek Santoki                  |     vsantoi@sfsu.edu          |          vsantoki           |
+| Alex Sanchez                   |    asanchez26@mail.sfsu.edu   |          alexsan3130        |
+| Eric Falk                      |    efalk1@mail.sfsu.edu       |          PianomanEric       |
+| Eric Rodriguez                 |   erodriguez7@mail.sfsu.edu   |          Rodriguez1132      |
+| Syde Faiz                      |   sfaiz@mail.sfsu.edu         |          faiz9              |
+| Victoria                       |  vwilsonanumudu@mail.sfsu.edu |          victoriawilsona    |
 
 4. Please when ready add your teams application's name and URL or IP to the following table. This will help with grading. Teams are expected to keep this value up to date.
 
