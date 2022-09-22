@@ -22,30 +22,30 @@ function MemberInfo() {
     else if(name === "ericR") {
       return <>
       <h4>
-          Neme:- Your Name
+          Name:- Erik Rodriguez
         </h4>
         <h4>
-        About:- Your Description
+        About:- Hello My name is Erik Rodriguez and I am part of the front end. 
         </h4>
       </>
     }
     else if(name === "ericF") {
       return <>
       <h4>
-          Neme:- Your Name
+          Neme:- Eric Falk
         </h4>
         <h4>
-        About:- Your Description
+        About:- Hello! My name is Eric and I am one of the front-end developers for the team. I've only used vanilla JavaScript for past web projects, but I will be learning how to use React and Material UI for this course.
         </h4>
       </>
     }
     else if(name === "syed") {
       return <>
       <h4>
-          Neme:- Your Name
+          Neme:- Syed
         </h4>
         <h4>
-        About:- Your Description
+        About:- Hello CSC 648, My name is Syed, Nice to meet you all! I'm the backend lead in our team. I've taken several courses such as CSC 317, 413, 675 and now our class. I'll be happy to apply my knowledge to the project and learn!
         </h4>
       </>
     }
