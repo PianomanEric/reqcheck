@@ -32,10 +32,10 @@ function MemberInfo() {
     else if(name === "ericF") {
       return <>
       <h4>
-          Neme:- Your Name
+          Neme:- Eric Falk
         </h4>
         <h4>
-        About:- Your Description
+        About:- Hello! My name is Eric and I am one of the front-end developers for the team. I've only used vanilla JavaScript for past web projects, but I will be learning how to use React and Material UI for this course.
         </h4>
       </>
     }
