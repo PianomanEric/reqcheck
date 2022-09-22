@@ -42,10 +42,10 @@ function MemberInfo() {
     else if(name === "syed") {
       return <>
       <h4>
-          Neme:- Your Name
+          Neme:- Syed
         </h4>
         <h4>
-        About:- Your Description
+        About:- Hello CSC 648, My name is Syed, Nice to meet you all! I'm the backend lead in our team. I've taken several courses such as CSC 317, 413, 675 and now our class. I'll be happy to apply my knowledge to the project and learn!
         </h4>
       </>
     }
