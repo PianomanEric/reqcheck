@@ -14,7 +14,7 @@ function MemberInfo() {
           Neme:- Vivek Santoki
         </h4>
         <h4>
-        About:- Hello All, My name is Vivek Santoki and I am team lead of team 6.My responsibility to handle the team across the technology and project and I will managing the deployments for the projects.
+        About:- Hello All, My name is Vivek Santoki and I am team lead of team 6.My responsibility to handle the team across the technology and project and I will managing the deployments for the projects..
         </h4>
       </>
 
