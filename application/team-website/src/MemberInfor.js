@@ -61,10 +61,10 @@ function MemberInfo() {
     }else if(name === "alex") {
       return <>
       <h4>
-          Neme:- Your Name
+          Neme:- Alex Sanchez
         </h4>
         <h4>
-        About:- Your Description
+        About:- Hello! My name is Alex Sanchez. I am part of the front-end team. I've taken several courses in CS, so I'm familiar with this.
         </h4>
       </>
     }
