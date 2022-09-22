@@ -52,10 +52,10 @@ function MemberInfo() {
     else if(name === "victoria") {
       return <>
       <h4>
-          Neme:- Your Name
+          Neme:- Victoria Wilson-Anumudu
         </h4>
         <h4>
-        About:- Your Description
+        About:- Hi everyone! My name is Victoria Wilson-Anumudu and I am will be working in Github as well as the backend for my Team 6. 
         </h4>
       </>
     }else if(name === "alex") {
