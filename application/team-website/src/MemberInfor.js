@@ -22,10 +22,10 @@ function MemberInfo() {
     else if(name === "ericR") {
       return <>
       <h4>
-          Neme:- Your Name
+          Name:- Erik Rodriguez
         </h4>
         <h4>
-        About:- Your Description
+        About:- Hello My name is Erik Rodriguez and I am part of the front end. 
         </h4>
       </>
     }
