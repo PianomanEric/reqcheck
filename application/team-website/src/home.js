@@ -20,7 +20,7 @@ function Home() {
         <h4>
           Project Description
         </h4>
-        <h2>
+        <h7>
           Students across North America oftentimes find the need to transfer between schools throughout 
           their university career for various reasons. Unfortunately, since most colleges have their own 
           course curriculums for their programs, students find it quite difficult to make these transfers due 
@@ -35,7 +35,7 @@ function Home() {
           as well as save time and money. At the end of the day, the goal is to help both parties and stakeholders plan 
           and handle the transfers beforehand seamlessly.
 
-        </h2>
+        </h7>
         <h4>
           Team mambers:-
         </h4>
