@@ -23,9 +23,9 @@
 
 4. Please when ready add your teams application's name and URL or IP to the following table. This will help with grading. Teams are expected to keep this value up to date.
 
-|             Name of the Project               |                            URL of the Project                          | 
-|                    :---:                      |                                 :---:                                  |
-|   Replace this text with your project's name  |              Replace this text with your application's URL or IP       |                                                        
+|             Name of the Project               |                            URL of the Project                             | 
+|                    :---:                      |                                 :---:                                     |
+|                  Req Check                    |              http://www.reqcheck.io.s3-website-us-west-1.amazonaws.com    |                                                        
  
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
