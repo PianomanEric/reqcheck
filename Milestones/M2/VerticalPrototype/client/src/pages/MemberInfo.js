@@ -20,8 +20,8 @@ const memberInfo = {
         description: "",
     },
     syed: {
-        name: "",
-        description: "",
+        name: "Syed",
+        description: "Hello, My name is Syed and I'll be helping team with databased",
     },
     vivek: {
         name: "Vivek Santoki",
