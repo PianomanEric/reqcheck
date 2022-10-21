@@ -16,8 +16,8 @@ const memberInfo = {
         description: "Hello there! My name is Alex and I the team lead for Team 06. I have experience in full stack, but would like to practice more.",
     },
     victoria: {
-        name: "",
-        description: "",
+        name: "Victoria Wilson-Anumudu",
+        description: "Hi everyone! My name is Victoria Wilson-Anumudu and I am will be working in Github as well as the backend for my Team 6. ",
     },
     syed: {
         name: "Syed",
