@@ -8,8 +8,8 @@ const memberInfo = {
         description: "Hello! My name is Eric and I am one of the front-end developers for the team. I've only used vanilla JavaScript for past web projects, but I will be learning how to use React and Material UI for this course.",
     },
     erik: {
-        name: "",
-        description: "",
+        name: "Erik Rodriguez",
+        description: "Hi! My name is Erik Rodriguez I am part of the front end team with a small amount of experiance but I am ready to learn more about React and creating a working website",
     },
     alex: {
         name: "Alex Sanchez",
