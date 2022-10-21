@@ -24,8 +24,8 @@ const memberInfo = {
         description: "",
     },
     vivek: {
-        name: "",
-        description: "",
+        name: "Vivek Santoki",
+        description: "Hello Everyone my name is Vivek Santoki I am the front end lead for Team 06. I have intermediate experience as a web developer",
     },
 }
 
