@@ -21,7 +21,7 @@ const memberInfo = {
     },
     syed: {
         name: "Syed",
-        description: "Hello, My name is Syed and I'll be helping team with databased",
+        description: "Hello, My name is Syed and I'll be helping the team with databases/backend",
     },
     vivek: {
         name: "Vivek Santoki",
