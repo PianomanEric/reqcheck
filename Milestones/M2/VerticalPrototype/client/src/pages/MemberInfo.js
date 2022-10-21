@@ -12,8 +12,8 @@ const memberInfo = {
         description: "",
     },
     alex: {
-        name: "",
-        description: "",
+        name: "Alex Sanchez",
+        description: "Hello there! My name is Alex and I the team lead for Team 06. I have experience in full stack, but would like to practice more.",
     },
     victoria: {
         name: "",
