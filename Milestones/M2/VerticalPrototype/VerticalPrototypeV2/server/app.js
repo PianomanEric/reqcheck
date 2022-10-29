@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 const mysql = require('mysql');
-const port = process.env.port || process.env.PORT || 3000
+const port = process.env.port || process.env.PORT || 5000
 
 const connectionData = {
   host: "database1.cluzlb16p6h1.us-west-1.rds.amazonaws.com",
@@ -15,11 +15,6 @@ const connectionData = {
 
 // Path to the react build folder
 const build = path.join(__dirname, '..', 'client', 'build');
-
-// Use CORS middleware (Cross-Origin Resource Sharing)
-// This will allow access to our backend from any origin by default
-// We may want to restrict this later
-app.use(cors());
 
 app.use(express.static(build));
 
