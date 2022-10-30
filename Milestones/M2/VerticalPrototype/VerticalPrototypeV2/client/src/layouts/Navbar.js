@@ -1,5 +1,26 @@
-import { AppBar, Box, IconButton, InputAdornment, Link, TextField, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Link, MenuItem, Select, TextField, InputBase, Typography } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+
+// This is hard-coded for now, but we can use the backend to grab our filters later
+// Not sure what things we should include in the dropdown filter
+// Feel free to change these
+const filters = [
+  "Courses",
+  "Instructors",
+  "Degrees"
+];
+
+const handleSearchKeyPressed = (key) => {
+  if (key.code === "Enter") {
+    handleSearch();
+  }
+}
+
+const handleSearch = (key) => {
+  console.log(key);
+  // Make a call to the backend, maybe redirect to a results page?
+  alert("Search not implemented");
+}
 
 export default function Navbar() {
   return (
@@ -52,18 +73,31 @@ export default function Navbar() {
         flexDirection: "row",
         alignItems: "center",
       }}>
-        <TextField size="small" InputProps={{
-          endAdornment: <InputAdornment position="end">
-            <IconButton edge="end">
-              <SearchIcon />
-            </IconButton>
-          </InputAdornment>
-        }} sx={{
-          borderRadius: 1,
-          px: 2,
+        <TextField placeholder={"Search Courses"} onKeyDown={handleSearchKeyPressed} sx={{
+          width: "200px",
+          //bgcolor: "common.white",
+          //padding: 1,
+          //border: "1px solid #aaa",
         }}/>
+        <Select sx={{
+          width: "150px",
+        }}>
+          <MenuItem value="">
+            None
+          </MenuItem>
+          {
+          filters.map((filter) => (
+            <MenuItem key={filter} value={filter}>
+              {filter}
+            </MenuItem>
+          ))
+          }
+        </Select>
+        <IconButton onClick={handleSearch}>
+          <SearchIcon />
+        </IconButton>
         <Link to="/">
-          <Typography onClick={() => {alert("This will redirect to the registration page")}} variant="body1" align="center" color="initial" sx={{
+          <Typography onClick={() => {alert("The registration page will be implemented in Milestone 3")}} variant="body1" align="center" color="initial" sx={{
             px: 2,
             py: 1,
           }}>
@@ -71,7 +105,7 @@ export default function Navbar() {
           </Typography>
         </Link>
         <Link to="/">
-          <Typography onClick={() => {alert("This will redirect to the login page")}} variant="body1" align="center" color="initial" sx={{
+          <Typography onClick={() => {alert("The login page will be implemented in Milestone 3")}} variant="body1" align="center" color="initial" sx={{
             px: 2,
             py: 1,
           }}>

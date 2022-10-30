@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Link, Typography } from "@mui/material";
-import { useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import MessageDialog from "../components/MessageDialog";
 import Axios from "axios";
 
 const pages = [
@@ -46,6 +47,18 @@ export default function Home() {
         document.title = "ReqCheck | Home";
     }, []);
 
+    const showMessage = (message) => {
+        setMessage(message);
+        setVisible(true);
+    }
+
+    const [message, setMessage] = useState("");
+    const [visible, setVisible] = useState(false);
+
+    const onClose = () => {
+        setVisible(false);
+    }
+
     return (
         <>
             <Typography align="center" variant="h4" sx={{
@@ -54,7 +67,7 @@ export default function Home() {
                 color: "common.black",
                 width: "100%",
             }}>
-                College Graduation Simplified
+                College transfers made easy
             </Typography>
             <Button onClick={()=>{
                 Axios.get("/dbtest").then((res) => {
@@ -79,7 +92,7 @@ export default function Home() {
                             alignItems: "center",
                             justifyContent: "center",
                         }}>
-                            <Link to={"/"} onClick={() => {alert(`This will redirect to ${page.title} page`)}} sx={{
+                            <Link to={"/"} onClick={() => {alert(`The ${page.title} page will be implemented in Milestone 3`)}} sx={{
                                 p: 2,
                             }}>
                                 <Box sx={{
