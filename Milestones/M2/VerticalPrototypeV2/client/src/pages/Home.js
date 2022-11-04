@@ -1,7 +1,6 @@
 import { Box, Button, Grid, Link, Typography } from "@mui/material";
 import React, { useState, useEffect } from 'react';
 import MessageDialog from "../components/MessageDialog";
-import Axios from "axios";
 
 const pages = [
     {
@@ -69,17 +68,13 @@ export default function Home() {
             }}>
                 College transfers made easy
             </Typography>
-            <Button onClick={()=>{
-                Axios.get("/dbtest").then((res) => {
-                    alert(JSON.stringify(res.data));
-                })
-            }} sx={{
+            {/* <Button onClick={()=> testDB()} sx={{
                 bgcolor: "common.white",
                 boxShadow: "3",
                 mx: "auto",
             }}>
                 Test DB
-            </Button>
+            </Button> */}
             <Grid container spacing="0" maxWidth={"lg"} sx={{
                 justifyContent: "center",
                 mx: "auto",

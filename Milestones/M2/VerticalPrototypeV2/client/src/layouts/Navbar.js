@@ -1,5 +1,7 @@
-import { AppBar, Box, IconButton, Link, MenuItem, Select, TextField, InputBase, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Link, MenuItem, Select, TextField, InputBase, Typography,Autocomplete } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 // This is hard-coded for now, but we can use the backend to grab our filters later
 // Not sure what things we should include in the dropdown filter
@@ -10,19 +12,30 @@ const filters = [
   "Degrees"
 ];
 
-const handleSearchKeyPressed = (key) => {
-  if (key.code === "Enter") {
-    handleSearch();
-  }
-}
-
-const handleSearch = (key) => {
-  console.log(key);
-  // Make a call to the backend, maybe redirect to a results page?
-  alert("Search not implemented");
-}
 
 export default function Navbar() {
+
+  const [titles, setTitles] = useState([]);
+  const [showTitles, setShowTitles] = useState([]);
+
+  useEffect(() => {
+    async function fetchSearchData(){
+      try{
+        const response = await axios.get("http://localhost:4000/dbtest");
+        const title = response.data.map((item) => item.title);
+        setTitles(title);
+    }catch(error) {
+        console.log(error)
+    }
+    }
+    fetchSearchData();
+  },[])
+
+  const onChangeSearch = (e) => {
+    const show = titles.filter((item) => item.includes(e.target.value));
+    setShowTitles(show);
+  }
+
   return (
     <AppBar position="sticky" elevation={3} sx={{
       p: 1,
@@ -73,29 +86,26 @@ export default function Navbar() {
         flexDirection: "row",
         alignItems: "center",
       }}>
-        <TextField placeholder={"Search Courses"} onKeyDown={handleSearchKeyPressed} sx={{
+        {/* <TextField placeholder={"Search Courses"}
+        onChange={(e) => onChangeSearch(e)}
+        sx={{
           width: "200px",
-          //bgcolor: "common.white",
-          //padding: 1,
-          //border: "1px solid #aaa",
-        }}/>
-        <Select sx={{
-          width: "150px",
-        }}>
-          <MenuItem value="">
-            None
-          </MenuItem>
-          {
-          filters.map((filter) => (
-            <MenuItem key={filter} value={filter}>
-              {filter}
-            </MenuItem>
-          ))
-          }
-        </Select>
-        <IconButton onClick={handleSearch}>
-          <SearchIcon />
-        </IconButton>
+          // bgcolor: "common.white",
+          // padding: 1,
+          // border: "1px solid #aaa",
+        }}/> */}
+        <Autocomplete
+          id="free-solo-demo"
+          freeSolo
+          options={showTitles}
+          sx={{
+            width: "200px",
+            // bgcolor: "common.white",
+            // padding: 1,
+            // border: "1px solid #aaa",
+          }}
+          renderInput={(params) => <TextField {...params} onChange={(e) => onChangeSearch(e)} label="Search" />}
+        />
         <Link to="/">
           <Typography onClick={() => {alert("The registration page will be implemented in Milestone 3")}} variant="body1" align="center" color="initial" sx={{
             px: 2,
