@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import MemberInfo from "./pages/MemberInfo";
 import BasicLayout from './layouts/BasicLayout';
+import Registration from './pages/SignUp';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
                 <Route index element={<About />} />
                 <Route path=":name" element={<MemberInfo />} />
               </Route>
+              <Route path='/register' element={<Registration/>}/>
             </Route>
           </Routes>
         </BrowserRouter>

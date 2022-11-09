@@ -21,7 +21,7 @@ export default function Navbar() {
   useEffect(() => {
     async function fetchSearchData(){
       try{
-        const response = await axios.get("http://localhost:4000/dbtest");
+        const response = await axios.get("http://localhost:6000/dbtest");
         const title = response.data.map((item) => item.title);
         setTitles(title);
     }catch(error) {
@@ -86,28 +86,33 @@ export default function Navbar() {
         flexDirection: "row",
         alignItems: "center",
       }}>
-        {/* <TextField placeholder={"Search Courses"}
+        <TextField placeholder={"Search Courses"}
         onChange={(e) => onChangeSearch(e)}
         sx={{
           width: "200px",
-          // bgcolor: "common.white",
-          // padding: 1,
-          // border: "1px solid #aaa",
-        }}/> */}
-        <Autocomplete
-          id="free-solo-demo"
-          freeSolo
-          options={showTitles}
-          sx={{
-            width: "200px",
-            // bgcolor: "common.white",
-            // padding: 1,
-            // border: "1px solid #aaa",
-          }}
-          renderInput={(params) => <TextField {...params} onChange={(e) => onChangeSearch(e)} label="Search" />}
-        />
-        <Link to="/">
-          <Typography onClick={() => {alert("The registration page will be implemented in Milestone 3")}} variant="body1" align="center" color="initial" sx={{
+          //bgcolor: "common.white",
+          //padding: 1,
+          //border: "1px solid #aaa",
+        }}/>
+        {/* <Select sx={{
+          width: "150px",
+        }}>
+          <MenuItem value="">
+            None
+          </MenuItem>
+          {
+          filters.map((filter) => (
+            <MenuItem key={filter} value={filter}>
+              {filter}
+            </MenuItem>
+          ))
+          }
+        </Select> */}
+        {/* <IconButton onClick={handleSearch}>
+          <SearchIcon />
+        </IconButton> */}
+        <Link to="/register">
+          <Typography variant="body1" align="center" color="initial" sx={{
             px: 2,
             py: 1,
           }}>
