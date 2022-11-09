@@ -6,7 +6,8 @@ import {
   Link,
   MenuItem,
   Select,
-  TextField, 
+  TextField,
+  InputAdornment, 
   InputBase,
   Typography,
   Autocomplete
@@ -23,7 +24,6 @@ const filters = [
   "Instructors",
   "Degrees"
 ];
-
 
 export default function Navbar() {
 
@@ -116,9 +116,6 @@ export default function Navbar() {
           sx={{
             mx: 1,
             width: "200px",
-            // bgcolor: "common.white",
-            // padding: 1,
-            // border: "1px solid #aaa",
           }}
           renderInput={(params) => <TextField {...params} onChange={(e) => onChangeSearch(e)} label="Search" />}
         />
@@ -126,13 +123,13 @@ export default function Navbar() {
           mx: 1,
           color: "common.white",
         }}>
-            Register
+          Register
         </Button>
         <Button variant="contained" onClick={() => {alert("The login page will be implemented in Milestone 3")}} sx={{
           mx: 1,
           color: "common.white",
         }}>
-            Login
+          Login
         </Button>
       </Box>
     </AppBar> 

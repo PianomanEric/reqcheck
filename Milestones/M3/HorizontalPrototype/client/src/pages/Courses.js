@@ -3,10 +3,8 @@ import {
     AccordionDetails,
     AccordionSummary,
     Box,
-    Button,
     Container,
     Divider,
-    Paper,
     Tabs,
     Tab,
     Table,
@@ -15,11 +13,24 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Typography
+    Tooltip,
+    Typography,
+    IconButton
 } from "@mui/material";
 import React, { useState, useEffect } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import EditIcon from '@mui/icons-material/Edit';
+import EditSharpIcon from '@mui/icons-material/EditSharp';
+
+import CourseSelectionDialog from '../components/CourseSelectionDialog';
+
+import CheckCircleOutlineSharpIcon from '@mui/icons-material/CheckCircleOutlineSharp';
+import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp';
+import ScheduleSharpIcon from '@mui/icons-material/ScheduleSharp';
+import InfoIcon from '@mui/icons-material/Info';
+
+import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp';
+import PendingSharpIcon from '@mui/icons-material/PendingSharp';
+import ErrorSharpIcon from '@mui/icons-material/ErrorSharp';
 
 const TABS = [
     "All",
@@ -28,135 +39,278 @@ const TABS = [
     "Completed",
 ]
 
+const COURSE_STATUS = {
+    NOT_READY: "Not Ready",
+    READY: "Ready",
+    IN_PROGRESS: "In Progress",
+    COMPLETED: "Completed",
+}
+
 const DEGREE_INFO = [
     {
         title: "General Education",
-        subcategories: [
+        courses: [
             {
-                title: "Area A",
-                courses: [
-                    {
-                        requirement: "A1 - Oral Communication",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "A2 - Written Communication I",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "A3 - Critical Thinking",
-                        choice: undefined,
-                    },
-                ],
+                requirement: "A1 - Oral Communication",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
             },
             {
-                title: "Area B",
-                courses: [
-                    {
-                        requirement: "B1 - Physical Sciences",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "B2 - Life Sciences",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "B3 - Laboratory Science",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "B4 - Quantitative Reasoning",
-                        choice: undefined,
-                    },
-                ],
+                requirement: "A2 - Written Communication I",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
             },
             {
-                title: "Area C",
-                courses: [
-                    {
-                        requirement: "C1 - Arts",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "C2 - Humanities",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "C1 or C2 - Arts or Humanities",
-                        choice: undefined,
-                    },
-                ],
+                requirement: "A3 - Critical Thinking",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
             },
             {
-                title: "Area D",
-                courses: [
-                    {
-                        requirement: "D - Social Studies",
-                        choice: undefined,
-                    },
-                ],
+                requirement: "B1 - Physical Sciences",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
             },
             {
-                title: "Area E",
-                courses: [
-                    {
-                        requirement: "E - Lifelong Learning and Self-Development",
-                        choice: undefined,
-                    },
-                ],
+                requirement: "B2 - Life Sciences",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
             },
             {
-                title: "Upper Division",
-                courses: [
-                    {
-                        requirement: "UD-B - Physical/Life Science",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "UD-C - Arts/Humanities",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "UD-D - Social Sciences",
-                        choice: undefined,
-                    },
-                ],
+                requirement: "B3 - Laboratory Science",
+                choice: undefined,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: "B4 - Quantitative Reasoning",
+                choice: undefined,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: "C1 - Arts",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
+            },
+            {
+                requirement: "C2 - Humanities",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
+            },
+            {
+                requirement: "C1 or C2 - Arts or Humanities",
+                choice: "AAA 100",
+                status: COURSE_STATUS.IN_PROGRESS,
+                canEdit: true,
+            },
+            {
+                requirement: "D - Social Studies",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
+            },
+            {
+                requirement: "E - Lifelong Learning and Self-Development",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
+            },
+            {
+                requirement: "UD-B - Physical/Life Science",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
+            },
+            {
+                requirement: "UD-C - Arts/Humanities",
+                choice: undefined,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: "UD-D - Social Sciences",
+                choice: "AAA 100",
+                status: COURSE_STATUS.COMPLETED,
+                canEdit: true,
+            },
+        ]
+    },
+    {
+        title: "Math and Physics",
+        courses: [
+            {
+                requirement: "MATH 226",
+                choice: "MATH 226",
+                status: COURSE_STATUS.IN_PROGRESS,
+            },
+            {
+                requirement: "MATH 227",
+                choice: "MATH 227",
+                status: COURSE_STATUS.READY,
+            },
+            {
+                requirement: "MATH 324",
+                choice: "MATH 324",
+                status: COURSE_STATUS.NOT_READY,
+            },
+            {
+                requirement: "MATH 325",
+                choice: "MATH 325",
+                status: COURSE_STATUS.NOT_READY,
+            },
+            {
+                requirement: "PHYS 220",
+                choice: "PHYS 220",
+                status: COURSE_STATUS.NOT_READY,
+            },
+            {
+                requirement: "PHYS 222",
+                choice: "PHYS 222",
+                status: COURSE_STATUS.NOT_READY,
+            },
+            {
+                requirement: "PHYS 230",
+                choice: "PHYS 230",
+                status: COURSE_STATUS.NOT_READY,
+            },
+            {
+                requirement: "PHYS 232",
+                choice: "PHYS 232",
+                status: COURSE_STATUS.NOT_READY,
             },
         ]
     },
     {
         title: "Computer Science",
-        subcategories: [
+        courses: [
             {
-                title: "???",
-                courses: [
-                    {
-                        requirement: "A1 - Oral Communication",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "A2 - Written Communication I",
-                        choice: undefined,
-                    },
-                    {
-                        requirement: "A3 - Critical Thinking",
-                        choice: undefined,
-                    },
-                ],
+                requirement: "CSC 210",
+                choice: "CSC 210",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 211",
+                choice: "CSC 211",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 220",
+                choice: "CSC 220",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 230",
+                choice: "CSC 230",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 256",
+                choice: "CSC 256",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 300GW",
+                choice: "CSC 300GW",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 317",
+                choice: "CSC 317",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 340",
+                choice: "CSC 340",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 413",
+                choice: "CSC 413",
+                status: COURSE_STATUS.COMPLETED,
+            },
+            {
+                requirement: "CSC 415",
+                choice: "CSC 415",
+                status: COURSE_STATUS.IN_PROGRESS,
+            },
+            {
+                requirement: "CSC 510",
+                choice: "CSC 510",
+                status: COURSE_STATUS.READY,
+            },
+            {
+                requirement: "CSC 600",
+                choice: "CSC 600",
+                status: COURSE_STATUS.NOT_READY,
+            },
+            {
+                requirement: "CSC 648",
+                choice: "CSC 648",
+                status: COURSE_STATUS.NOT_READY,
+            },
+            {
+                requirement: "CS Elective 1",
+                choice: "CSC 631",
+                status: COURSE_STATUS.IN_PROGRESS,
+                canEdit: true,
+            },
+            {
+                requirement: "CS Elective 2",
+                choice: undefined,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: "CS Elective 3",
+                choice: undefined,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: "CS Elective 4",
+                choice: undefined,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
             },
         ]
     },
-    /*
-    {
-        title: "Mathematics and Physics",
-        courses: [
-            {
-                requirement: "A1 - Oral Communication",
-                choice: undefined,
-            },
-        ]
-    },*/
 ]
+
+/*
+const StatusButton = (props) => <Button variant="contained" {...props} color={
+    props.children === COURSE_STATUS.COMPLETED ? "success" :
+    (props.children === COURSE_STATUS.IN_PROGRESS ? "warning" :
+    (props.children === COURSE_STATUS.READY ? "info" :
+    "error"))
+}>
+    {props.children}
+</Button>
+*/
+
+const StatusButton = (props) => <Tooltip title={props.children} placement="right">
+    <IconButton size="small" variant="contained" {...props} color={
+        props.children === COURSE_STATUS.COMPLETED ? "success" :
+        (props.children === COURSE_STATUS.IN_PROGRESS ? "warning" :
+        (props.children === COURSE_STATUS.READY ? "info" :
+        "error"))
+    } sx={{
+        m: 0,
+    }}>
+        {
+        props.children === COURSE_STATUS.COMPLETED ? <CheckCircleOutlineSharpIcon/> :
+        (props.children === COURSE_STATUS.IN_PROGRESS ? <ScheduleSharpIcon/> :
+        (props.children === COURSE_STATUS.READY ? <InfoIcon/> :
+        <ErrorOutlineSharpIcon/>))
+        }
+    </IconButton>
+</Tooltip>
 
 const TableBackground = (props) => <Box {...props} sx={{
     bgcolor: "common.white",
@@ -167,11 +321,29 @@ export default function Courses() {
         document.title = "ReqCheck | Courses";
     }, []);
 
+    const [showCourseSelectionDialog, setShowCourseSelectionDialog] = useState(false);
+
+    const isInCategory = (course, category) => {
+        if (category === "Future") {
+            console.log(course.status);
+            console.log(COURSE_STATUS.READY);
+            return course.status === COURSE_STATUS.READY || course.status === COURSE_STATUS.NOT_READY;
+        } else if (category === "In Progress" || category === "Completed") {
+            return category === course.status;
+        } else {
+            return true;
+        }
+    }
+
     const [currentTab, setCurrentTab] = useState("All")
 
     const handleTabChange = (event, newTab) => {
         console.log(newTab);
         setCurrentTab(newTab)
+    }
+
+    const handleEditClick = () => {
+        setShowCourseSelectionDialog(true);
     }
 
     return (<>
@@ -210,7 +382,7 @@ export default function Courses() {
             }}>
                 {
                 DEGREE_INFO.map((category) => (
-                    <Accordion key={category.title} sx={{
+                    <Accordion defaultExpanded key={category.title} sx={{
                         bgcolor: "#f8f9f8"
                     }}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -223,34 +395,61 @@ export default function Courses() {
                             <Divider/>
                             <TableContainer component={TableBackground}>
                                 <Table>
-                                    {
-                                        
-                                    category.subcategories.map((subcategory) => (<>
-                                        <TableHead key={subcategory.title} sx={{
-                                            bgcolor: "#f8f9f8"
-                                        }}>
-                                            <TableRow>
-                                                <TableCell align="left">{subcategory.title}</TableCell>
-                                                <TableCell align="left">Course</TableCell>
-                                                <TableCell align="center">Units</TableCell>
-                                                <TableCell align="center">Status</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {
-                                            subcategory.courses.map((course) => (
+                                    <TableHead sx={{
+                                            bgcolor: "#f8f9f8",
+                                    }}>
+                                        <TableRow>
+                                            <TableCell align="left">Requirement</TableCell>
+                                            <TableCell align="left" colSpan={2}>Course</TableCell>
+                                            <TableCell align="center">Units</TableCell>
+                                            <TableCell align="center">Status</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {
+                                        category.courses.map((course) => (
+                                            isInCategory(course, currentTab) ?
                                                 <TableRow key={course.name}>
                                                     <TableCell align="left">{course.requirement}</TableCell>
-                                                    <TableCell align="left">{course.choice}</TableCell>
+                                                    <TableCell align="left" sx={{
+                                                            color: (course.choice) ? "common.black" : "#aaa",
+                                                            fontStyle: (course.choice) ? undefined : "italic",
+                                                        }}>
+                                                        {course.choice || "No Course Selected"}
+                                                    </TableCell>
+                                                    <TableCell sx={{
+                                                        p: 0,
+                                                    }}>
+                                                        {
+                                                            (course.canEdit && course.status !== COURSE_STATUS.COMPLETED && course.status !== COURSE_STATUS.IN_PROGRESS) ? (
+                                                            <Tooltip title="Edit" placement="right">
+                                                                <IconButton onClick={handleEditClick} size="small" sx={{
+                                                                    m: 0,
+                                                                }}>
+                                                                    <EditSharpIcon sx={{
+                                                                        color: "primary.main",
+                                                                    }}/>
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                            ) : undefined
+                                                        }
+                                                    </TableCell>
                                                     <TableCell align="center">3</TableCell>
-                                                    <TableCell align="center">Completed</TableCell>
+                                                    <TableCell align="center" sx={{
+                                                        p: 0,
+                                                    }}>
+                                                        {
+                                                            course.status !== COURSE_STATUS.READY ? 
+                                                            <StatusButton>
+                                                                {course.status}
+                                                            </StatusButton> : undefined
+                                                        }
+                                                    </TableCell>
                                                 </TableRow>
-                                            ))
-                                            }
-                                        </TableBody>
-                                    </>))
-                                    
-                                    }
+                                            : undefined
+                                        ))
+                                        }
+                                    </TableBody>
                                 </Table>
                             </TableContainer>
                         </AccordionDetails>
@@ -259,5 +458,8 @@ export default function Courses() {
             }
             </Container>
         </Box>
+        <CourseSelectionDialog onClose={() => setShowCourseSelectionDialog(false)} open={showCourseSelectionDialog}>
+
+        </CourseSelectionDialog>
     </>);
 }
