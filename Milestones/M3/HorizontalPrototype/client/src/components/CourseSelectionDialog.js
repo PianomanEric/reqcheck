@@ -36,7 +36,7 @@ const CourseListItem = (props) => <>
     <Divider/>
 </>
 
-export default function MessageDialog(props) {
+export default function CourseSelectionDialog(props) {
 
     const [showDetails, setShowDetails] = useState(false);
 

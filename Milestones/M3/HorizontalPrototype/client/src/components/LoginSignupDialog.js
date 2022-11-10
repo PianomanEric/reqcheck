@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function MessageDialog(props) {
+export default function LoginSignupDialog(props) {
 
     const handleClose = () => {
         if (props.onClose) {

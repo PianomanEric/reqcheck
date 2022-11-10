@@ -9,7 +9,7 @@ const links = [
 
 function GenerateLinks() {
   return links.map((label) => (
-    <Link key={label} to="/" onClick={() => {alert(`This will redirect to ${label} page`)}} sx={{
+    <Link key={label} to="/" onClick={() => {alert(`${label} page is low priority and will not be implemented this semester`)}} sx={{
       m: 1,
     }}>
       <Typography>

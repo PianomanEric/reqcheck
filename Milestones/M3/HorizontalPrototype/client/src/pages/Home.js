@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 const pages = [
     {
         title: "Profile",
-        path: undefined,
+        path: "/profile",
     },
     {
         title: "Courses",
@@ -12,7 +12,7 @@ const pages = [
     },
     {
         title: "Course Equivalencies",
-        path: undefined,
+        path: "/equivalencies",
     },
     {
         title: "Transfer Agreements",
@@ -20,7 +20,7 @@ const pages = [
     },
     {
         title: "Roadmap",
-        path: undefined,
+        path: "/roadmap",
     },
     {
         title: "Exams",
@@ -87,7 +87,7 @@ export default function Home() {
                             justifyContent: "center",
                         }}>
                             <Link to={page.path ? page.path : "/"} onClick={!page.path ? () => {
-                                alert(`The ${page.title} page will be implemented in Milestone 3`)
+                                alert(`The ${page.title} page will be implemented in Milestone 4`)
                             } : undefined} sx={{
                                 p: 2,
                             }}>
