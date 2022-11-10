@@ -15,6 +15,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LoginSignupDialog from '../components/LoginSignupDialog';
 
 // This is hard-coded for now, but we can use the backend to grab our filters later
 // Not sure what things we should include in the dropdown filter
@@ -29,6 +30,22 @@ export default function Navbar() {
 
   const [titles, setTitles] = useState([]);
   const [showTitles, setShowTitles] = useState([]);
+  const [showLoginSignupDialog, setShowLoginSignupDialog] = useState(false);
+  const [loginSignupDialogPage, setLoginSignupDialogPage] = useState("Login");
+
+  const handleShowLogin = () => {
+    setShowLoginSignupDialog(true);
+    setLoginSignupDialogPage("Login");
+  }
+  
+  const handleShowSignup = () => {
+    setShowLoginSignupDialog(true);
+    setLoginSignupDialogPage("Signup");
+  }
+
+  const handleCloseLoginSignup = () => {
+    setShowLoginSignupDialog(false);
+  }
 
   useEffect(() => {
     async function fetchSearchData(){
@@ -117,21 +134,22 @@ export default function Navbar() {
             mx: 1,
             width: "200px",
           }}
-          renderInput={(params) => <TextField {...params} onChange={(e) => onChangeSearch(e)} label="Search" />}
+          renderInput={(params) => <TextField {...params} onChange={(e) => onChangeSearch(e)} placeholder="Search Courses" />}
         />
-        <Button variant="contained" onClick={() => {alert("The registration page will be implemented in Milestone 3")}} sx={{
+        <Button variant="contained" onClick={handleShowSignup} sx={{
           mx: 1,
           color: "common.white",
         }}>
           Register
         </Button>
-        <Button variant="contained" onClick={() => {alert("The login page will be implemented in Milestone 3")}} sx={{
+        <Button variant="contained" onClick={handleShowLogin} sx={{
           mx: 1,
           color: "common.white",
         }}>
           Login
         </Button>
       </Box>
+      <LoginSignupDialog open={showLoginSignupDialog} page={loginSignupDialogPage} onPageChange={setLoginSignupDialogPage} onClose={handleCloseLoginSignup}></LoginSignupDialog>
     </AppBar> 
   );
 }

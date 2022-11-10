@@ -22,6 +22,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditSharpIcon from '@mui/icons-material/EditSharp';
 
 import CourseSelectionDialog from '../components/CourseSelectionDialog';
+import PrerequisiteDialog from '../components/PrerequisiteDialog';
 
 import CheckCircleOutlineSharpIcon from '@mui/icons-material/CheckCircleOutlineSharp';
 import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp';
@@ -295,7 +296,7 @@ const StatusButton = (props) => <Button variant="contained" {...props} color={
 */
 
 const StatusButton = (props) => <Tooltip title={props.children} placement="right">
-    <IconButton size="small" variant="contained" {...props} color={
+    <IconButton size="small" onClick={props.onClick} variant="contained" {...props} color={
         props.children === COURSE_STATUS.COMPLETED ? "success" :
         (props.children === COURSE_STATUS.IN_PROGRESS ? "warning" :
         (props.children === COURSE_STATUS.READY ? "info" :
@@ -335,11 +336,20 @@ export default function Courses() {
         }
     }
 
-    const [currentTab, setCurrentTab] = useState("All")
+    const handleShowPrerequisites = () => {
+        setShowPrerequisites(true);
+    }
+
+    const handleClosePrerequisites = () => {
+        setShowPrerequisites(false);
+    }
+
+    const [currentTab, setCurrentTab] = useState("All");
+    const [showPrerequisites, setShowPrerequisites] = useState(false);
 
     const handleTabChange = (event, newTab) => {
         console.log(newTab);
-        setCurrentTab(newTab)
+        setCurrentTab(newTab);
     }
 
     const handleEditClick = () => {
@@ -440,7 +450,7 @@ export default function Courses() {
                                                     }}>
                                                         {
                                                             course.status !== COURSE_STATUS.READY ? 
-                                                            <StatusButton>
+                                                            <StatusButton onClick={(course.status === COURSE_STATUS.NOT_READY) ? handleShowPrerequisites : undefined}>
                                                                 {course.status}
                                                             </StatusButton> : undefined
                                                         }
@@ -458,8 +468,7 @@ export default function Courses() {
             }
             </Container>
         </Box>
-        <CourseSelectionDialog onClose={() => setShowCourseSelectionDialog(false)} open={showCourseSelectionDialog}>
-
-        </CourseSelectionDialog>
+        <CourseSelectionDialog onClose={() => setShowCourseSelectionDialog(false)} open={showCourseSelectionDialog}/>
+        <PrerequisiteDialog onClose={handleClosePrerequisites} open={showPrerequisites}/>
     </>);
 }

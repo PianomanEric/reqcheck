@@ -1,6 +1,5 @@
 import { Box, Button, Grid, Link, Typography } from "@mui/material";
 import React, { useState, useEffect } from 'react';
-import MessageDialog from "../components/MessageDialog";
 
 const pages = [
     {
