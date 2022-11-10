@@ -25,7 +25,7 @@
 
 |             Name of the Project               |                            URL of the Project                             | 
 |                    :---:                      |                                 :---:                                     |
-|                  Req Check                    |        http://ec2-54-193-103-124.us-west-1.compute.amazonaws.com:3000/    |                                                        
+|                  Req Check                    |         http://ec2-52-53-211-193.us-west-1.compute.amazonaws.com/         |                                                        
  
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
