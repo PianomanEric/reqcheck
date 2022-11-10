@@ -357,7 +357,7 @@ export default function Courses() {
                 color: "common.black",
                 width: "100%",
             }}>
-                Courses
+                Courses - Did it work?
             </Typography>
             <Box sx={{
                 mx: "auto",
