@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 const pages = [
     {
-        title: "Profile",
+        title: "Student Profile",
         path: "/profile",
     },
     {
@@ -15,28 +15,8 @@ const pages = [
         path: "/equivalencies",
     },
     {
-        title: "Transfer Agreements",
-        path: undefined,
-    },
-    {
         title: "Roadmap",
         path: "/roadmap",
-    },
-    {
-        title: "Exams",
-        path: undefined,
-    },
-    {
-        title: "Internships",
-        path: undefined,
-    },
-    {
-        title: "Jobs",
-        path: undefined,
-    },
-    {
-        title: "Other",
-        path: undefined,
     },
 ]
 
@@ -60,12 +40,13 @@ export default function Home() {
     return (
         <>
             <Typography align="center" variant="h4" sx={{
-                mt: 3,
+                mt: 9,
+                mb: 6,
                 p: 3,
                 color: "common.black",
                 width: "100%",
             }}>
-                College transfers made easy
+                College transfers made easy.
             </Typography>
             {/* <Button onClick={()=> testDB()} sx={{
                 bgcolor: "common.white",

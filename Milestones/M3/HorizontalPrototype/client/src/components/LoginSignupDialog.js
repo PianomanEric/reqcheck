@@ -38,7 +38,11 @@ export default function LoginSignupDialog(props) {
     }
 
     return (
-        <Dialog {...props}>
+        <Dialog fullWidth maxWidth="xs" PaperProps={{
+            sx: {
+                p: 3,
+            }
+        }} {...props}>
             <DialogTitle align='center'>
                 {
                     props.page == "Login" ? "Login" : "Create Your Account"
@@ -70,6 +74,8 @@ export default function LoginSignupDialog(props) {
                         </Button>
                     </DialogActions>
                 </>:<>
+                    {/*<TextField size="small" placeholder="First Name" type="" sx={{mx: 2, my: 0.5}}/>*/}
+                    {/*<TextField size="small" placeholder="Last Name" type="" sx={{mx: 2, my: 0.5}}/>*/}
                     <TextField size="small" placeholder="Student ID" type="username" sx={{mx: 2, my: 0.5}}/>
                     <TextField size="small" placeholder="SFSU Email" type="email" sx={{mx: 2, my: 0.5}}/>
                     <TextField size="small" placeholder="Password" type="password" sx={{mx: 2, my: 0.5}}/>
