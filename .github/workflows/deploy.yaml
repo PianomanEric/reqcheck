@@ -11,8 +11,9 @@ jobs:
     environment: production
     steps:
       - name: deploy
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.AWS_KEY }}
-          run: sh deploy.sh
+          script: sh deploy.sh
