@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mysql = require('mysql');
-//const bodyParser = require('body-parser')
 const path = require('path');
 
 const connectionData = {
@@ -19,9 +18,8 @@ const connectionData = {
 const build = path.join(__dirname, '..', 'client', 'build');
 
 app.use(express.static(build));
-
+app.use(express.json());
 app.use(cors());
-//app.use(bodyParser.urlencoded(true));
 
 app.get("/dbtest", (req, res) => {
   const connection = mysql.createConnection(connectionData);
@@ -36,6 +34,37 @@ app.get("/dbtest", (req, res) => {
   });
   connection.end();
 })
+
+app.post("/register", (req, res) => {
+  const data = req.body.data
+  const connection = mysql.createConnection(connectionData);
+  console.log("Attempting to connect to db");
+  connection.query(`insert into registration value ('${data.firstName}', '${data.lastName}', '${data.email}', '${data.studentID}', '${data.password}')`, (err, result, fields) => {
+    if (err) {
+      console.log(err.stack)
+      return;
+    }
+    console.log(result);
+    res.json(result);
+  });
+  connection.end();
+})
+
+/*
+app.get('/users', (req, res) => {
+  const connection = mysql.createConnection(connectionData);
+  console.log("Attempting to connect to db");
+  connection.query("SELECT * FROM registration", (err, result, fields) => {
+    if (err) {
+      console.log(err.stack)
+      return;
+    }
+    console.log(result);
+    res.json(result);
+  });
+  connection.end();
+});
+*/
 
 // All routes not handled above this point will return the react app
 app.get('*', (req, res) => {
