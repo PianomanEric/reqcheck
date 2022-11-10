@@ -21,7 +21,7 @@ export default function Navbar() {
   useEffect(() => {
     async function fetchSearchData(){
       try{
-        const response = await axios.get("http://localhost:6000/dbtest");
+        const response = await axios.get("http://localhost:5000/dbtest");
         const title = response.data.map((item) => item.title);
         setTitles(title);
     }catch(error) {

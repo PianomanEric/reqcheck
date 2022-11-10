@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mysql = require('mysql');
-const port = process.env.port || process.env.PORT || 5000
+const PORT = 5000;
 const bodyParser = require('body-parser');
 
 const connectionData = {
@@ -52,6 +52,6 @@ app.post("/register", (req, res) => {
 })
 
 // Start the server
-app.listen(6000, () => {
-  console.log(`Server listening on port ${6000}`);
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });

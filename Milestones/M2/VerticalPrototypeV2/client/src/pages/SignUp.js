@@ -10,7 +10,7 @@ export default function SignUP(){
 
     const onClickSubmit = async() => {
         try{
-            const response = await axios.post('http://localhost:6000/register', {
+            const response = await axios.post('http://localhost:5000/register', {
                 data: {
                     firstName,
                     lastName,
