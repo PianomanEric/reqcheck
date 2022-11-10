@@ -43,7 +43,6 @@ export default function Home() {
                 mt: 9,
                 mb: 6,
                 p: 3,
-                color: "common.black",
                 width: "100%",
             }}>
                 College transfers made easy.

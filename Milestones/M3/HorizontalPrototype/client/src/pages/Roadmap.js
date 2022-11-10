@@ -30,9 +30,12 @@ export default function Roadmap() {
             width: "100%",
         }}>
             <Typography align="center" variant="h4" sx={{
-                my: 5,
+                mt: 9,
+                mb: 6,
+                p: 3,
+                width: "100%",
             }}>
-                Roadmap page will be implemented in Milestone 4
+                Roadmap Under Construction
             </Typography>
         </Box>
     </>);

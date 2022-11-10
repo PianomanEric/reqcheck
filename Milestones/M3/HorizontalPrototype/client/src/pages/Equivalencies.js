@@ -30,9 +30,12 @@ export default function Equivalencies() {
             width: "100%",
         }}>
             <Typography align="center" variant="h4" sx={{
-                my: 5,
+                mt: 9,
+                mb: 6,
+                p: 3,
+                width: "100%",
             }}>
-                Course equivalencies page will be implemented in Milestone 4
+                Course Equivalencies Under Construction
             </Typography>
         </Box>
     </>);
