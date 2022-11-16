@@ -1,22 +1,36 @@
-import { Box, Button, Grid, Link, Typography } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Link, Typography } from "@mui/material";
 import React, { useState, useEffect } from 'react';
+import { Link as RouterLink } from "react-router-dom";
+
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import BalanceIcon from '@mui/icons-material/Balance';
+import SchoolIcon from '@mui/icons-material/School';
 
 const pages = [
     {
         title: "Student Profile",
         path: "/profile",
+        description: "Change your account information or view important changes to your degree.",
+        icon: AccountCircleIcon,
     },
     {
         title: "Courses",
         path: "/courses",
+        description: "View and manage all your degree requirements in one place.",
+        icon: SchoolIcon,
     },
     {
         title: "Course Equivalencies",
         path: "/equivalencies",
+        description: "View all granted equivalencies or submit new ones.",
+        icon: BalanceIcon,
     },
     {
         title: "Roadmap",
         path: "/roadmap",
+        description: "Organize your future courses by semester.",
+        icon: CalendarMonthIcon,
     },
 ]
 
@@ -66,12 +80,16 @@ export default function Home() {
                             alignItems: "center",
                             justifyContent: "center",
                         }}>
-                            <Link to={page.path ? page.path : "/"} onClick={!page.path ? () => {
-                                alert(`The ${page.title} page will be implemented in Milestone 4`)
-                            } : undefined} sx={{
-                                p: 2,
+                            <Card sx={{
+                                width: "350px",
+                                height: "270px",
+                                m: 2,
                             }}>
-                                <Box sx={{
+                                <CardActionArea component={RouterLink} to={page.path ? page.path : "/"} sx={{
+                                    height: "100%",
+                                }}>
+                                {/*
+                                    sx={{
                                     bgcolor: "common.white",
                                     minHeight: "200px",
                                     width: "300px",
@@ -83,14 +101,30 @@ export default function Home() {
                                     "&:hover": {
                                         bgcolor: "#f6f6f6"
                                     }
-                                }}>
-                                    <Typography align="center" variant="h6" sx={{
+                                }}
+                                */}
+                                <CardContent>
+                                    <CardMedia component={page.icon} sx={{
+                                        width: "100%",
+                                        height: "100px",
+                                        color: "primary.light",
+                                        margin: 1,
+                                    }}>
+
+                                    </CardMedia>
+                                    <Typography gutterBottom align="center" variant="h6" sx={{
                                         color: "common.black"
                                     }}>
                                         {page.title}
                                     </Typography>
-                                </Box>
-                            </Link>
+                                    <Typography align="center" sx={{
+                                        color: "common.black"
+                                    }}>
+                                        {page.description}
+                                    </Typography>
+                                </CardContent>
+                                </CardActionArea>
+                            </Card>
                         </Grid>
                     ))
                 }

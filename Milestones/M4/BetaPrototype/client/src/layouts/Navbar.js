@@ -16,6 +16,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import LoginSignupDialog from '../components/LoginSignupDialog';
+import { Link as RouterLink } from "react-router-dom";
 
 // This is hard-coded for now, but we can use the backend to grab our filters later
 // Not sure what things we should include in the dropdown filter
@@ -79,7 +80,7 @@ export default function Navbar() {
         flexDirection: "row",
         alignItems: "center",
       }}>
-        <Link to="/">
+        <Link component={RouterLink} to="/">
           <Typography variant="h5" align="center" color="initial" sx={{
             px: 2,
             py: 1,
@@ -94,7 +95,7 @@ export default function Navbar() {
         flexDirection: "row",
         alignItems: "center",
       }}>
-        <Link to="/">
+        <Link component={RouterLink} to="/">
           <Typography variant="body1" align="center" color="initial" sx={{
             px: 2,
             py: 1,
@@ -102,7 +103,7 @@ export default function Navbar() {
             Home
           </Typography>
         </Link>
-        <Link to="/about">
+        <Link component={RouterLink} to="/about">
           <Typography variant="body1" align="center" color="initial" sx={{
             px: 2,
             py: 1,

@@ -1,5 +1,6 @@
 import { Box, Link, Typography } from "@mui/material";
 import { useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 const teamMembers = [
     "Eric Falk",
@@ -32,7 +33,7 @@ export default function About() {
                 Team Members
             </Typography>
             {teamMembers.map((name) => (
-                <Link key={name} to={`/about/${getUrlName(name)}`}>
+                <Link component={RouterLink} key={name} to={`/about/${getUrlName(name)}`}>
                     <Typography variant="body1" align="center" sx={{
                         my: 2,
                     }}>

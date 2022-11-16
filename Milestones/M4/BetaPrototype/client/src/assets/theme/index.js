@@ -1,31 +1,15 @@
 import React from 'react';
 import createTheme from '@mui/material/styles/createTheme';
-import { Link } from 'react-router-dom';
-
-const LinkBehavior = React.forwardRef((props, ref) => {
-  const { href, ...other } = props;
-  // Map href (MUI) -> to (react-router)
-  if (props.to !== undefined && (props.to.length === 0 || props.to.charAt(0) === '#' || props.to.charAt(0) === '/')) {
-    return <Link ref={ref} to={href} {...other}>
-      {props.children}
-    </Link>;
-  } else {
-    let editedProps = {...other};
-    delete editedProps.to;
-    return (<a ref={ref} href={other.to} target="_blank" rel="noopener noreferrer" {...editedProps}>
-      {props.children}
-    </a>);
-  }
-}); 
 
 export const Colors = {
     primary: "#149BFC",
-    primary_dark: "#41529d",
-    primary_light: "#a2add3",
-    secondary: "#edd035",
-    secondary_dark: "#c9a92b",
-    secondary_light: "#f5de71",
+    primary_dark: "#024baa",
+    primary_light: "#90cdfd",
+    secondary: "#00c09c",
+    secondary_dark: "#009469",
+    secondary_light: "#a9e4d4",
     white: "#fff",
+    light_gray: "#F6F6F6",
     black: "#000"
 }
 
@@ -33,7 +17,8 @@ const theme = createTheme({
     palette: {
       mode: 'light',
       background: {
-        default: Colors.white,
+        default: Colors.light_gray,
+        white: Colors.white,
       },
       primary: {
           main: Colors.primary,
@@ -64,19 +49,11 @@ const theme = createTheme({
           }
         },
         MuiLink: {
-          defaultProps: {
-            component: LinkBehavior,
-          },
           styleOverrides: {
             root: {
               textDecoration: "none",
             }
           }
-        },
-        MuiButtonBase: {
-          defaultProps: {
-            LinkComponent: LinkBehavior,
-          },
         },
         MuiAppBar: {
           styleOverrides: {
