@@ -85,6 +85,7 @@ export default function LoginSignupDialog(props) {
                 p: 3,
             }
         }}>
+
             <DialogTitle align='center'>
                 {
                     props.page == "Login" ? "Login" : "Create Your Account"

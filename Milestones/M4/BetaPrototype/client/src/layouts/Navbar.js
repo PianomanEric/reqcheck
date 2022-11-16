@@ -18,6 +18,8 @@ import axios from "axios";
 import LoginSignupDialog from '../components/LoginSignupDialog';
 import { Link as RouterLink } from "react-router-dom";
 
+import CheckIcon from '@mui/icons-material/Check';
+
 // This is hard-coded for now, but we can use the backend to grab our filters later
 // Not sure what things we should include in the dropdown filter
 // Feel free to change these
@@ -82,10 +84,21 @@ export default function Navbar() {
         alignItems: "center",
       }}>
         <Link component={RouterLink} to="/">
-          <Typography variant="h5" align="center" color="initial" sx={{
+          <Typography component="div" variant="h5" align="center" color="initial" sx={{
             px: 2,
-            py: 1,
+            fontWeight: "700",
+            color: "primary.main",
+            textStroke: "1px black",
+            display: "flex",
+            alignItems: "center",
           }}>
+            <CheckIcon fontSize="medium" sx={{
+              p: 0,
+              display: "inline",
+              stroke: "#0c0",
+              strokeWidth: 1.5,
+              fill: "#0c0",
+            }} />
             ReqCheck
           </Typography>
         </Link>
@@ -134,14 +147,14 @@ export default function Navbar() {
           options={showTitles}
           sx={{
             mx: 1,
-            width: "200px",
+            width: "250px",
           }}
           renderInput={(params) =>
             <TextField {...params} InputProps={{
               ...params.InputProps,
-              endAdornment: (
+              startAdornment: (
                 <InputAdornment position="end">
-                  <IconButton edge="end">
+                  <IconButton edge="start">
                     <SearchIcon/>
                   </IconButton>
                 </InputAdornment>

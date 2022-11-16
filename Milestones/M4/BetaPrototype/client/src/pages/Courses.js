@@ -343,115 +343,129 @@ export default function Courses() {
 
     return (<>
         <Box sx={{
-            bgcolor: "#fff",
+            bgcolor: "common.white",
             width: "100%",
         }}>
-            <Typography align="center" variant="h2" sx={{
-                mt: 3,
-                p: 3,
-                color: "common.black",
+            <Box container="div" sx={{
+                backgroundImage: 'url("https://oxfordinternational.b-cdn.net/wp-content/uploads/2021/10/IMG_9430-1-scaled.jpg")',
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 width: "100%",
+                p: 0,
+                flexGrow: 1,
             }}>
-                Courses
-            </Typography>
+                <Box sx={{
+                    m: 0,
+                    width: "100%",
+                    height: "100%",
+                    backdropFilter: `brightness(0.35)`,
+                }}>
+                    <Typography align="center" variant="h2" sx={{
+                        px: 3,
+                        py: 9,
+                        width: "100%",
+                        color: "common.white",
+                        fontWeight: "400",
+                    }}>
+                        Courses
+                    </Typography>
+                </Box>
+            </Box>
             <Box sx={{
                 mx: "auto",
                 width: "100%"
             }}>
-                <Tabs value={currentTab} onChange={handleTabChange} centered>
+                <Tabs value={currentTab} onChange={handleTabChange} centered sx={{
+                                bgcolor: "common.white",
+                            }} >
                     {
                         TABS.map((tabName) => (
-                            <Tab label={tabName} value={tabName} key={tabName} />
+                            <Tab label={tabName} value={tabName} key={tabName}/>
                         ))
                     }
                 </Tabs>
             </Box>
         </Box>
-        <Box sx={{
-            bgcolor: "#f6f6f6",
-            width: "100%",
-            height: "100%",
+        <Container maxWidth="md" sx={{
+            p: 5,
         }}>
-            <Container maxWidth="md" sx={{
-                p: 5,
-            }}>
-                {
-                DEGREE_INFO.map((category) => (
-                    <Accordion defaultExpanded key={category.title} sx={{
-                        bgcolor: "common.white"
+            {
+            DEGREE_INFO.map((category) => (
+                <Accordion defaultExpanded key={category.title} sx={{
+                    bgcolor: "common.white"
+                }}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography variant="h6">
+                            {category.title}
+                        </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{
+                        boxShadow: "none",
                     }}>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="h6">
-                                {category.title}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails sx={{
-                            boxShadow: "none",
-                        }}>
-                            <TableContainer component={TableBackground}>
-                                <Table size="small">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="left" sx={{width: "50%"}}>Requirement</TableCell>
-                                            <TableCell align="left" sx={{width: "50%"}} colSpan={2}>Course</TableCell>
-                                            <TableCell align="center" sx={{width: "6px"}}>Units</TableCell>
-                                            <TableCell align="center" sx={{width: "6px"}}>Status</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {
-                                        category.courses.map((course) => (
-                                            isInCategory(course, currentTab) ?
-                                                <TableRow key={course.requirement}>
-                                                    <TableCell align="left">{course.requirement}</TableCell>
-                                                    <TableCell align="left" sx={{
-                                                            color: (course.choice) ? "common.black" : "#aaa",
-                                                            fontStyle: (course.choice) ? undefined : "italic",
-                                                        }}>
-                                                        {course.choice || "No Course Selected"}
-                                                    </TableCell>
-                                                    <TableCell sx={{
-                                                        p: 0,
-                                                        width: "6px",
+                        <TableContainer component={TableBackground}>
+                            <Table size="small">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="left" sx={{width: "50%"}}>Requirement</TableCell>
+                                        <TableCell align="left" sx={{width: "50%"}} colSpan={2}>Course</TableCell>
+                                        <TableCell align="center" sx={{width: "6px"}}>Units</TableCell>
+                                        <TableCell align="center" sx={{width: "6px"}}>Status</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                    category.courses.map((course) => (
+                                        isInCategory(course, currentTab) ?
+                                            <TableRow key={course.requirement}>
+                                                <TableCell align="left">{course.requirement}</TableCell>
+                                                <TableCell align="left" sx={{
+                                                        color: (course.choice) ? "common.black" : "#aaa",
+                                                        fontStyle: (course.choice) ? undefined : "italic",
                                                     }}>
-                                                        {
-                                                            (course.canEdit && course.status !== COURSE_STATUS.COMPLETED && course.status !== COURSE_STATUS.IN_PROGRESS) ? (
-                                                            <Tooltip title="Edit" placement="right">
-                                                                <IconButton onClick={handleEditClick} size="small" sx={{
-                                                                    m: 0,
-                                                                }}>
-                                                                    <EditSharpIcon sx={{
-                                                                        color: "primary.main",
-                                                                    }}/>
-                                                                </IconButton>
-                                                            </Tooltip>
-                                                            ) : undefined
-                                                        }
-                                                    </TableCell>
-                                                    <TableCell align="center">3</TableCell>
-                                                    <TableCell align="center" sx={{
-                                                        p: 0,
-                                                    }}>
-                                                        {
-                                                            course.status !== COURSE_STATUS.READY ? 
-                                                            <StatusButton onClick={(course.status === COURSE_STATUS.NOT_READY) ? handleShowPrerequisites : undefined}>
-                                                                {course.status}
-                                                            </StatusButton> : undefined
-                                                        }
-                                                    </TableCell>
-                                                </TableRow>
-                                            : undefined
-                                        ))
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </AccordionDetails>
-                    </Accordion>
-                ))
-            }
-            </Container>
-        </Box>
+                                                    {course.choice || "No Course Selected"}
+                                                </TableCell>
+                                                <TableCell sx={{
+                                                    p: 0,
+                                                    width: "6px",
+                                                }}>
+                                                    {
+                                                        (course.canEdit && course.status !== COURSE_STATUS.COMPLETED && course.status !== COURSE_STATUS.IN_PROGRESS) ? (
+                                                        <Tooltip title="Edit" placement="right">
+                                                            <IconButton onClick={handleEditClick} size="small" sx={{
+                                                                m: 0,
+                                                            }}>
+                                                                <EditSharpIcon sx={{
+                                                                    color: "primary.main",
+                                                                }}/>
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        ) : undefined
+                                                    }
+                                                </TableCell>
+                                                <TableCell align="center">3</TableCell>
+                                                <TableCell align="center" sx={{
+                                                    p: 0,
+                                                }}>
+                                                    {
+                                                        course.status !== COURSE_STATUS.READY ? 
+                                                        <StatusButton onClick={(course.status === COURSE_STATUS.NOT_READY) ? handleShowPrerequisites : undefined}>
+                                                            {course.status}
+                                                        </StatusButton> : undefined
+                                                    }
+                                                </TableCell>
+                                            </TableRow>
+                                        : undefined
+                                    ))
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </AccordionDetails>
+                </Accordion>
+            ))
+        }
+        </Container>
         <CourseSelectionDialog onClose={() => setShowCourseSelectionDialog(false)} open={showCourseSelectionDialog}/>
         <PrerequisiteDialog onClose={handleClosePrerequisites} open={showPrerequisites}/>
     </>);

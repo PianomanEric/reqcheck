@@ -52,83 +52,99 @@ export default function Home() {
     }
 
     return (
-        <>
-            <Typography align="center" variant="h4" sx={{
-                mt: 9,
-                mb: 6,
-                p: 3,
+        <Box container="div" sx={{
+            backgroundImage: 'url("https://plan.sfsu.edu/sites/default/files/images/062218-007.jpg")',
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            width: "100%",
+            p: 0,
+            flexGrow: 1,
+        }}>
+            <Box sx={{
+                m: 0,
                 width: "100%",
+                height: "100%",
+                backdropFilter: `brightness(0.35)`,
             }}>
-                College transfers made easy.
-            </Typography>
-            {/* <Button onClick={()=> testDB()} sx={{
-                bgcolor: "common.white",
-                boxShadow: "3",
-                mx: "auto",
-            }}>
-                Test DB
-            </Button> */}
-            <Grid container spacing="0" maxWidth={"lg"} sx={{
-                justifyContent: "center",
-                mx: "auto",
-            }}>
-                {
-                    pages.map((page) => (
-                        <Grid key={page.title} item sx={{
-                            p: 0,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}>
-                            <Card sx={{
-                                width: "350px",
-                                height: "270px",
-                                m: 2,
+                <Typography align="center" variant="h2" sx={{
+                    px: 3,
+                    py: 9,
+                    width: "100%",
+                    color: "common.white",
+                    fontWeight: "400",
+                }}>
+                    College transfers made easy
+                </Typography>
+                {/* <Button onClick={()=> testDB()} sx={{
+                    bgcolor: "common.white",
+                    boxShadow: "3",
+                    mx: "auto",
+                }}>
+                    Test DB
+                </Button> */}
+                <Grid container spacing="0" maxWidth={"lg"} sx={{
+                    justifyContent: "center",
+                    mx: "auto",
+                }}>
+                    {
+                        pages.map((page) => (
+                            <Grid key={page.title} item sx={{
+                                p: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
                             }}>
-                                <CardActionArea component={RouterLink} to={page.path ? page.path : "/"} sx={{
-                                    height: "100%",
+                                <Card sx={{
+                                    width: "350px",
+                                    height: "270px",
+                                    m: 2,
                                 }}>
-                                {/*
-                                    sx={{
-                                    bgcolor: "common.white",
-                                    minHeight: "200px",
-                                    width: "300px",
-                                    borderRadius: 4,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    boxShadow: 3,
-                                    "&:hover": {
-                                        bgcolor: "#f6f6f6"
-                                    }
-                                }}
-                                */}
-                                <CardContent>
-                                    <CardMedia component={page.icon} sx={{
-                                        width: "100%",
-                                        height: "100px",
-                                        color: "primary.light",
-                                        margin: 1,
+                                    <CardActionArea component={RouterLink} to={page.path ? page.path : "/"} sx={{
+                                        height: "100%",
                                     }}>
+                                    {/*
+                                        sx={{
+                                        bgcolor: "common.white",
+                                        minHeight: "200px",
+                                        width: "300px",
+                                        borderRadius: 4,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        boxShadow: 3,
+                                        "&:hover": {
+                                            bgcolor: "#f6f6f6"
+                                        }
+                                    }}
+                                    */}
+                                    <CardContent>
+                                        <CardMedia component={page.icon} sx={{
+                                            width: "100%",
+                                            height: "100px",
+                                            color: "primary.light",
+                                            margin: 1,
+                                        }}>
 
-                                    </CardMedia>
-                                    <Typography gutterBottom align="center" variant="h6" sx={{
-                                        color: "common.black"
-                                    }}>
-                                        {page.title}
-                                    </Typography>
-                                    <Typography align="center" sx={{
-                                        color: "common.black"
-                                    }}>
-                                        {page.description}
-                                    </Typography>
-                                </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                    ))
-                }
-            </Grid>
-        </>
+                                        </CardMedia>
+                                        <Typography gutterBottom align="center" variant="h6" sx={{
+                                            color: "common.black"
+                                        }}>
+                                            {page.title}
+                                        </Typography>
+                                        <Typography align="center" sx={{
+                                            color: "common.black"
+                                        }}>
+                                            {page.description}
+                                        </Typography>
+                                    </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                        ))
+                    }
+                </Grid>
+            </Box>
+        </Box>
     );
 }
