@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import {
     Button,
+    Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
     Divider,
+    FormGroup,
+    FormControlLabel,
     IconButton,
     Link,
     List,
@@ -48,6 +51,7 @@ export default function LoginSignupDialog(props) {
     const handleSignup = async () => {
         setInputDisabled(true);
         console.log(firstName, lastName, email, password);
+        console.log("Trying to create account");
         try{
             const response = await axios.post('/register', {
                 data: {
@@ -66,9 +70,12 @@ export default function LoginSignupDialog(props) {
                 setPassword('');
                 handleClose();
             }
-        }catch(err) {
+            console.log("It worked!");
+        } catch(err) {
             console.log(err)
+            console.log("It failed");
         }
+        console.log("Reenabling buttons");
         setInputDisabled(false);
     }
 
@@ -109,13 +116,22 @@ export default function LoginSignupDialog(props) {
                         </Button>
                     </DialogActions>
                 </>:<>
-                    {/*<TextField size="small" placeholder="First Name" type="" sx={{mx: 2, my: 0.5}}/>*/}
-                    {/*<TextField size="small" placeholder="Last Name" type="" sx={{mx: 2, my: 0.5}}/>*/}
                     <TextField size="small" value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder="First Name" type="name" sx={{mx: 2, my: 0.5}}/>
                     <TextField size="small" value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder="Last Name" type="name" sx={{mx: 2, my: 0.5}}/>
                     <TextField size="small" value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder="Student ID" type="username" sx={{mx: 2, my: 0.5}}/>
                     <TextField size="small" value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder="SFSU Email" type="email" sx={{mx: 2, my: 0.5}}/>
                     <TextField size="small" value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder="Password" type="password" sx={{mx: 2, my: 0.5}}/>
+                    <FormGroup sx={{
+                        display: "flex",
+                        alignItems: "center",
+                    }}>
+                        
+                        <FormControlLabel control={<Checkbox/>} label={<>
+                            <Typography component="span">
+                                I agree to the 
+                            </Typography><Link> terms and conditions</Link>
+                            </>}/>
+                    </FormGroup>
 
                     <Typography align="center" sx={{
                         mt: 2,

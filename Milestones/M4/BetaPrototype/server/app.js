@@ -38,14 +38,22 @@ app.get("/dbtest", (req, res) => {
 app.post("/register", (req, res) => {
   const data = req.body.data
   const connection = mysql.createConnection(connectionData);
+  if (!data.firstName || !data.lastName || !data.email || !data.studentID || !data.password) {
+    console.log("Missing data!");
+    res.json();
+    return;
+  }
   console.log("Attempting to connect to db");
   connection.query(`insert into registration value ('${data.firstName}', '${data.lastName}', '${data.email}', '${data.studentID}', '${data.password}')`, (err, result, fields) => {
     if (err) {
-      console.log(err.stack)
+      console.log(err.stack);
+      res.json();
+      console.log("Account registration failed!");
       return;
     }
     console.log(result);
     res.json(result);
+    console.log("Account registration succeeded!");
   });
   connection.end();
 })
