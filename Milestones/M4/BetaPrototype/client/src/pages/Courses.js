@@ -347,7 +347,7 @@ export default function Courses() {
             width: "100%",
         }}>
             <Box container="div" sx={{
-                backgroundImage: 'url("https://oxfordinternational.b-cdn.net/wp-content/uploads/2021/10/IMG_9430-1-scaled.jpg")',
+                backgroundImage: 'url("https://upload.wikimedia.org/wikipedia/commons/e/e4/SFSU_Campus_Overview_Nov2012.JPG")',
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
