@@ -66,7 +66,7 @@ export default function CourseSelectionDialog(props) {
     })
 
     return (
-        <Dialog fullWidth="true" {...props}>
+        <Dialog fullWidth {...props}>
             <DialogTitle align='center'>
                 A# - Dummy Requirement Area
                 <IconButton onClick={handleClose} color="inherit" sx={{

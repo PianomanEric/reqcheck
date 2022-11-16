@@ -7,7 +7,7 @@ import {
   MenuItem,
   Select,
   TextField,
-  InputAdornment, 
+  InputAdornment,
   InputBase,
   Typography,
   Autocomplete
@@ -54,6 +54,7 @@ export default function Navbar() {
         const response = await axios.get("/dbtest");
         const title = response.data.map((item) => item.title);
         setTitles([...new Set(title)]);
+        setShowTitles(titles);
       }catch(error) {
           console.log(error)
       }
@@ -135,7 +136,18 @@ export default function Navbar() {
             mx: 1,
             width: "200px",
           }}
-          renderInput={(params) => <TextField {...params} onChange={(e) => onChangeSearch(e)} placeholder="Search Courses" />}
+          renderInput={(params) =>
+            <TextField {...params} InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton edge="end">
+                    <SearchIcon/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }} onChange={(e) => onChangeSearch(e)} placeholder="Search Courses"/>
+          }
         />
         <Button variant="contained" onClick={handleShowSignup} sx={{
           mx: 1,

@@ -44,7 +44,7 @@ export default function PrerequisiteDialog(props) {
     }
 
     return (
-        <Dialog fullWidth="true" {...props}>
+        <Dialog fullWidth {...props}>
             <DialogTitle align='center'>
                 Prerequisites Not Met
                 <IconButton onClick={handleClose} color="inherit" sx={{

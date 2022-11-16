@@ -4,7 +4,6 @@ import {
     AccordionSummary,
     Box,
     Container,
-    Divider,
     Tabs,
     Tab,
     Table,
@@ -17,6 +16,7 @@ import {
     Typography,
     IconButton
 } from "@mui/material";
+
 import React, { useState, useEffect } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditSharpIcon from '@mui/icons-material/EditSharp';
@@ -28,10 +28,6 @@ import CheckCircleOutlineSharpIcon from '@mui/icons-material/CheckCircleOutlineS
 import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp';
 import ScheduleSharpIcon from '@mui/icons-material/ScheduleSharp';
 import InfoIcon from '@mui/icons-material/Info';
-
-import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp';
-import PendingSharpIcon from '@mui/icons-material/PendingSharp';
-import ErrorSharpIcon from '@mui/icons-material/ErrorSharp';
 
 const TABS = [
     "All",
@@ -284,17 +280,6 @@ const DEGREE_INFO = [
     },
 ]
 
-/*
-const StatusButton = (props) => <Button variant="contained" {...props} color={
-    props.children === COURSE_STATUS.COMPLETED ? "success" :
-    (props.children === COURSE_STATUS.IN_PROGRESS ? "warning" :
-    (props.children === COURSE_STATUS.READY ? "info" :
-    "error"))
-}>
-    {props.children}
-</Button>
-*/
-
 const StatusButton = (props) => <Tooltip title={props.children} placement="right">
     <IconButton size="small" onClick={props.onClick} variant="contained" {...props} color={
         props.children === COURSE_STATUS.COMPLETED ? "success" :
@@ -393,33 +378,31 @@ export default function Courses() {
                 {
                 DEGREE_INFO.map((category) => (
                     <Accordion defaultExpanded key={category.title} sx={{
-                        bgcolor: "#f8f9f8"
+                        bgcolor: "common.white"
                     }}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            {category.title}
+                            <Typography variant="h6">
+                                {category.title}
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails sx={{
-                            padding: 0,
                             boxShadow: "none",
                         }}>
-                            <Divider/>
                             <TableContainer component={TableBackground}>
-                                <Table>
-                                    <TableHead sx={{
-                                            bgcolor: "#f8f9f8",
-                                    }}>
+                                <Table size="small">
+                                    <TableHead>
                                         <TableRow>
-                                            <TableCell align="left">Requirement</TableCell>
-                                            <TableCell align="left" colSpan={2}>Course</TableCell>
-                                            <TableCell align="center">Units</TableCell>
-                                            <TableCell align="center">Status</TableCell>
+                                            <TableCell align="left" sx={{width: "50%"}}>Requirement</TableCell>
+                                            <TableCell align="left" sx={{width: "50%"}} colSpan={2}>Course</TableCell>
+                                            <TableCell align="center" sx={{width: "6px"}}>Units</TableCell>
+                                            <TableCell align="center" sx={{width: "6px"}}>Status</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {
                                         category.courses.map((course) => (
                                             isInCategory(course, currentTab) ?
-                                                <TableRow key={course.name}>
+                                                <TableRow key={course.requirement}>
                                                     <TableCell align="left">{course.requirement}</TableCell>
                                                     <TableCell align="left" sx={{
                                                             color: (course.choice) ? "common.black" : "#aaa",
@@ -429,6 +412,7 @@ export default function Courses() {
                                                     </TableCell>
                                                     <TableCell sx={{
                                                         p: 0,
+                                                        width: "6px",
                                                     }}>
                                                         {
                                                             (course.canEdit && course.status !== COURSE_STATUS.COMPLETED && course.status !== COURSE_STATUS.IN_PROGRESS) ? (
