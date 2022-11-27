@@ -6,6 +6,8 @@ const cors = require('cors');
 const mysql = require('mysql');
 const path = require('path');
 
+require('./routes')(app);
+
 const connectionData = {
   host: "database1.cluzlb16p6h1.us-west-1.rds.amazonaws.com",
   user: "admin",

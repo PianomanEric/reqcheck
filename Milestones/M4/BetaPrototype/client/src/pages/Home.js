@@ -7,6 +7,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BalanceIcon from '@mui/icons-material/Balance';
 import SchoolIcon from '@mui/icons-material/School';
 
+import LibraryImage from '../assets/images/library.jpg';
+
 const pages = [
     {
         title: "Student Profile",
@@ -39,21 +41,9 @@ export default function Home() {
         document.title = "ReqCheck | Home";
     }, []);
 
-    const showMessage = (message) => {
-        setMessage(message);
-        setVisible(true);
-    }
-
-    const [message, setMessage] = useState("");
-    const [visible, setVisible] = useState(false);
-
-    const onClose = () => {
-        setVisible(false);
-    }
-
     return (
         <Box container="div" sx={{
-            backgroundImage: 'url("https://upload.wikimedia.org/wikipedia/commons/e/e4/SFSU_Campus_Overview_Nov2012.JPG")',
+            backgroundImage: `url(${LibraryImage})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
