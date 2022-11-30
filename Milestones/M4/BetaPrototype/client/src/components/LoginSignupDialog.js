@@ -39,13 +39,23 @@ export default function LoginSignupDialog(props) {
         }
     }
 
-    const handleLogin = () => {
-        handleClose();
+    const handleLogin = async () => {
+        try{
+            const response = await axios.post('api/auth/login', {
+                email,
+                password
+            })
+            if(response) {
+                console.log(response.data);
+                handleClose();
+            }
+        } catch(err) {
+            console.log(err)
+        }
+        //setInputDisabled(false);
     }
 
     const handleSignup = async () => {
-        setInputDisabled(true);
-        console.log(firstName, lastName, email, password);
         try{
             const response = await axios.post('api/auth/register', {
                 firstName,
@@ -55,20 +65,13 @@ export default function LoginSignupDialog(props) {
                 password
             })
             if(response) {
-                setFirstName('');
-                setLastName('');
-                setStudentID('');
-                setEmail('');
-                setPassword('');
+                console.log(response.data);
                 handleClose();
             }
-            console.log('It worked!');
         } catch(err) {
             console.log(err)
-            console.log('It failed');
         }
-        console.log('Reenabling buttons');
-        setInputDisabled(false);
+        //setInputDisabled(false);
     }
 
     return (
