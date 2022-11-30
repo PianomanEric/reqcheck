@@ -1,30 +1,30 @@
-import { Box, Typography } from "@mui/material";
-import { useEffect } from "react";
-import {useParams} from "react-router-dom";
+import { Box, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import {useParams} from 'react-router-dom';
 
 const memberInfo = {
     eric: {
-        name: "Eric Falk",
+        name: 'Eric Falk',
         description: "Hello! My name is Eric and I am one of the front-end developers for the team. I've only used vanilla JavaScript for past web projects, but I will be learning how to use React and Material UI for this course.",
     },
     erik: {
-        name: "Erik Rodriguez",
-        description: "Hi! My name is Erik Rodriguez I am part of the front end team with a small amount of experiance but I am ready to learn more about React and creating a working website",
+        name: 'Erik Rodriguez',
+        description: "Hi! My name is Erik Rodriguez I am part of the front end team with a small amount of experience but I am ready to learn more about React and creating a working website",
     },
     alex: {
-        name: "Alex Sanchez",
+        name: 'Alex Sanchez',
         description: "Hello there! My name is Alex and I the team lead for Team 06. I have experience in full stack, but would like to practice more.",
     },
     victoria: {
-        name: "Victoria Wilson-Anumudu",
-        description: "Hi everyone! My name is Victoria Wilson-Anumudu and I am will be working in Github as well as the backend for my Team 6. ",
+        name: 'Victoria Wilson-Anumudu',
+        description: "Hi everyone! My name is Victoria Wilson-Anumudu and I am will be working in Github as well as the backend for my Team 6.",
     },
     syed: {
-        name: "Syed",
+        name: 'Syed',
         description: "Hello, My name is Syed and I'll be helping the team with databases/backend",
     },
     vivek: {
-        name: "Vivek Santoki",
+        name: 'Vivek Santoki',
         description: "Hello Everyone my name is Vivek Santoki I am the front end lead for Team 06. I have intermediate experience as a web developer",
     },
 }
@@ -40,7 +40,7 @@ export default function MemberInfo() {
 
     useEffect(() => {
         if (!nameExists) {
-            document.title = "ReqCheck | Member Not Found";
+            document.title = 'ReqCheck | Member Not Found';
         } else {
             const uppercaseName = capitalizeName(name);
             document.title = `ReqCheck | About ${uppercaseName}`;
@@ -50,28 +50,28 @@ export default function MemberInfo() {
     if (nameExists) {
         if (memberInfo[name].name.length === 0 || memberInfo[name].description.length === 0) {
             return (
-                <Typography maxWidth="md" align="center" variant="h4" sx={{
-                    width: "100%",
+                <Typography maxWidth='md' align='center' variant='h4' sx={{
+                    width: '100%',
                     py: 6,
-                    mx: "auto",
+                    mx: 'auto',
                 }}>
                     {`${capitalizeName(name)} has not provided any info`}
                 </Typography>
             );
         } else {
             return (
-                <Box maxWidth="md" sx={{
-                    mx: "auto",
+                <Box maxWidth='md' sx={{
+                    mx: 'auto',
                 }}>
-                    <Typography align="center" variant="h4" sx={{
-                        width: "100%",
+                    <Typography align='center' variant='h4' sx={{
+                        width: '100%',
                         mt: 3,
                         py: 3,
                     }}>
                         {memberInfo[name].name}
                     </Typography>
-                    <Typography paragraph="true" variant="body1" sx={{
-                        width: "100%",
+                    <Typography paragraph variant='body1' sx={{
+                        width: '100%',
                         my: 2,
                     }}>
                         {memberInfo[name].description}
@@ -81,10 +81,10 @@ export default function MemberInfo() {
         }
     } else {
         return (
-            <Typography maxWidth="md" align="center" variant="h4" sx={{
-                width: "100%",
+            <Typography maxWidth='md' align='center' variant='h4' sx={{
+                width: '100%',
                 py: 6,
-                mx: "auto",
+                mx: 'auto',
             }}>
                 Team member not found!
             </Typography>

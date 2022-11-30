@@ -11,8 +11,7 @@ import {
     List,
     ListItem,
     ListItemButton,
-    Typography
-} from "@mui/material";
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import NavigateNextSharpIcon from '@mui/icons-material/NavigateNextSharp';
 import NavigateBeforeSharpIcon from '@mui/icons-material/NavigateBeforeSharp';
@@ -26,10 +25,10 @@ const CourseListItem = (props) => <>
         <ListItemButton onClick={props.onClick}>
             AAA 100 - Dummy Course
             <NavigateNextSharpIcon sx={{
-                position: "absolute",
+                position: 'absolute',
                 right: 8,
-                top: "50%",
-                transform: "translateY(-50%)",
+                top: '50%',
+                transform: 'translateY(-50%)',
             }}/>
         </ListItemButton>
     </ListItem>
@@ -69,15 +68,15 @@ export default function CourseSelectionDialog(props) {
         <Dialog fullWidth {...props}>
             <DialogTitle align='center'>
                 A# - Dummy Requirement Area
-                <IconButton onClick={handleClose} color="inherit" sx={{
-                    position: "absolute",
+                <IconButton onClick={handleClose} color='inherit' sx={{
+                    position: 'absolute',
                     right: 8,
                     top: 8,
                 }}>
                     <CloseIcon/>
                 </IconButton>
-                {(showDetails) ? <Button onClick={handleBackClick} size="large" startIcon={<NavigateBeforeSharpIcon/>} color="inherit" sx={{
-                    position: "absolute",
+                {(showDetails) ? <Button onClick={handleBackClick} size='large' startIcon={<NavigateBeforeSharpIcon/>} color='inherit' sx={{
+                    position: 'absolute',
                     left: 8,
                     top: 8,
                 }}>
@@ -90,7 +89,7 @@ export default function CourseSelectionDialog(props) {
                 (!showDetails) ? <>
                     <List sx={{
                         pt: 0,
-                        overflow: "auto",
+                        overflow: 'auto',
                     }}>
                         <CourseListItem onClick={handleSeeDetails}/>
                         <CourseListItem onClick={handleSeeDetails}/>
@@ -105,18 +104,18 @@ export default function CourseSelectionDialog(props) {
                 </> : <>
                     <DialogContent>
                         <DialogContentText variant='h5' align='center' sx={{
-                            fontWeight: "bold",
+                            fontWeight: 'bold',
                         }}>
                             AAA 100 - Dummy Course
                         </DialogContentText>
                         <DialogContentText variant='h7' align='center' sx={{
-                            fontWeight: "bold",
+                            fontWeight: 'bold',
                         }}>
                             Credits: 3
                         </DialogContentText>
 
                         <DialogContentText variant='h7' align='left' sx={{
-                            fontWeight: "bold",
+                            fontWeight: 'bold',
                             mt: 4,
                         }}>
                             Prerequisites:
@@ -128,7 +127,7 @@ export default function CourseSelectionDialog(props) {
                         </DialogContentText>
 
                         <DialogContentText variant='h7' align='left' sx={{
-                            fontWeight: "bold",
+                            fontWeight: 'bold',
                             mt: 4,
                         }}>
                             Description:
@@ -142,7 +141,7 @@ export default function CourseSelectionDialog(props) {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleCourseSelection} variant='contained' size='large' fullWidth sx={{
-                            color: "common.white",
+                            color: 'common.white',
                         }}>
                             Select This Course
                         </Button>

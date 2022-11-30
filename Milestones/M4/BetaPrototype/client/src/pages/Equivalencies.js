@@ -16,24 +16,24 @@ import {
     Tooltip,
     Typography,
     IconButton
-} from "@mui/material";
+} from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 export default function Equivalencies() {
     useEffect(() => {
-        document.title = "ReqCheck | Course Equivalencies";
+        document.title = 'ReqCheck | Course Equivalencies';
     }, []);
 
     return (<>
         <Box sx={{
-            bgcolor: "#fff",
-            width: "100%",
+            bgcolor: '#fff',
+            width: '100%',
         }}>
-            <Typography align="center" variant="h4" sx={{
+            <Typography align='center' variant='h4' sx={{
                 mt: 9,
                 mb: 6,
                 p: 3,
-                width: "100%",
+                width: '100%',
             }}>
                 Course Equivalencies Under Construction
             </Typography>
