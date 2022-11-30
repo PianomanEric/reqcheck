@@ -6,8 +6,7 @@ const { registrationValidator, loginValidator } = require('../../middleware/vali
 
 const SALT_ROUNDS = 10; // For use with bcrypt
 
-router.use('/login', loginValidator);
-router.post('/login', (req, res) => {
+router.post('/login', loginValidator, (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -59,8 +58,7 @@ router.get('/accounts', (req, res) => {
     })
 })
 
-router.use('/register', registrationValidator);
-router.post('/register', (req, res) => {
+router.post('/register', registrationValidator, (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
