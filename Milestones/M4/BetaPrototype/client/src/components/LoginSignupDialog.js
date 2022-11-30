@@ -20,9 +20,11 @@ export default function LoginSignupDialog(props) {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [terms, setTerms] = useState(false);
     const [inputDisabled, setInputDisabled] = useState(false);
 
     const handleClose = () => {
+        console.log("closing");
         if (props.onClose) {
             props.onClose();
         }
@@ -31,12 +33,14 @@ export default function LoginSignupDialog(props) {
         setLastName('');
         setEmail('');
         setPassword('');
+        setTerms(false);
     }
 
     const handlePageChange = (pageName) => {
         if (props.onPageChange) {
             props.onPageChange(pageName);
         }
+        setTerms(false);
     }
 
     const handleLogin = async () => {
@@ -75,7 +79,7 @@ export default function LoginSignupDialog(props) {
     }
 
     return (
-        <Dialog fullWidth maxWidth='xs' open={props.open} onClose={props.onClose} PaperProps={{
+        <Dialog fullWidth maxWidth='xs' open={props.open} onClose={handleClose} PaperProps={{
             sx: {
                 p: 3,
             }
@@ -122,11 +126,11 @@ export default function LoginSignupDialog(props) {
                         alignItems: 'center',
                     }}>
                         
-                        <FormControlLabel control={<Checkbox/>} label={<>
+                        <FormControlLabel control={<Checkbox checked={terms} onChange={(event) => {setTerms(event.target.checked)}}/>} label={<>
                             <Typography component='span'>
-                                I agree to the 
-                            </Typography><Link> terms and conditions</Link>
-                            </>}/>
+                                I agree to the terms and conditions
+                            </Typography>
+                        </>}/>
                     </FormGroup>
 
                     <Typography align='center' sx={{
@@ -141,7 +145,7 @@ export default function LoginSignupDialog(props) {
                         Log in instead!
                     </Button>
                     <DialogActions>
-                        <Button onClick={handleSignup} disabled={inputDisabled} variant='contained' size='large' fullWidth sx={{
+                        <Button onClick={handleSignup} disabled={inputDisabled || !terms} variant='contained' size='large' fullWidth sx={{
                             color: 'common.white',
                         }}>
                             Create Account
