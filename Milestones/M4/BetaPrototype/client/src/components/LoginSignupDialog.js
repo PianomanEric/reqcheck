@@ -20,15 +20,33 @@ import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
 import { flexbox } from '@mui/system';
 
+const studentIDFormat = /\d{9}/;
+const emailFormat = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+const passwordFormat = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+const nameFormat = /^[a-zA-Z '-]+$/;
+
+const validateID = (studentID) => {
+    if (studentIDFormat.test(studentID)) {
+        return [true];
+    } else {
+        return [false, 'in'];
+    }
+}
+
 export default function LoginSignupDialog(props) {
 
     const { auth, setAuth } = useAuth();
 
     const [studentID, setStudentID] = useState('');
+    const [studentIDError, setStudentIDError] = useState(false);
     const [firstName, setFirstName] = useState('');
+    const [firstNameError, setFirstNameError] = useState(false);
     const [lastName, setLastName] = useState('');
+    const [lastNameError, setLastNameError] = useState(false);
     const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState(false);
     const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState(false);
     const [terms, setTerms] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
     const [loading, setLoading] = useState(false);
@@ -42,6 +60,9 @@ export default function LoginSignupDialog(props) {
     const signupButton = useRef();
     const termsCheckbox = useRef();
 
+    const clearValidation = () => {
+        setEmailError(false);
+    }
 
     const clearForm = () => {
         setStudentID('');
@@ -60,6 +81,7 @@ export default function LoginSignupDialog(props) {
             props.onClose();
         }
         clearForm();
+        clearValidation();
     }
 
     const handlePageChange = (pageName) => {
@@ -68,6 +90,7 @@ export default function LoginSignupDialog(props) {
         }
         setTerms(false);
         setErrorMessage();
+        clearValidation();
     }
 
     const handleLogin = async () => {
@@ -163,7 +186,7 @@ export default function LoginSignupDialog(props) {
                         display: 'flex',
                         flexDirection: 'column',
                     }}>
-                        <TextField fullWidth inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='Email' type='email' sx={{my: 0.5}}/>
+                        <TextField fullWidth onBlur={(e) => {setEmailError(email !== '' && !emailFormat.test(email))}} helperText={emailError ? 'Email is invalid' : undefined} inputRef={emailBox} error={emailError} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='Email' type='email' sx={{my: 0.5}}/>
                         <TextField fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
 
                         <Typography align='center' sx={{
@@ -195,7 +218,7 @@ export default function LoginSignupDialog(props) {
                         <TextField fullWidth inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='name' sx={{my: 0.5}}/>
                         <TextField fullWidth inputRef={idBox} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
                         <TextField fullWidth inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='SFSU Email' type='email' sx={{my: 0.5}}/>
-                        <TextField fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
+                        <TextField fullWidth onBlur={(e) => {setPasswordError(password !== '' && !passwordFormat.test(password))}} error={passwordError} helperText={passwordError ? <>Password must be 8 or more characters and contain:<br />- 1 or more lowercase letters<br />- 1 or more uppercase letters<br />- 1 or more numbers<br />- 1 or more special characters</> : undefined} inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
                         <FormGroup sx={{
                             display: 'flex',
                             alignItems: 'center',
