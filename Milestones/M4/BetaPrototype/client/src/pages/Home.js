@@ -147,7 +147,7 @@ export default function Home() {
                                         </CardActionArea>
                                     </Card>
                                 </Grid>
-                            : <></>
+                            : undefined
                         ))
                     }
                 </Grid>

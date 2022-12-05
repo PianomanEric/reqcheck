@@ -19,7 +19,17 @@ const createAccessToken = (username) => {
     );
 }
 
-router.post('/login', loginValidator, (req, res) => {
+const respondWithToken = (req, res) => {
+    const email = req.body.email;
+    console.log("Successful login!");
+    const token = createAccessToken(email);
+    res.cookie('jwt', token, {
+        
+    });
+    res.json({ username: email });
+}
+
+router.post('/login', loginValidator, (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -37,12 +47,7 @@ router.post('/login', loginValidator, (req, res) => {
     .then((passwordMatched) => {
         console.log(passwordMatched);
         if (passwordMatched) {
-            console.log("Successful login!");
-            const token = createAccessToken(email);
-            res.cookie('jwt', token, {
-                
-            });
-            res.json({ username: email });
+            next();
         } else {
             console.log("Password was incorrect!");
             res.send("Password was incorrect!");
@@ -52,7 +57,7 @@ router.post('/login', loginValidator, (req, res) => {
         console.log(err);
         res.send(err.message);
     })
-});
+}, respondWithToken);
 
 // Temporary unprotected route to delete a specific test account by student id
 router.get('/deleteAccount/:userID', (req, res) => {
@@ -75,7 +80,7 @@ router.get('/accounts', (req, res) => {
     })
 })
 
-router.post('/register', registrationValidator, (req, res) => {
+router.post('/register', registrationValidator, (req, res, next) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
@@ -109,7 +114,7 @@ router.post('/register', registrationValidator, (req, res) => {
     .then(([results, fields]) => {
         if (results && results.affectedRows === 1) {
             console.log("Created account!");
-            res.send("Created account!");
+            next();
         } else {
             console.log("Account creation failed!");
             res.send("Account creation failed!");
@@ -119,6 +124,6 @@ router.post('/register', registrationValidator, (req, res) => {
         console.log(err);
         res.send(err.message);
     });
-});
+}, respondWithToken);
 
 module.exports = router;
