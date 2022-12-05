@@ -13,8 +13,11 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
+import { flexbox } from '@mui/system';
 
 export default function LoginSignupDialog(props) {
 
@@ -26,8 +29,8 @@ export default function LoginSignupDialog(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [terms, setTerms] = useState(false);
-    const [inputDisabled, setInputDisabled] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
+    const [loading, setLoading] = useState(false);
 
     const firstNameBox = useRef();
     const lastNameBox = useRef();
@@ -45,7 +48,7 @@ export default function LoginSignupDialog(props) {
         setPassword('');
         setTerms(false);
         setErrorMessage();
-        setInputDisabled(false);
+        setLoading(false);
     }
 
     const handleClose = () => {
@@ -65,7 +68,7 @@ export default function LoginSignupDialog(props) {
     }
 
     const handleLogin = async () => {
-        setInputDisabled(true);
+        setLoading(true);
         try{
             const response = await axios.post('api/auth/login', {
                 email,
@@ -85,11 +88,11 @@ export default function LoginSignupDialog(props) {
             console.log(err)
         }
         loginButton.current.blur();
-        setInputDisabled(false);
+        setLoading(false);
     }
 
     const handleSignup = async () => {
-        setInputDisabled(true);
+        setLoading(true);
         try{
             const response = await axios.post('api/auth/register', {
                 firstName,
@@ -111,7 +114,7 @@ export default function LoginSignupDialog(props) {
             console.log(err)
         }
         signupButton.current.blur();
-        setInputDisabled(false);
+        setLoading(false);
     }
 
     const callOnEnterPress = (callback) => {
@@ -162,18 +165,19 @@ export default function LoginSignupDialog(props) {
                         New to ReqCheck?
                     </Typography>
 
-                    <Button onClick={() => {handlePageChange('Signup')}} sx={{
-                        mb: 1,
+                    <Link component={RouterLink} onClick={() => {handlePageChange('Signup')}} sx={{
+                        mb: 2,
+                        mx: 'auto',
                     }}>
                         Register an account!
-                    </Button>
+                    </Link>
 
                     <DialogActions sx={{p: 0}}>
-                        <Button onClick={handleLogin} ref={loginButton} disabled={inputDisabled} variant='contained' size='large' fullWidth sx={{
+                        <LoadingButton loading={loading} onClick={handleLogin} ref={loginButton} disabled={loading} variant='contained' size='large' fullWidth sx={{
                             color: 'common.white',
                         }}>
                             Log In
-                        </Button>
+                        </LoadingButton>
                     </DialogActions>
                 </>:<>
                     <TextField inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='First Name' type='name' sx={{my: 0.5}}/>
@@ -199,17 +203,19 @@ export default function LoginSignupDialog(props) {
                         Already have an account?
                     </Typography>
 
-                    <Button onClick={() => {handlePageChange('Login')}} sx={{
-                        mb: 1,
+                    <Link component={RouterLink} onClick={() => {handlePageChange('Login')}} sx={{
+                        mb: 2,
+                        mx: 'auto',
                     }}>
-                        Log in instead!
-                    </Button>
+                    Log in instead!
+                    </Link>
+
                     <DialogActions sx={{p: 0}}>
-                        <Button onClick={handleSignup} ref={signupButton} disabled={inputDisabled || !terms} variant='contained' size='large' fullWidth sx={{
+                        <LoadingButton loading={loading} onClick={handleSignup} ref={signupButton} disabled={loading || !terms} variant='contained' size='large' fullWidth sx={{
                             color: 'common.white',
                         }}>
                             Create Account
-                        </Button>
+                        </LoadingButton>
                     </DialogActions>
                 </>
             }
