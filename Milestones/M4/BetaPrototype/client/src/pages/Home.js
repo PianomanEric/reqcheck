@@ -1,6 +1,8 @@
 import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../hooks/useAuth';
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -15,30 +17,42 @@ const pages = [
         path: '/profile',
         description: 'Change your account information or view important changes to your degree.',
         icon: AccountCircleIcon,
+        loginRequired: true,
     },
     {
         title: 'Courses',
         path: '/courses',
         description: 'View and manage all your degree requirements in one place.',
         icon: SchoolIcon,
+        loginRequired: true,
     },
     {
         title: 'Course Equivalencies',
         path: '/equivalencies',
-        description: 'View all granted equivalencies or submit new ones.',
+        description: 'View courses equivalencies between SFSU and other colleges.',
         icon: BalanceIcon,
+        loginRequired: false,
     },
     {
         title: 'Roadmap',
         path: '/roadmap',
         description: 'Organize your future courses by semester.',
         icon: CalendarMonthIcon,
+        loginRequired: true,
     },
 ]
 
+const testAuth = () => {
+    axios.post('/test', { withCredentials: true });
+    return <></>;
+}
+
 export default function Home() {
+    const { auth } = useAuth();
+
     useEffect(() => {
         document.title = 'ReqCheck | Home';
+        testAuth();
     }, []);
 
     return (
@@ -55,7 +69,7 @@ export default function Home() {
                 m: 0,
                 width: '100%',
                 height: '100%',
-                backdropFilter: `brightness(0.35)`,
+                backdropFilter: `brightness(0.25)`,
             }}>
                 <Typography align='center' variant='h2' sx={{
                     px: 3,
@@ -63,6 +77,7 @@ export default function Home() {
                     width: '100%',
                     color: 'common.white',
                     fontWeight: '400',
+                    textShadow: '0 0 25px #000',
                 }}>
                     College transfers made easy
                 </Typography>
@@ -79,58 +94,60 @@ export default function Home() {
                 }}>
                     {
                         pages.map((page) => (
-                            <Grid key={page.title} item sx={{
-                                p: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}>
-                                <Card sx={{
-                                    width: '350px',
-                                    height: '270px',
-                                    m: 2,
+                            !page.loginRequired || auth?.username ?
+                                <Grid key={page.title} item sx={{
+                                    p: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
                                 }}>
-                                    <CardActionArea component={RouterLink} to={page.path ? page.path : '/'} sx={{
-                                        height: '100%',
+                                    <Card sx={{
+                                        width: '350px',
+                                        height: '270px',
+                                        m: 2,
                                     }}>
-                                    {/*
-                                        sx={{
-                                        bgcolor: 'common.white',
-                                        minHeight: '200px',
-                                        width: '300px',
-                                        borderRadius: 4,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        boxShadow: 3,
-                                        '&:hover': {
-                                            bgcolor: '#f6f6f6'
-                                        }
-                                    }}
-                                    */}
-                                    <CardContent>
-                                        <CardMedia component={page.icon} sx={{
-                                            width: '100%',
-                                            height: '100px',
-                                            color: 'primary.light',
-                                            margin: 1,
+                                        <CardActionArea component={RouterLink} to={page.path ? page.path : '/'} sx={{
+                                            height: '100%',
                                         }}>
+                                        {/*
+                                            sx={{
+                                            bgcolor: 'common.white',
+                                            minHeight: '200px',
+                                            width: '300px',
+                                            borderRadius: 4,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            boxShadow: 3,
+                                            '&:hover': {
+                                                bgcolor: '#f6f6f6'
+                                            }
+                                        }}
+                                        */}
+                                        <CardContent>
+                                            <CardMedia component={page.icon} sx={{
+                                                width: '100%',
+                                                height: '100px',
+                                                color: 'primary.light',
+                                                margin: 1,
+                                            }}>
 
-                                        </CardMedia>
-                                        <Typography gutterBottom align='center' variant='h6' sx={{
-                                            color: 'common.black'
-                                        }}>
-                                            {page.title}
-                                        </Typography>
-                                        <Typography align='center' sx={{
-                                            color: 'common.black'
-                                        }}>
-                                            {page.description}
-                                        </Typography>
-                                    </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
+                                            </CardMedia>
+                                            <Typography gutterBottom align='center' variant='h6' sx={{
+                                                color: 'common.black'
+                                            }}>
+                                                {page.title}
+                                            </Typography>
+                                            <Typography align='center' sx={{
+                                                color: 'common.black'
+                                            }}>
+                                                {page.description}
+                                            </Typography>
+                                        </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            : <></>
                         ))
                     }
                 </Grid>

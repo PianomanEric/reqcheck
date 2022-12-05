@@ -4,6 +4,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const path = require('path');
+const dotenv = require('dotenv');
+
+// Set up environment variables
+dotenv.config();
+
+const { checkToken } = require('./middleware/auth');
 
 // Path to the react build folder
 const build = path.join(__dirname, '..', 'client', 'build');
@@ -15,6 +21,11 @@ app.use(cors());
 
 // API routes
 require('./routes')(app);
+
+app.post('/test', checkToken, (req, res) => {
+    console.log("Incoming request!");
+    res.send("Testing!");
+});
 
 // Any routes not handled above will serve the react app
 app.get('*', (req, res) => {

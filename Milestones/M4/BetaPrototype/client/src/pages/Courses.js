@@ -369,6 +369,7 @@ export default function Courses() {
                         width: '100%',
                         color: 'common.white',
                         fontWeight: '400',
+                        textShadow: '0 0 25px #000',
                     }}>
                         Courses
                     </Typography>

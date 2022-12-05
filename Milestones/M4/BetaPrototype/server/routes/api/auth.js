@@ -1,10 +1,23 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const db = require('../../config/database');
 const { registrationValidator, loginValidator } = require('../../middleware/validation');
 
 const SALT_ROUNDS = 10; // For use with bcrypt
+
+const createAccessToken = (username) => {
+    return jwt.sign(
+        {
+            username: username,
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: '1h',
+        },
+    );
+}
 
 router.post('/login', loginValidator, (req, res) => {
     const email = req.body.email;
@@ -25,7 +38,11 @@ router.post('/login', loginValidator, (req, res) => {
         console.log(passwordMatched);
         if (passwordMatched) {
             console.log("Successful login!");
-            res.send("Successful login!");
+            const token = createAccessToken(email);
+            res.cookie('jwt', token, {
+                
+            });
+            res.json({ username: email });
         } else {
             console.log("Password was incorrect!");
             res.send("Password was incorrect!");

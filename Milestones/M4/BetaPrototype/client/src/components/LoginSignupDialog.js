@@ -12,8 +12,11 @@ import {
     Typography,
 } from '@mui/material';
 import axios from 'axios';
+import { useAuth } from '../hooks/useAuth';
 
 export default function LoginSignupDialog(props) {
+
+    const { auth, setAuth } = useAuth();
 
     const [studentID, setStudentID] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -51,6 +54,8 @@ export default function LoginSignupDialog(props) {
             })
             if(response) {
                 console.log(response.data);
+                setAuth(response.data);
+                console.log(auth);
                 handleClose();
             }
         } catch(err) {

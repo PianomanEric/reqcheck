@@ -10,26 +10,32 @@ import Equivalencies from './pages/Equivalencies';
 import Roadmap from './pages/Roadmap';
 import MemberInfo from './pages/MemberInfo';
 import BasicLayout from './layouts/BasicLayout';
+import { AuthProvider } from './context/AuthProvider';
+import { RequireAuth } from './components/RequireAuth';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<BasicLayout />}>
-              <Route index element={<Home />}/>
-              <Route path='about'>
-                <Route index element={<About />} />
-                <Route path=':name' element={<MemberInfo />} />
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<BasicLayout />}>
+                <Route index element={<Home />}/>
+                <Route path='about'>
+                  <Route index element={<About />} />
+                  <Route path=':name' element={<MemberInfo />} />
+                </Route>
+                <Route path='equivalencies' element={<Equivalencies />}/>
+                <Route element={<RequireAuth />}>
+                  <Route path='courses' element={<Courses />}/>
+                  <Route path='profile' element={<Profile />}/>
+                  <Route path='roadmap' element={<Roadmap />}/>
+                </Route>
               </Route>
-              <Route path='courses' element={<Courses />}/>
-              <Route path='profile' element={<Profile />}/>
-              <Route path='equivalencies' element={<Equivalencies />}/>
-              <Route path='roadmap' element={<Roadmap />}/>
-            </Route>
-          </Routes>
-        </BrowserRouter>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
     </ThemeProvider>
   );
 }

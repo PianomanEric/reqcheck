@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import LoginSignupDialog from '../components/LoginSignupDialog';
 import { Link as RouterLink } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -28,10 +29,17 @@ const filters = [
 
 export default function Navbar() {
 
+  const { auth, setAuth } = useAuth();
+
   const [titles, setTitles] = useState([]);
   const [showTitles, setShowTitles] = useState([]);
   const [showLoginSignupDialog, setShowLoginSignupDialog] = useState(false);
   const [loginSignupDialogPage, setLoginSignupDialogPage] = useState('Login');
+
+  const handleLogout = () => {
+    setAuth();
+    document.cookie = "";
+  }
 
   const handleShowLogin = () => {
     setShowLoginSignupDialog(true);
@@ -159,18 +167,32 @@ export default function Navbar() {
             }} onChange={(e) => onChangeSearch(e)} placeholder='Search Courses'/>
           }
         />
-        <Button variant='contained' onClick={handleShowSignup} sx={{
-          mx: 1,
-          color: 'common.white',
-        }}>
-          Register
-        </Button>
-        <Button variant='contained' onClick={handleShowLogin} sx={{
-          mx: 1,
-          color: 'common.white',
-        }}>
-          Login
-        </Button>
+        {
+          !auth?.username ? <>
+            <Button variant='contained' onClick={handleShowSignup} sx={{
+              mx: 1,
+              color: 'common.white',
+            }}>
+              Register
+            </Button>
+            <Button variant='contained' onClick={handleShowLogin} sx={{
+              mx: 1,
+              color: 'common.white',
+            }}>
+              Login
+            </Button>
+          </> : <>
+            <Typography>
+              {auth.username}
+            </Typography>
+            <Button variant='contained' onClick={handleLogout} sx={{
+              mx: 1,
+              color: 'common.white',
+            }}>
+              Sign Out
+            </Button>
+          </>
+        }
       </Box>
       <LoginSignupDialog open={showLoginSignupDialog} page={loginSignupDialogPage} onPageChange={setLoginSignupDialogPage} onClose={handleCloseLoginSignup}></LoginSignupDialog>
     </AppBar> 
