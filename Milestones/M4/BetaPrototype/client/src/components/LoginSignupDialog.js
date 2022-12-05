@@ -6,6 +6,7 @@ import {
     Collapse,
     Dialog,
     DialogActions,
+    DialogContent,
     DialogTitle,
     FormGroup,
     FormControlLabel,
@@ -136,10 +137,10 @@ export default function LoginSignupDialog(props) {
     }
 
     return (
-        <Dialog fullWidth maxWidth='xs' open={props.open} onClose={handleClose} PaperProps={{
+        <Dialog fullWidth maxWidth='xs' scroll='body' open={props.open} onClose={handleClose} PaperProps={{
             sx: {
-                px: 5,
-                py: 3,
+                px: 2,
+                py: 2,
             }
         }}>
 
@@ -158,22 +159,26 @@ export default function LoginSignupDialog(props) {
                 {
                 (props.page == 'Login') ? 
                 <>
-                    <TextField inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='Email' type='email' sx={{my: 0.5}}/>
-                    <TextField inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
-
-                    <Typography align='center' sx={{
-                        mt: 2,
+                    <DialogContent sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
                     }}>
-                        New to ReqCheck?
-                    </Typography>
+                        <TextField fullWidth inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='Email' type='email' sx={{my: 0.5}}/>
+                        <TextField fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
 
-                    <Link component={RouterLink} onClick={() => {handlePageChange('Signup')}} sx={{
-                        mb: 2,
-                        mx: 'auto',
-                    }}>
-                        Register an account!
-                    </Link>
+                        <Typography align='center' sx={{
+                            mt: 2,
+                        }}>
+                            New to ReqCheck?
+                        </Typography>
 
+                        <Link component={RouterLink} onClick={() => {handlePageChange('Signup')}} sx={{
+                            mx: 'auto',
+                        }}>
+                            Register an account!
+                        </Link>
+
+                    </DialogContent>
                     <DialogActions sx={{p: 0}}>
                         <LoadingButton loading={loading} onClick={handleLogin} ref={loginButton} disabled={loading} variant='contained' size='large' fullWidth sx={{
                             color: 'common.white',
@@ -182,36 +187,39 @@ export default function LoginSignupDialog(props) {
                         </LoadingButton>
                     </DialogActions>
                 </>:<>
-                    <TextField inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='First Name' type='name' sx={{my: 0.5}}/>
-                    <TextField inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='name' sx={{my: 0.5}}/>
-                    <TextField inputRef={idBox} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
-                    <TextField inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='SFSU Email' type='email' sx={{my: 0.5}}/>
-                    <TextField inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
-                    <FormGroup sx={{
+                    <DialogContent sx={{
                         display: 'flex',
-                        alignItems: 'center',
+                        flexDirection: 'column',
                     }}>
-                        
-                        <FormControlLabel control={<Checkbox checked={terms} inputRef={termsCheckbox} onKeyDown={focusOnEnterPress(signupButton)} onChange={(event) => {setTerms(event.target.checked)}} />} label={<>
-                            <Typography component='span'>
-                                I agree to the terms and conditions
-                            </Typography>
-                        </>}/>
-                    </FormGroup>
+                        <TextField fullWidth inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='First Name' type='name' sx={{my: 0.5}}/>
+                        <TextField fullWidth inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='name' sx={{my: 0.5}}/>
+                        <TextField fullWidth inputRef={idBox} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
+                        <TextField fullWidth inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='SFSU Email' type='email' sx={{my: 0.5}}/>
+                        <TextField fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
+                        <FormGroup sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}>
+                            
+                            <FormControlLabel control={<Checkbox checked={terms} inputRef={termsCheckbox} onKeyDown={focusOnEnterPress(signupButton)} onChange={(event) => {setTerms(event.target.checked)}} />} label={<>
+                                <Typography component='span'>
+                                    I agree to the terms and conditions
+                                </Typography>
+                            </>}/>
+                        </FormGroup>
 
-                    <Typography align='center' sx={{
-                        mt: 2,
-                    }}>
-                        Already have an account?
-                    </Typography>
+                        <Typography align='center' sx={{
+                            mt: 2,
+                        }}>
+                            Already have an account?
+                        </Typography>
 
-                    <Link component={RouterLink} onClick={() => {handlePageChange('Login')}} sx={{
-                        mb: 2,
-                        mx: 'auto',
-                    }}>
-                    Log in instead!
-                    </Link>
-
+                        <Link component={RouterLink} onClick={() => {handlePageChange('Login')}} sx={{
+                            mx: 'auto',
+                        }}>
+                        Log in instead!
+                        </Link>
+                    </DialogContent>
                     <DialogActions sx={{p: 0}}>
                         <LoadingButton loading={loading} onClick={handleSignup} ref={signupButton} disabled={loading || !terms} variant='contained' size='large' fullWidth sx={{
                             color: 'common.white',
