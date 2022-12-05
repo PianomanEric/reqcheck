@@ -13,7 +13,7 @@ function GenerateLinks() {
     <Link key={label} component={RouterLink} to='/' onClick={() => {alert(`${label} page is low priority and will not be implemented this semester`)}} sx={{
       m: 1,
     }}>
-      <Typography color='common.white'>
+      <Typography align='center' color='common.white'>
         {label}
       </Typography>
     </Link>
