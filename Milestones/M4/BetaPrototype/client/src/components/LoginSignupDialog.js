@@ -39,6 +39,8 @@ export default function LoginSignupDialog(props) {
     const passwordBox = useRef();
     const loginButton = useRef();
     const signupButton = useRef();
+    const termsCheckbox = useRef();
+
 
     const clearForm = () => {
         setStudentID('');
@@ -184,13 +186,13 @@ export default function LoginSignupDialog(props) {
                     <TextField inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='name' sx={{my: 0.5}}/>
                     <TextField inputRef={idBox} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
                     <TextField inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='SFSU Email' type='email' sx={{my: 0.5}}/>
-                    <TextField inputRef={passwordBox} onKeyDown={focusOnEnterPress(signupButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
+                    <TextField inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
                     <FormGroup sx={{
                         display: 'flex',
                         alignItems: 'center',
                     }}>
                         
-                        <FormControlLabel control={<Checkbox checked={terms} onKeyDown={focusOnEnterPress(signupButton)} onChange={(event) => {setTerms(event.target.checked)}} />} label={<>
+                        <FormControlLabel control={<Checkbox checked={terms} inputRef={termsCheckbox} onKeyDown={focusOnEnterPress(signupButton)} onChange={(event) => {setTerms(event.target.checked)}} />} label={<>
                             <Typography component='span'>
                                 I agree to the terms and conditions
                             </Typography>

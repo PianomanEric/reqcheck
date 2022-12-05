@@ -14,7 +14,7 @@ const loginValidator = (req, res, next) => {
         console.log("Validated!");
         next();
     } else {
-        
+        res.send("One or more fields are invalid");
     }
 }
 
@@ -35,12 +35,7 @@ const registrationValidator = (req, res, next) => {
         console.log("Validated!");
         next();
     } else {
-        console.log(firstName, nameFormat.test(firstName));
-        console.log(lastName, nameFormat.test(lastName));
-        console.log(email, emailFormat.test(email));
-        console.log(studentID, studentIDFormat.test(studentID));
-        console.log(password, passwordFormat.test(password));
-        res.redirect('/home');
+        res.send("One or more fields must be corrected");
     }
 }
 
