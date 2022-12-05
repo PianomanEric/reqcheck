@@ -182,7 +182,7 @@ export default function Navbar() {
               Login
             </Button>
           </> : <>
-            <Typography>
+            <Typography sx={{mx: 1}}>
               {auth.username}
             </Typography>
             <Button variant='contained' onClick={handleLogout} sx={{
