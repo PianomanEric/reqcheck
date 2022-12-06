@@ -129,7 +129,7 @@ export default function Home() {
                                                 width: '100%',
                                                 height: '100px',
                                                 color: 'primary.light',
-                                                margin: 1,
+                                                my: 1,
                                             }}>
 
                                             </CardMedia>
