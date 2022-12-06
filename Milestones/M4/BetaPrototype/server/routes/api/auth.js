@@ -7,10 +7,10 @@ const { registrationValidator, loginValidator } = require('../../middleware/vali
 
 const SALT_ROUNDS = 10; // For use with bcrypt
 
-const createAccessToken = (username) => {
+const createAccessToken = (studentID) => {
     return jwt.sign(
         {
-            username: username,
+            studentID: studentID,
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -20,28 +20,37 @@ const createAccessToken = (username) => {
 }
 
 const respondWithToken = (req, res) => {
-    const username = req.body.username;
+    const studentID = req.body.studentID;
+    const email = req.body.email;
+    const firstname = req.body.firstName;
+    const lastname = req.body.lastName;
     console.log("Successful login!");
-    const token = createAccessToken(username);
+    const token = createAccessToken(studentID);
     res.cookie('jwt', token, {
         
     });
-    db.query('SELECT firstname, lastname, email FROM registration WHERE registrationID = ?', [username]).then(([results, fields]) => {
-        res.json({
-            username: username,
-            email: results[0].email,
-            firstname: results[0].firstname,
-            lastname: results[0].lastname,
-        });
-        console.log(results[0].firstname);
+    db.query('SELECT firstname, lastname, email FROM registration WHERE registrationID = ?', [studentID]).then(([results, fields]) => {
+        console.log(studentID);
+        if (results.length > 0) {
+            res.json({
+                studentID: studentID,
+                email: results[0].email,
+                firstname: results[0].firstname,
+                lastname: results[0].lastname,
+            });
+            console.log('Found the account');
+            console.log(results);
+        } else {
+            console.log("Account didn't exist!");
+        }
     });
 }
 
 router.post('/login', loginValidator, (req, res, next) => {
-    const username = req.body.username;
+    const studentID = req.body.studentID;
     const password = req.body.password;
 
-    db.query('SELECT * FROM registration WHERE registrationID = ?', [username])
+    db.query('SELECT * FROM registration WHERE registrationID = ?', [studentID])
     .then(([results, fields]) => {
         if (results && results.length == 1) {
             console.log(results);
@@ -49,7 +58,7 @@ router.post('/login', loginValidator, (req, res, next) => {
             console.log(results[0].password);
             return bcrypt.compare(password, results[0].password);
         } else {
-            throw new Error("Account not found!");
+            throw new Error("There is no account associated with that ID.");
         }
     })
     .then((passwordMatched) => {
@@ -57,8 +66,7 @@ router.post('/login', loginValidator, (req, res, next) => {
         if (passwordMatched) {
             next();
         } else {
-            console.log("Password was incorrect!");
-            res.send("Password was incorrect!");
+            res.send("Incorrect password!");
         }
     })
     .catch((err) => {
@@ -121,6 +129,7 @@ router.post('/register', registrationValidator, (req, res, next) => {
     })
     .then(([results, fields]) => {
         if (results && results.affectedRows === 1) {
+            console.log(results);
             console.log("Created account!");
             next();
         } else {

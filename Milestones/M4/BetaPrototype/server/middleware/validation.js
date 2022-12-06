@@ -1,15 +1,15 @@
-const studentIDFormat = /\d{9}/;
+const studentIDFormat = /^\d{9}$/;
 const emailFormat = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 const passwordFormat = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 const nameFormat = /^[a-zA-Z '-]+$/;
 
 const loginValidator = (req, res, next) => {
-    const username = req.body.username;
+    const studentID = req.body.studentID;
     const password = req.body.password;
 
     if (
-        studentIDFormat.test(username)
-        && passwordFormat.test(password)
+        studentIDFormat.test(studentID)
+        && typeof(password) === 'string'
     ) {
         console.log("Validated!");
         next();

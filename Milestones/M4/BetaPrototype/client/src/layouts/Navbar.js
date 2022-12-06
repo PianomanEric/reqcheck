@@ -224,7 +224,7 @@ export default function Navbar() {
           }}
         />
         {
-          !auth?.username ? <>
+          !auth?.studentID ? <>
             <Button variant='contained' onClick={handleShowSignup} sx={{
               mx: 1,
               color: 'common.white',

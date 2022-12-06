@@ -20,7 +20,7 @@ import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
 import { flexbox } from '@mui/system';
 
-const studentIDFormat = /\d{9}/;
+const studentIDFormat = /^\d{9}$/;
 const emailFormat = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 const passwordFormat = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 const nameFormat = /^[a-zA-Z '-]+$/;
@@ -44,10 +44,10 @@ export default function LoginSignupDialog(props) {
     const [lastName, setLastName] = useState('');
     const [lastNameError, setLastNameError] = useState(false);
     const [email, setEmail] = useState('');
-    const [emailError, setEmailError] = useState(false);
+    const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState(false);
-    const [terms, setTerms] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
+    const [terms, setTerms] = useState('');
     const [errorMessage, setErrorMessage] = useState();
     const [loading, setLoading] = useState(false);
 
@@ -94,15 +94,27 @@ export default function LoginSignupDialog(props) {
     }
 
     const handleLogin = async () => {
+        if (studentIDError || passwordError) {
+            return;
+        }
+        if (!studentID || !password) {
+            if (!studentID) {
+                setStudentIDError('Student ID required');
+            }
+            if (!password) {
+                setPasswordError('Password required');
+            }
+            return;
+        }
         setLoading(true);
         try{
             const response = await axios.post('api/auth/login', {
-                username: studentID,
-                password: password,
+                studentID,
+                password
             })
             if(response) {
                 console.log(response.data);
-                if (response.data?.username) {
+                if (response.data?.studentID) {
                     console.log(response.data);
                     setAuth(response.data);
                     handleClose();
@@ -118,6 +130,9 @@ export default function LoginSignupDialog(props) {
     }
 
     const handleSignup = async () => {
+        if (studentIDError || passwordError || firstNameError || lastNameError || emailError) {
+            return;
+        }
         setLoading(true);
         try{
             const response = await axios.post('api/auth/register', {
@@ -128,7 +143,8 @@ export default function LoginSignupDialog(props) {
                 password
             })
             if(response) {
-                if (response.data?.username) {
+                console.log(response.data);
+                if (response.data?.studentID) {
                     console.log(response.data);
                     setAuth(response.data);
                     handleClose();
@@ -186,8 +202,8 @@ export default function LoginSignupDialog(props) {
                         display: 'flex',
                         flexDirection: 'column',
                     }}>
-                        <TextField autoComplete='username' fullWidth onBlur={(e) => {setStudentIDError(email !== '' && !studentIDFormat.test(studentID))}} helperText={studentIDError ? 'Student ID is invalid' : undefined} inputRef={idBox} error={studentIDError} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
-                        <TextField autoComplete='current-password' fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
+                        <TextField autoComplete='username' fullWidth onBlur={(e) => {setStudentIDError((studentID !== '' && !studentIDFormat.test(studentID)) ? 'Invalid student ID' : '')}} helperText={studentIDError} inputRef={idBox} error={studentIDError} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='text' sx={{my: 0.5}}/>
+                        <TextField autoComplete='current-password' onBlur={(e) => {setPasswordError('')}} fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} error={passwordError} helperText={passwordError} placeholder='Password' type='password' sx={{my: 0.5}}/>
 
                         <Typography align='center' sx={{
                             mt: 2,
@@ -214,9 +230,9 @@ export default function LoginSignupDialog(props) {
                         display: 'flex',
                         flexDirection: 'column',
                     }}>
-                        <TextField autoComplete='given-name' fullWidth inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='First Name' type='name' sx={{my: 0.5}}/>
-                        <TextField autoComplete='family-name' fullWidth inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='name' sx={{my: 0.5}}/>
-                        <TextField autoComplete='username' fullWidth inputRef={idBox} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
+                        <TextField autoComplete='given-name' fullWidth inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='First Name' type='text' sx={{my: 0.5}}/>
+                        <TextField autoComplete='family-name' fullWidth inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='text' sx={{my: 0.5}}/>
+                        <TextField autoComplete='username' fullWidth onBlur={(e) => {setStudentIDError(studentID !== '' && !studentIDFormat.test(studentID))}} inputRef={idBox} error={studentIDError} helperText={studentIDError ? 'Student ID must be 9 digits' : undefined} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='text' sx={{my: 0.5}}/>
                         <TextField autoComplete='email' fullWidth inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='SFSU Email' type='email' sx={{my: 0.5}}/>
                         <TextField autoComplete='new-password' fullWidth onBlur={(e) => {setPasswordError(password !== '' && !passwordFormat.test(password))}} error={passwordError} helperText={passwordError ? <>Password must be 8 or more characters and contain:<br />- 1 or more lowercase letters<br />- 1 or more uppercase letters<br />- 1 or more numbers<br />- 1 or more special characters</> : undefined} inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
                         <FormGroup sx={{
