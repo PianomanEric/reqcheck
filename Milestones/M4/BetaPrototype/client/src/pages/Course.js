@@ -17,7 +17,7 @@ import {
     IconButton
 } from '@mui/material';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 
@@ -33,8 +33,8 @@ const getCourseInfo = async (courseID) => {
 
 export default function Course() {
     const { courseID } = useParams();
-
-    const [ courseInfo, setCourseInfo ] = useState();
+    const previousCourseID = useRef(null);
+    const [ courseInfo, setCourseInfo ] = useState({});
 
     const formatCourseID = (courseID) => {
         if (courseID) {
@@ -42,15 +42,24 @@ export default function Course() {
         }
     }
 
-    useEffect(() => {
-        document.title = `ReqCheck | ${formatCourseID(courseID.toUpperCase())}`;
+    if (previousCourseID.current !== courseID) {
+        console.log("Loading!");
         getCourseInfo(courseID).then((info) => {
             console.log(info);
             setCourseInfo(info);
         });
-    }, []);
+        previousCourseID.current = courseID;
+    }
 
-    return ( courseInfo ? <>
+    useEffect(() => {
+        if (courseInfo && courseInfo.codeID) {  
+            document.title = `ReqCheck | ${formatCourseID(courseInfo.codeID.toUpperCase())}`;
+        } else {
+            document.title = `ReqCheck`;
+        }
+    }, [courseInfo]);
+
+    return ( courseInfo && courseInfo.codeID ? <>
         <Container maxWidth='md' sx={{
             p: 5,
         }}>

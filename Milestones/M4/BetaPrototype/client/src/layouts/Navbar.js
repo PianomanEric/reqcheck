@@ -11,7 +11,7 @@ import {
   TableRow
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import LoginSignupDialog from '../components/LoginSignupDialog';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -37,6 +37,9 @@ export default function Navbar() {
   const [searchTerms, setSearchTerms] = useState('');
   const [showLoginSignupDialog, setShowLoginSignupDialog] = useState(false);
   const [loginSignupDialogPage, setLoginSignupDialogPage] = useState('Login');
+
+  const dropdownHighlighted = useRef(false);
+  const searchBar = useRef();
 
   const handleLogout = () => {
     setAuth();
@@ -79,6 +82,8 @@ export default function Navbar() {
 
   const runSearch = async () => {
     const results = await getSearchResults(searchTerms);
+    console.log('searching');
+    console.log(searchTerms);
     if (results.length == 1) {
       console.log("1 result, redirect to page");
       console.log(results);
@@ -169,6 +174,13 @@ export default function Navbar() {
 
       }}>
         <Autocomplete
+          onChange={(e, value) => {
+            console.log("setting search terms " + e.target.innerText);
+            console.log('Selected value');
+            console.log(typeof(value));
+            console.log(value);
+            setSearchTerms(value);
+          }}
           filterOptions={(x) => x}
           id='free-solo-demo'
           freeSolo
@@ -179,7 +191,7 @@ export default function Navbar() {
             width: '250px',
           }}
           renderInput={(params) =>
-            <TextField {...params} InputProps={{
+            <TextField {...params} inputRef={searchBar} InputProps={{
               ...params.InputProps,
               startAdornment: (
                 <InputAdornment position='end'>
@@ -189,15 +201,27 @@ export default function Navbar() {
                 </InputAdornment>
               ),
             }}
-            onChange={onChangeSearch}
             placeholder='Search Courses'
+            onChange={onChangeSearch}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === 'Enter' && e.target.value && !dropdownHighlighted.current) {
+                console.log("Submit search!");
                 runSearch(searchTerms);
+                searchBar.current.blur();
               }
             }}
             />
           }
+          onHighlightChange={(e, option) => {
+            console.log(e);
+            console.log(option);
+            if (option) {
+              dropdownHighlighted.current = true;
+            }
+          }}
+          onClose={(e) => {
+            dropdownHighlighted.current = false;
+          }}
         />
         {
           !auth?.username ? <>
