@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+/*
 const checkToken = (req, res, next) => {
     console.log(req.headers);
     const authHeader = req.get('cookie');
@@ -21,3 +22,4 @@ const checkToken = (req, res, next) => {
 }
 
 module.exports = { checkToken }
+*/
