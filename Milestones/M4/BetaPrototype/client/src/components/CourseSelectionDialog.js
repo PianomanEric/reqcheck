@@ -15,15 +15,14 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import NavigateNextSharpIcon from '@mui/icons-material/NavigateNextSharp';
 import NavigateBeforeSharpIcon from '@mui/icons-material/NavigateBeforeSharp';
-
-
+import axios from 'axios';
 
 const CourseListItem = (props) => <>
     <ListItem {...props} sx={{
         p: 0,
     }}>
         <ListItemButton onClick={props.onClick}>
-            AAA 100 - Dummy Course
+            {props.children}
             <NavigateNextSharpIcon sx={{
                 position: 'absolute',
                 right: 8,
@@ -38,36 +37,53 @@ const CourseListItem = (props) => <>
 export default function CourseSelectionDialog(props) {
 
     const [showDetails, setShowDetails] = useState(false);
+    const [options, setOptions] = useState([]);
+    const [course, setCourse] = useState({});
 
     useMemo(() => {
         if (props.open) {
             setShowDetails(false);
+            setOptions([]);
         }
     }, [props.open])
 
-    const handleSeeDetails = () => {
+    const handleSeeDetails = (course) => {
+        setCourse(course);
         setShowDetails(true);
     }
+
     const handleBackClick = () => {
         setShowDetails(false);
     }
+
     const handleClose = () => {
         if (props.onClose) {
             props.onClose();
         }
     }
+
     const handleCourseSelection = () => {
         handleClose();
     }
 
+    const updateAreaCourses = async () => {
+        try {
+            const response = await axios.get(`/api/courses/searchByRequirement?query=${props.area}`);
+            console.log(response.data);
+            setOptions(response.data);
+        } catch(err) {
+
+        }
+    }
+
     useEffect(() => {
-        //setShowDetails(false);
-    })
+        updateAreaCourses();
+    }, [props.area])
 
     return (
         <Dialog fullWidth {...props}>
             <DialogTitle align='center'>
-                A# - Dummy Requirement Area
+                {props.area}
                 <IconButton onClick={handleClose} color='inherit' sx={{
                     position: 'absolute',
                     right: 8,
@@ -91,27 +107,28 @@ export default function CourseSelectionDialog(props) {
                         pt: 0,
                         overflow: 'auto',
                     }}>
-                        <CourseListItem onClick={handleSeeDetails}/>
-                        <CourseListItem onClick={handleSeeDetails}/>
-                        <CourseListItem onClick={handleSeeDetails}/>
-                        <CourseListItem onClick={handleSeeDetails}/>
-                        <CourseListItem onClick={handleSeeDetails}/>
-                        <CourseListItem onClick={handleSeeDetails}/>
-                        <CourseListItem onClick={handleSeeDetails}/>
-                        <CourseListItem onClick={handleSeeDetails}/>
-                        <CourseListItem onClick={handleSeeDetails}/>
+                        {console.log("Got to the map")}
+                        {
+                            options.map((course) => 
+                                <CourseListItem key={course.codeID} onClick={() => handleSeeDetails(course)}>
+                                    {course.codeID + ' - ' + course.title}
+                                    {console.log("Mapping")}
+                                    {console.log(course)}
+                                </CourseListItem>
+                            )
+                        }
                     </List>
                 </> : <>
                     <DialogContent>
                         <DialogContentText variant='h5' align='center' sx={{
                             fontWeight: 'bold',
                         }}>
-                            AAA 100 - Dummy Course
+                            {course.codeID + ' - ' + course.title}
                         </DialogContentText>
                         <DialogContentText variant='h7' align='center' sx={{
                             fontWeight: 'bold',
                         }}>
-                            Credits: 3
+                            {'Credits: ' + course.unit}
                         </DialogContentText>
 
                         <DialogContentText variant='h7' align='left' sx={{

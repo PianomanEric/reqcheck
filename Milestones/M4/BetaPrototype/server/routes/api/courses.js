@@ -13,6 +13,20 @@ router.get('/', (req, res) => {
   });
 })
 
+router.get('/searchByRequirement', (req, res) => {
+  console.log("Searching by requirement");
+  const searchQuery = req.query.query;
+  console.log(searchQuery);
+  db.query('SELECT * FROM demo WHERE subarea LIKE ?', [`%${searchQuery}%`]).then(([results, fields]) => {
+    console.log(results);
+    return res.json(results);
+  }).catch((err) => {
+    console.log("Could not search courses!");
+    console.log(err.stack)
+    return res.json([]);
+  });
+});
+
 router.get('/search', (req, res) => {
   const searchQuery = req.query.query.replaceAll(/( )/g, '');
   console.log(searchQuery);

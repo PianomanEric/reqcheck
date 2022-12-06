@@ -50,93 +50,93 @@ const DEGREE_INFO = [
         title: 'General Education',
         courses: [
             {
-                requirement: 'A1 - Oral Communication',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'A2 - Written Communication I',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'A3 - Critical Thinking',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'B1 - Physical Sciences',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'B2 - Life Sciences',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'B3 - Laboratory Science',
-                choice: undefined,
+                requirement: 'A1',
+                choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
-                requirement: 'B4 - Quantitative Reasoning',
-                choice: undefined,
+                requirement: 'A2',
+                choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
-                requirement: 'C1 - Arts',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'C2 - Humanities',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'C1 or C2 - Arts or Humanities',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.IN_PROGRESS,
-                canEdit: true,
-            },
-            {
-                requirement: 'D - Social Studies',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'E - Lifelong Learning and Self-Development',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'UD-B - Physical/Life Science',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
-                canEdit: true,
-            },
-            {
-                requirement: 'UD-C - Arts/Humanities',
-                choice: undefined,
+                requirement: 'A3',
+                choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
-                requirement: 'UD-D - Social Sciences',
-                choice: 'AAA 100',
-                status: COURSE_STATUS.COMPLETED,
+                requirement: 'B1',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'B2',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'B3',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'B4',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'C1',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'C2',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'C1 or C2',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'D',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'E',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'UD-B',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'UD-C',
+                choice: null,
+                status: COURSE_STATUS.READY,
+                canEdit: true,
+            },
+            {
+                requirement: 'UD-D',
+                choice: null,
+                status: COURSE_STATUS.READY,
                 canEdit: true,
             },
         ]
@@ -323,7 +323,7 @@ export default function Courses() {
         }
     }
 
-    const handleShowPrerequisites = () => {
+    const handleShowPrerequisites = (area) => {
         setShowPrerequisites(true);
     }
 
@@ -333,14 +333,17 @@ export default function Courses() {
 
     const [currentTab, setCurrentTab] = useState('All');
     const [showPrerequisites, setShowPrerequisites] = useState(false);
+    const [area, setArea] = useState();
 
     const handleTabChange = (event, newTab) => {
         console.log(newTab);
         setCurrentTab(newTab);
     }
 
-    const handleEditClick = () => {
+    const handleEditClick = (area) => {
+        setArea(area);
         setShowCourseSelectionDialog(true);
+        console.log(area);
     }
 
     return (<>
@@ -435,7 +438,7 @@ export default function Courses() {
                                                     {
                                                         (course.canEdit && course.status !== COURSE_STATUS.COMPLETED && course.status !== COURSE_STATUS.IN_PROGRESS) ? (
                                                         <Tooltip title='Edit' placement='right'>
-                                                            <IconButton onClick={handleEditClick} size='small' sx={{
+                                                            <IconButton onClick={() => handleEditClick(course.requirement)} size='small' sx={{
                                                                 m: 0,
                                                             }}>
                                                                 <EditSharpIcon sx={{
@@ -469,7 +472,7 @@ export default function Courses() {
             ))
         }
         </Container>
-        <CourseSelectionDialog onClose={() => setShowCourseSelectionDialog(false)} open={showCourseSelectionDialog}/>
+        <CourseSelectionDialog onClose={() => setShowCourseSelectionDialog(false)} open={showCourseSelectionDialog} area={area}/>
         <PrerequisiteDialog onClose={handleClosePrerequisites} open={showPrerequisites}/>
     </>);
 }
