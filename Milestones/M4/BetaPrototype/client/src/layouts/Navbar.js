@@ -60,49 +60,47 @@ export default function Navbar() {
     const encodedQuery = encodeURIComponent(query);
     return await axios.get(`/api/courses/search?query=${encodedQuery}`).then((res) => {
       if (res.data) {
-        const results = res.data.map((row) => row.title);
+        const results = res.data.map((row) => {
+          return row.codeID.replace(/(^[a-zA-Z]+)/g, '$1 ');
+        });
         console.log(results);
         return results;
       }
     });
   }
 
-  /*
-  useEffect(() => {
-    async function fetchSearchData() {
-      try {
-        const response = await axios.get('/api/courses');
-        const title = response.data.map((item) => item.title);
-        setTitles([...new Set(title)]);
-        setShowTitles(titles);
-      } catch(error) {
-        console.log(error);
-      }
-    }
-    fetchSearchData();
-  }, []);
-  */
-
   const onChangeSearch = async (e) => {
+    console.log("Search changed!");
     setSearchTerms(e.target.value);
-    console.log("Set the search term to " + e.target.value);
+  }
+
+  const runSearch = async () => {
+    const results = await getSearchResults(searchTerms);
+    if (results.length == 1) {
+      console.log("1 result, redirect to page");
+    } else if (results.length > 1) {
+      console.log("Multiple results! Redirect to search list");
+    } else {
+      console.log("No results");
+    }
   }
 
   useEffect(() => {
+    let searchChanged = false;
     if (searchTerms !== '') {
-      const termsBeingSearched = searchTerms;
-      getSearchResults(termsBeingSearched).then((results) => {
-        console.log("After calling, result is");
-        console.log(results);
-        console.log(searchTerms + ' ' + termsBeingSearched);
-        if (searchTerms == termsBeingSearched) {
+      getSearchResults(searchTerms).then((results) => {
+        if (!searchChanged) {
           setSearchResults(results);
         }
+        //}
       });
     } else {
       setSearchResults([]);
     }
-  }, [searchTerms]);
+    return () => {
+      searchChanged = true;
+    };
+  }, [searchTerms])
 
   return (
     <AppBar position='sticky' elevation={3} sx={{
@@ -165,16 +163,8 @@ export default function Navbar() {
         alignItems: 'center',
 
       }}>
-        {console.log(searchResults)}
-        {/* <TextField placeholder={'Search Courses'}
-        onChange={(e) => onChangeSearch(e)}
-        sx={{
-          width: '200px',
-          // bgcolor: 'common.white',
-          // padding: 1,
-          // border: '1px solid #aaa',
-        }}/> */}
         <Autocomplete
+          filterOptions={(x) => x}
           id='free-solo-demo'
           freeSolo
           size='small'
@@ -188,12 +178,20 @@ export default function Navbar() {
               ...params.InputProps,
               startAdornment: (
                 <InputAdornment position='end'>
-                  <IconButton edge='start'>
+                  <IconButton onClick={runSearch} edge='start'>
                     <SearchIcon/>
                   </IconButton>
                 </InputAdornment>
               ),
-            }} onChange={onChangeSearch} placeholder='Search Courses'/>
+            }}
+            onChange={onChangeSearch}
+            placeholder='Search Courses'
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                runSearch(searchTerms);
+              }
+            }}
+            />
           }
         />
         {

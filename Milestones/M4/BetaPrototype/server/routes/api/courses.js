@@ -14,7 +14,8 @@ router.get('/', (req, res) => {
 })
 
 router.get('/search', (req, res) => {
-  const searchQuery = req.query.query
+  const searchQuery = req.query.query.replaceAll(/( )/g, '');
+  console.log(searchQuery);
   db.query('SELECT * FROM demo WHERE codeID LIKE ?', [`%${searchQuery}%`]).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
