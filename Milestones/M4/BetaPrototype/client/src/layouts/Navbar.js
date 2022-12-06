@@ -210,7 +210,7 @@ export default function Navbar() {
             </Button>
           </> : <>
             <Typography sx={{mx: 1}}>
-              {auth.username}
+              {'Logged in as ' + auth.firstname + ' ' + auth.lastname}
             </Typography>
             <Button variant='contained' onClick={handleLogout} sx={{
               mx: 1,

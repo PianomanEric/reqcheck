@@ -4,11 +4,11 @@ const passwordFormat = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])
 const nameFormat = /^[a-zA-Z '-]+$/;
 
 const loginValidator = (req, res, next) => {
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
 
     if (
-        emailFormat.test(email)
+        studentIDFormat.test(username)
         && passwordFormat.test(password)
     ) {
         console.log("Validated!");

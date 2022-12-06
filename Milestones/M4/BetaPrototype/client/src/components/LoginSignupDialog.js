@@ -97,8 +97,8 @@ export default function LoginSignupDialog(props) {
         setLoading(true);
         try{
             const response = await axios.post('api/auth/login', {
-                email,
-                password
+                username: studentID,
+                password: password,
             })
             if(response) {
                 console.log(response.data);
@@ -186,8 +186,8 @@ export default function LoginSignupDialog(props) {
                         display: 'flex',
                         flexDirection: 'column',
                     }}>
-                        <TextField fullWidth onBlur={(e) => {setEmailError(email !== '' && !emailFormat.test(email))}} helperText={emailError ? 'Email is invalid' : undefined} inputRef={emailBox} error={emailError} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='Email' type='email' sx={{my: 0.5}}/>
-                        <TextField fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
+                        <TextField autoComplete='username' fullWidth onBlur={(e) => {setStudentIDError(email !== '' && !studentIDFormat.test(studentID))}} helperText={studentIDError ? 'Student ID is invalid' : undefined} inputRef={idBox} error={studentIDError} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
+                        <TextField autoComplete='current-password' fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
 
                         <Typography align='center' sx={{
                             mt: 2,
@@ -214,11 +214,11 @@ export default function LoginSignupDialog(props) {
                         display: 'flex',
                         flexDirection: 'column',
                     }}>
-                        <TextField fullWidth inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='First Name' type='name' sx={{my: 0.5}}/>
-                        <TextField fullWidth inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='name' sx={{my: 0.5}}/>
-                        <TextField fullWidth inputRef={idBox} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
-                        <TextField fullWidth inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='SFSU Email' type='email' sx={{my: 0.5}}/>
-                        <TextField fullWidth onBlur={(e) => {setPasswordError(password !== '' && !passwordFormat.test(password))}} error={passwordError} helperText={passwordError ? <>Password must be 8 or more characters and contain:<br />- 1 or more lowercase letters<br />- 1 or more uppercase letters<br />- 1 or more numbers<br />- 1 or more special characters</> : undefined} inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
+                        <TextField autoComplete='given-name' fullWidth inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='First Name' type='name' sx={{my: 0.5}}/>
+                        <TextField autoComplete='family-name' fullWidth inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='name' sx={{my: 0.5}}/>
+                        <TextField autoComplete='username' fullWidth inputRef={idBox} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='username' sx={{my: 0.5}}/>
+                        <TextField autoComplete='email' fullWidth inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='SFSU Email' type='email' sx={{my: 0.5}}/>
+                        <TextField autoComplete='new-password' fullWidth onBlur={(e) => {setPasswordError(password !== '' && !passwordFormat.test(password))}} error={passwordError} helperText={passwordError ? <>Password must be 8 or more characters and contain:<br />- 1 or more lowercase letters<br />- 1 or more uppercase letters<br />- 1 or more numbers<br />- 1 or more special characters</> : undefined} inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
                         <FormGroup sx={{
                             display: 'flex',
                             alignItems: 'center',

@@ -20,20 +20,28 @@ const createAccessToken = (username) => {
 }
 
 const respondWithToken = (req, res) => {
-    const email = req.body.email;
+    const username = req.body.username;
     console.log("Successful login!");
-    const token = createAccessToken(email);
+    const token = createAccessToken(username);
     res.cookie('jwt', token, {
         
     });
-    res.json({ username: email });
+    db.query('SELECT firstname, lastname, email FROM registration WHERE registrationID = ?', [username]).then(([results, fields]) => {
+        res.json({
+            username: username,
+            email: results[0].email,
+            firstname: results[0].firstname,
+            lastname: results[0].lastname,
+        });
+        console.log(results[0].firstname);
+    });
 }
 
 router.post('/login', loginValidator, (req, res, next) => {
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
 
-    db.query('SELECT * FROM registration WHERE email = ?', [email])
+    db.query('SELECT * FROM registration WHERE registrationID = ?', [username])
     .then(([results, fields]) => {
         if (results && results.length == 1) {
             console.log(results);
