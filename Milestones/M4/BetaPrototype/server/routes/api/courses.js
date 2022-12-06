@@ -26,4 +26,17 @@ router.get('/search', (req, res) => {
   });
 });
 
+router.get('/:courseID', (req, res) => {
+  const courseID = req.params.courseID;
+  db.query('SELECT * FROM demo WHERE codeID = ?', [courseID]).then(([results, fields]) => {
+    if (results.length == 1) {
+      return res.json(results[0]);
+    } else {
+      return res.json([]);
+    }
+  }).catch((err) => {
+    return res.json([]);
+  });
+});
+
 module.exports = router;

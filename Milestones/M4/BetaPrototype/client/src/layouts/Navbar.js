@@ -14,7 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import LoginSignupDialog from '../components/LoginSignupDialog';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 import CheckIcon from '@mui/icons-material/Check';
@@ -29,6 +29,7 @@ const filters = [
 ];
 
 export default function Navbar() {
+  const navigate = useNavigate();
 
   const { auth, setAuth } = useAuth();
 
@@ -60,12 +61,14 @@ export default function Navbar() {
     const encodedQuery = encodeURIComponent(query);
     return await axios.get(`/api/courses/search?query=${encodedQuery}`).then((res) => {
       if (res.data) {
-        const results = res.data.map((row) => {
-          return row.codeID.replace(/(^[a-zA-Z]+)/g, '$1 ');
-        });
-        console.log(results);
-        return results;
+        return res.data;
       }
+    });
+  }
+
+  const getAutofillOptionsFromSearchResults = (results) => {
+    return results.map((row) => {
+      return row.codeID.replace(/(^[a-zA-Z]+)/g, '$1 ');
     });
   }
 
@@ -78,6 +81,8 @@ export default function Navbar() {
     const results = await getSearchResults(searchTerms);
     if (results.length == 1) {
       console.log("1 result, redirect to page");
+      console.log(results);
+      navigate(`/course/${results[0].codeID}`.toLowerCase());
     } else if (results.length > 1) {
       console.log("Multiple results! Redirect to search list");
     } else {
@@ -90,7 +95,7 @@ export default function Navbar() {
     if (searchTerms !== '') {
       getSearchResults(searchTerms).then((results) => {
         if (!searchChanged) {
-          setSearchResults(results);
+          setSearchResults(getAutofillOptionsFromSearchResults(results));
         }
         //}
       });

@@ -42,17 +42,11 @@ const pages = [
     },
 ]
 
-const testAuth = () => {
-    axios.post('/test', { withCredentials: true });
-    return <></>;
-}
-
 export default function Home() {
     const { auth } = useAuth();
 
     useEffect(() => {
         document.title = 'ReqCheck | Home';
-        testAuth();
     }, []);
 
     return (

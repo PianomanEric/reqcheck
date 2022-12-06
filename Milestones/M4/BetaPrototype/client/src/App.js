@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Equivalencies from './pages/Equivalencies';
 import Roadmap from './pages/Roadmap';
 import MemberInfo from './pages/MemberInfo';
+import Course from './pages/Course';
 import BasicLayout from './layouts/BasicLayout';
 import { AuthProvider } from './context/AuthProvider';
 import { RequireAuth } from './components/RequireAuth';
@@ -27,6 +28,7 @@ function App() {
                   <Route path=':name' element={<MemberInfo />} />
                 </Route>
                 <Route path='equivalencies' element={<Equivalencies />}/>
+                <Route path='course/:courseID' element={<Course />}/>
                 <Route element={<RequireAuth />}>
                   <Route path='courses' element={<Courses />}/>
                   <Route path='profile' element={<Profile />}/>
