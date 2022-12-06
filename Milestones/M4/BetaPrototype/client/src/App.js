@@ -11,8 +11,8 @@ import Roadmap from './pages/Roadmap';
 import MemberInfo from './pages/MemberInfo';
 import Course from './pages/Course';
 import BasicLayout from './layouts/BasicLayout';
-import { AuthProvider } from './context/AuthProvider';
-import { RequireAuth } from './components/RequireAuth';
+import AuthProvider, { ROLES } from './context/AuthProvider';
+import RequireAuth from './components/RequireAuth';
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
                 </Route>
                 <Route path='equivalencies' element={<Equivalencies />}/>
                 <Route path='course/:courseID' element={<Course />}/>
-                <Route element={<RequireAuth />}>
+                <Route element={<RequireAuth allowedRoles={ [ROLES.STUDENT] } />}>
                   <Route path='courses' element={<Courses />}/>
                   <Route path='profile' element={<Profile />}/>
                   <Route path='roadmap' element={<Roadmap />}/>

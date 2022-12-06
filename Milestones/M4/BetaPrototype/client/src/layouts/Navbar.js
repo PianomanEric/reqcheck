@@ -31,7 +31,7 @@ const filters = [
 export default function Navbar() {
   const navigate = useNavigate();
 
-  const { auth, setAuth } = useAuth();
+  const { auth, setAuth, isLoggedIn } = useAuth();
 
   const [searchResults, setSearchResults] = useState([]);
   const [searchTerms, setSearchTerms] = useState('');
@@ -224,7 +224,7 @@ export default function Navbar() {
           }}
         />
         {
-          !auth?.studentID ? <>
+          !isLoggedIn() ? <>
             <Button variant='contained' onClick={handleShowSignup} sx={{
               mx: 1,
               color: 'common.white',

@@ -37,6 +37,7 @@ const respondWithToken = (req, res) => {
                 email: results[0].email,
                 firstname: results[0].firstname,
                 lastname: results[0].lastname,
+                roles: [1],
             });
             console.log('Found the account');
             console.log(results);

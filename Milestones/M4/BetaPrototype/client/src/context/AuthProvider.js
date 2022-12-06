@@ -1,3 +1,4 @@
+import { modalUnstyledClasses } from '@mui/material';
 import { createContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
@@ -6,28 +7,47 @@ const getTokenFromCookie = () => {
     console.log(document.cookie);
 }
 
-export const AuthProvider = (props) => {
-    const [auth, setAuthPrivate] = useState(getTokenFromCookie());
+const ROLES = {
+    STUDENT: 1,
+}
+
+const getUserFromLocalStorage = () => {
+    const storedUser = window.localStorage.getItem('user');
+    if (storedUser != null) {
+        return JSON.parse(storedUser);
+    }
+}
+
+const AuthProvider = (props) => {
+    const [auth, setAuthPrivate] = useState(getUserFromLocalStorage());
 
     const setAuth = (auth) => {
         setAuthPrivate(auth);
         const authStringified = auth ? JSON.stringify(auth) : null;
         window.localStorage.setItem('user', authStringified);
+        console.log(authStringified);
+        console.log(auth);
     }
 
-    useEffect(() => {
-        const storedUser = window.localStorage.getItem('user');
-        console.log(typeof(storedUser));
-        if (storedUser !== undefined) {
-            setAuthPrivate(JSON.parse(storedUser));
+    const hasRole = (roleList) => {
+        console.log(auth);
+        if (typeof(role) === 'array') {
+            return auth?.roles?.find((role) => roleList?.includes(role)) || false;
+        } else {
+            return auth?.roles?.find((role) => roleList == role) || false;
         }
-    }, [])
+    }
+
+    const isLoggedIn = () => {
+        return auth?.studentID ? true : false;
+    }
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, hasRole, isLoggedIn, ROLES }}>
             { props.children }
         </AuthContext.Provider>
     );
 }
 
-export default AuthContext;
+export default AuthProvider;
+export { AuthContext, ROLES };

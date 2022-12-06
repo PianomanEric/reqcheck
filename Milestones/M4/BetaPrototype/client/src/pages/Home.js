@@ -43,7 +43,7 @@ const pages = [
 ]
 
 export default function Home() {
-    const { auth } = useAuth();
+    const { auth, hasRole, ROLES} = useAuth();
 
     useEffect(() => {
         document.title = 'ReqCheck | Home';
@@ -88,7 +88,7 @@ export default function Home() {
                 }}>
                     {
                         pages.map((page) => (
-                            !page.loginRequired || auth?.username ?
+                            !page.loginRequired || hasRole(ROLES.STUDENT) ?
                                 <Grid key={page.title} item sx={{
                                     p: 0,
                                     display: 'flex',
