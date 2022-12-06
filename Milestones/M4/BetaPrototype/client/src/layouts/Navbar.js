@@ -7,7 +7,8 @@ import {
   TextField,
   InputAdornment,
   Typography,
-  Autocomplete
+  Autocomplete,
+  TableRow
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
@@ -31,8 +32,8 @@ export default function Navbar() {
 
   const { auth, setAuth } = useAuth();
 
-  const [titles, setTitles] = useState([]);
-  const [showTitles, setShowTitles] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerms, setSearchTerms] = useState('');
   const [showLoginSignupDialog, setShowLoginSignupDialog] = useState(false);
   const [loginSignupDialogPage, setLoginSignupDialogPage] = useState('Login');
 
@@ -55,26 +56,53 @@ export default function Navbar() {
     setShowLoginSignupDialog(false);
   }
 
+  const getSearchResults = async (query) => {
+    const encodedQuery = encodeURIComponent(query);
+    return await axios.get(`/api/courses/search?query=${encodedQuery}`).then((res) => {
+      if (res.data) {
+        const results = res.data.map((row) => row.title);
+        console.log(results);
+        return results;
+      }
+    });
+  }
+
+  /*
   useEffect(() => {
-    async function fetchSearchData(){
-      try{
+    async function fetchSearchData() {
+      try {
         const response = await axios.get('/api/courses');
         const title = response.data.map((item) => item.title);
         setTitles([...new Set(title)]);
         setShowTitles(titles);
-      }catch(error) {
-          console.log(error)
+      } catch(error) {
+        console.log(error);
       }
     }
     fetchSearchData();
-  },[])
+  }, []);
+  */
 
-  const onChangeSearch = (e) => {
-    const show = titles.filter((item) => {
-      return item.toLowerCase().includes(e.target.value.toLowerCase());
-    });
-    setShowTitles(show);
+  const onChangeSearch = async (e) => {
+    setSearchTerms(e.target.value);
+    console.log("Set the search term to " + e.target.value);
   }
+
+  useEffect(() => {
+    if (searchTerms !== '') {
+      const termsBeingSearched = searchTerms;
+      getSearchResults(termsBeingSearched).then((results) => {
+        console.log("After calling, result is");
+        console.log(results);
+        console.log(searchTerms + ' ' + termsBeingSearched);
+        if (searchTerms == termsBeingSearched) {
+          setSearchResults(results);
+        }
+      });
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchTerms]);
 
   return (
     <AppBar position='sticky' elevation={3} sx={{
@@ -137,6 +165,7 @@ export default function Navbar() {
         alignItems: 'center',
 
       }}>
+        {console.log(searchResults)}
         {/* <TextField placeholder={'Search Courses'}
         onChange={(e) => onChangeSearch(e)}
         sx={{
@@ -149,7 +178,7 @@ export default function Navbar() {
           id='free-solo-demo'
           freeSolo
           size='small'
-          options={showTitles}
+          options={searchResults}
           sx={{
             mx: 1,
             width: '250px',
@@ -164,7 +193,7 @@ export default function Navbar() {
                   </IconButton>
                 </InputAdornment>
               ),
-            }} onChange={(e) => onChangeSearch(e)} placeholder='Search Courses'/>
+            }} onChange={onChangeSearch} placeholder='Search Courses'/>
           }
         />
         {
