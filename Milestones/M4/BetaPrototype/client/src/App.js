@@ -19,8 +19,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <AuthProvider>
-          <BrowserRouter>
+        <BrowserRouter>
+          <AuthProvider>
             <Routes>
               <Route path='/' element={<BasicLayout />}>
                 <Route index element={<Home />}/>
@@ -38,8 +38,8 @@ function App() {
                 </Route>
               </Route>
             </Routes>
-          </BrowserRouter>
-        </AuthProvider>
+          </AuthProvider>
+        </BrowserRouter>
     </ThemeProvider>
   );
 }

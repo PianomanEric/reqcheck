@@ -15,7 +15,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 export default function Navbar() {
 
-  const { auth, setAuth, isLoggedIn } = useAuth();
+  const { auth, setAuth, logout, isLoggedIn } = useAuth();
 
   const [showLoginSignupDialog, setShowLoginSignupDialog] = useState(false);
   const [loginSignupDialogPage, setLoginSignupDialogPage] = useState('Login');
@@ -23,8 +23,7 @@ export default function Navbar() {
 
 
   const handleLogout = () => {
-    setAuth();
-    document.cookie = "";
+    logout();
   }
 
   const handleShowLogin = () => {

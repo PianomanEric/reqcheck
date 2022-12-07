@@ -7,33 +7,41 @@ const { registrationValidator, loginValidator } = require('../../middleware/vali
 
 const SALT_ROUNDS = 10; // For use with bcrypt
 
-const createAccessToken = (studentID) => {
+const SECONDS = 1000;
+const MINUTES = 60 * SECONDS;
+const HOURS = 60 * MINUTES;
+const DAYS = 24 * HOURS;
+
+const INACTIVITY_TIMEOUT = 5 * MINUTES;
+
+const createAccessToken = (user) => {
     return jwt.sign(
         {
-            studentID: studentID,
+            user: user,
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: '15m',
+            expiresIn: INACTIVITY_TIMEOUT,
         },
     );
 }
 
 const respondWithToken = (req, res) => {
-    const studentID = req.body.studentID;
+    const user = req.body.user;
     const email = req.body.email;
     const firstname = req.body.firstName;
     const lastname = req.body.lastName;
-    console.log("Successful login!");
-    const token = createAccessToken(studentID);
+    const token = createAccessToken(user);
     res.cookie('jwt', token, {
-        
+        maxAge: INACTIVITY_TIMEOUT,
+        secure: true,
+        httpOnly: true,
     });
-    db.query('SELECT firstname, lastname, email FROM registration WHERE registrationID = ?', [studentID]).then(([results, fields]) => {
-        console.log(studentID);
+    db.query('SELECT firstname, lastname, email FROM registration WHERE registrationID = ?', [user]).then(([results, fields]) => {
+        console.log(user);
         if (results.length > 0) {
             res.json({
-                studentID: studentID,
+                user: user,
                 email: results[0].email,
                 firstname: results[0].firstname,
                 lastname: results[0].lastname,
@@ -47,11 +55,47 @@ const respondWithToken = (req, res) => {
     });
 }
 
+// Temporary route to expose all accounts
+router.post('/verifyToken', (req, res, next) => {
+    console.log(req);
+    const user = req.body.user;
+    const token = req.cookies.jwt;
+    if (!user) {
+        return res.json(null);
+    }
+    if (!token) {
+        return res.json(null);
+    }
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            console.log(err);
+            return res.json(null);
+        } else {
+            console.log(decoded.user, user);
+            if (decoded.user === user) {
+                db.query('SELECT * FROM registration WHERE registrationID = ?', [user])
+                .then(([results, fields]) => {
+                    if (results && results.length === 1) {
+                        console.log("Valid token!");
+                        console.log(decoded);
+                        next()
+                    } else {
+                        return res.json(null);
+                    }
+                });
+            } else {
+                console.log("it was not the same user");
+                return res.json(null);
+            }
+        }
+    });
+}, respondWithToken);
+
 router.post('/login', loginValidator, (req, res, next) => {
-    const studentID = req.body.studentID;
+    const user = req.body.user;
     const password = req.body.password;
 
-    db.query('SELECT * FROM registration WHERE registrationID = ?', [studentID])
+    db.query('SELECT * FROM registration WHERE registrationID = ?', [user])
     .then(([results, fields]) => {
         if (results && results.length == 1) {
             console.log(results);
@@ -75,6 +119,16 @@ router.post('/login', loginValidator, (req, res, next) => {
         res.send(err.message);
     })
 }, respondWithToken);
+
+router.post('/logout', (req, res) => {
+    console.log("Logging out!");
+    res.cookie('jwt', null, {
+        maxAge: 0,
+        secure: true,
+        httpOnly: true,
+    });
+    res.json(null);
+});
 
 // Temporary unprotected route to delete a specific test account by student id
 router.get('/deleteAccount/:userID', (req, res) => {
@@ -101,10 +155,10 @@ router.post('/register', registrationValidator, (req, res, next) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
-    const studentID = req.body.studentID;
+    const user = req.body.user;
     const password = req.body.password;
 
-    db.query('SELECT * FROM registration WHERE registrationID = ?', [studentID])
+    db.query('SELECT * FROM registration WHERE registrationID = ?', [user])
     .then(([results, fields]) => {
         if (results && results.length === 0) {
             return db.query('SELECT * FROM registration WHERE email = ?', [email]);
@@ -126,7 +180,7 @@ router.post('/register', registrationValidator, (req, res, next) => {
     .then((passwordHash) => {
         console.log(passwordHash);
         return db.query('INSERT INTO registration (firstname, lastname, email, registrationID, password) VALUES (?, ?, ?, ?, ?);',
-            [firstName, lastName, email, studentID, passwordHash]);
+            [firstName, lastName, email, user, passwordHash]);
     })
     .then(([results, fields]) => {
         if (results && results.affectedRows === 1) {

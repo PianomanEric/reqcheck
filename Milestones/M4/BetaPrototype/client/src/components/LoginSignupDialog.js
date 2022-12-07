@@ -35,7 +35,7 @@ const validateID = (studentID) => {
 
 export default function LoginSignupDialog(props) {
 
-    const { auth, setAuth } = useAuth();
+    const { auth, login, signup } = useAuth();
 
     const [studentID, setStudentID] = useState('');
     const [studentIDError, setStudentIDError] = useState();
@@ -112,23 +112,14 @@ export default function LoginSignupDialog(props) {
             return;
         }
         setLoading(true);
-        try{
-            const response = await axios.post('/api/auth/login', {
-                studentID,
-                password
-            })
-            if(response) {
-                console.log(response.data);
-                if (response.data?.studentID) {
-                    console.log(response.data);
-                    setAuth(response.data);
-                    handleClose();
-                } else {
-                    setErrorMessage(response.data);
-                }
-            }
-        } catch(err) {
-            console.log(err)
+        const [result, message] = await login({
+            user: studentID,
+            password: password,
+        });
+        if (!result) {
+            setErrorMessage(message);
+        } else {
+            handleClose();
         }
         loginButton.current.blur();
         setLoading(false);
@@ -157,26 +148,17 @@ export default function LoginSignupDialog(props) {
             return;
         }
         setLoading(true);
-        try{
-            const response = await axios.post('/api/auth/register', {
-                firstName,
-                lastName,
-                email,
-                studentID,
-                password
-            })
-            if(response) {
-                console.log(response.data);
-                if (response.data?.studentID) {
-                    console.log(response.data);
-                    setAuth(response.data);
-                    handleClose();
-                } else {
-                    setErrorMessage(response.data);
-                }
-            }
-        } catch(err) {
-            console.log(err)
+        const [result, message] = await signup({
+            user: studentID,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+        });
+        if (!result) {
+            setErrorMessage(message);
+        } else {
+            handleClose();
         }
         signupButton.current.blur();
         setLoading(false);

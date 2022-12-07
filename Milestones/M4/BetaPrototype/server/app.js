@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
 // Set up environment variables
 dotenv.config();
@@ -16,6 +17,7 @@ const build = path.join(__dirname, '..', 'client', 'build');
 app.use(express.static(build));
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 // API routes
 require('./routes')(app);

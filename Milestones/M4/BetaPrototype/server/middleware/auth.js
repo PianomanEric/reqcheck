@@ -1,12 +1,10 @@
 const jwt = require('jsonwebtoken');
 
-/*
 const checkToken = (req, res, next) => {
     console.log(req.headers);
     const authHeader = req.get('cookie');
-    if (authHeader) {
-        const token = authHeader.split('=')[1];
-        console.log(token);
+    const token = res.cookies.jwt;
+    if (token) {
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
             if (err) {
                 console.log(err);
@@ -22,4 +20,3 @@ const checkToken = (req, res, next) => {
 }
 
 module.exports = { checkToken }
-*/
