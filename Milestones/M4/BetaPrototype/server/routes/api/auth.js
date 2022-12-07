@@ -12,7 +12,7 @@ const MINUTES = 60 * SECONDS;
 const HOURS = 60 * MINUTES;
 const DAYS = 24 * HOURS;
 
-const INACTIVITY_TIMEOUT = 5 * MINUTES;
+const INACTIVITY_TIMEOUT = 5 * DAYS;
 
 const createAccessToken = (user) => {
     return jwt.sign(
