@@ -12,7 +12,7 @@ const MINUTES = 60 * SECONDS;
 const HOURS = 60 * MINUTES;
 const DAYS = 24 * HOURS;
 
-const INACTIVITY_TIMEOUT = 5 * DAYS;
+const INACTIVITY_TIMEOUT = 5 * MINUTES;
 
 const createAccessToken = (user) => {
     return jwt.sign(
@@ -34,7 +34,7 @@ const respondWithToken = (req, res) => {
     const token = createAccessToken(user);
     res.cookie('jwt', token, {
         maxAge: INACTIVITY_TIMEOUT,
-        //secure: true,
+        //secure: true, // Can only be used over HTTPS
         httpOnly: true,
     });
     db.query('SELECT firstname, lastname, email FROM registration WHERE registrationID = ?', [user]).then(([results, fields]) => {
@@ -124,7 +124,7 @@ router.post('/logout', (req, res) => {
     console.log("Logging out!");
     res.cookie('jwt', null, {
         maxAge: 0,
-        //secure: true,
+        //secure: true, // Can only be used over HTTPS
         httpOnly: true,
     });
     res.json(null);
