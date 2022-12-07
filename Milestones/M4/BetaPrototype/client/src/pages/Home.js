@@ -63,7 +63,7 @@ export default function Home() {
                 m: 0,
                 width: '100%',
                 height: '100%',
-                backdropFilter: `brightness(0.25)`,
+                backdropFilter: `brightness(0.35) blur(3px)`,
             }}>
                 <Typography align='center' variant='h2' sx={{
                     px: 3,

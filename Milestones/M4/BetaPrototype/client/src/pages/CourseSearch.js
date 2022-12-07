@@ -24,7 +24,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link as RouterLink, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-import LibraryImage from '../assets/images/library.jpg';
+import QuadImage from '../assets/images/quad2.jpg';
 
 const getCourses = async (searchTerms) => {
     try {
@@ -70,7 +70,7 @@ export default function Course() {
             width: '100%',
         }}>
             <Box container='div' sx={{
-                backgroundImage: `url(${LibraryImage})`,
+                backgroundImage: `url(${QuadImage})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
@@ -82,7 +82,7 @@ export default function Course() {
                     m: 0,
                     width: '100%',
                     height: '100%',
-                    backdropFilter: `brightness(0.35)`,
+                    backdropFilter: `brightness(0.5) blur(3px)`,
                 }}>
                     <Typography align='center' variant='h2' sx={{
                         px: 3,

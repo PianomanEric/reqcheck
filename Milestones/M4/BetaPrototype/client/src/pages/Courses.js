@@ -29,7 +29,7 @@ import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp';
 import ScheduleSharpIcon from '@mui/icons-material/ScheduleSharp';
 import InfoIcon from '@mui/icons-material/Info';
 
-import LibraryImage from '../assets/images/library.jpg';
+import LibraryImage from '../assets/images/library2.jpg';
 
 const TABS = [
     'All',
@@ -364,7 +364,7 @@ export default function Courses() {
                     m: 0,
                     width: '100%',
                     height: '100%',
-                    backdropFilter: `brightness(0.35)`,
+                    backdropFilter: `brightness(0.65) blur(3px)`,
                 }}>
                     <Typography align='center' variant='h2' sx={{
                         px: 3,
