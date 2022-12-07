@@ -26,9 +26,9 @@ import axios from 'axios';
 
 import LibraryImage from '../assets/images/library.jpg';
 
-const getCourses = async (searchTerm) => {
+const getCourses = async (searchTerms) => {
     try {
-        const response = await axios.get(`/api/courses/search?query=${searchTerm}`);
+        const response = await axios.get(`/api/courses/search?query=${searchTerms}`);
         console.log(response);
         return response.data
     } catch(err) {
@@ -38,8 +38,8 @@ const getCourses = async (searchTerm) => {
 
 export default function Course() {
     const { search } = useLocation();
-    const searchTerm = (new URLSearchParams(search)).get('query');
-    const previousSearchTerm = useRef();
+    const searchTerms = (new URLSearchParams(search)).get('query');
+    const previousSearchTerms = useRef();
     const [ results, setResults ] = useState([]);
     const loading = useRef(false);
 
@@ -49,15 +49,15 @@ export default function Course() {
         }
     }
 
-    if (previousSearchTerm.current !== searchTerm) {
+    if (previousSearchTerms.current !== searchTerms) {
         console.log("Loading!");
-        getCourses(searchTerm).then((info) => {
+        getCourses(searchTerms).then((info) => {
             console.log(info);
             loading.current = false;
             setResults(info);
         });
         loading.current = true;
-        previousSearchTerm.current = searchTerm;
+        previousSearchTerms.current = searchTerms;
     }
 
     useEffect(() => {
@@ -103,8 +103,8 @@ export default function Course() {
         }}>
             {!loading.current ? <>
             <Typography align='center'>
-                {(results.length > 0) ? `Displaying ${results.length} result${(results.length === 1) ? '' : 's'} for "${searchTerm}"`
-                : `No results found for "${searchTerm}"`}
+                {(results.length > 0) ? `Displaying ${results.length} result${(results.length === 1) ? '' : 's'} for "${searchTerms}"`
+                : `No results found for "${searchTerms}"`}
             </Typography>
             {results.map((result) => <Card key={result.codeID} sx={{
                 width: 'auto',

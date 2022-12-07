@@ -77,7 +77,7 @@ export default function Navbar() {
 
   const onChangeSearch = async (e) => {
     console.log("Search changed!");
-    setSearchTerms(e.target.value);
+    setSearchTerms(e.target.value || '');
   }
 
   const runSearch = async () => {
@@ -178,7 +178,7 @@ export default function Navbar() {
             console.log('Selected value');
             console.log(typeof(value));
             console.log(value);
-            setSearchTerms(value);
+            setSearchTerms(value || '');
           }}
           filterOptions={(x) => x}
           id='free-solo-demo'
