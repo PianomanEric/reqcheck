@@ -113,7 +113,7 @@ export default function LoginSignupDialog(props) {
         }
         setLoading(true);
         try{
-            const response = await axios.post('api/auth/login', {
+            const response = await axios.post('/api/auth/login', {
                 studentID,
                 password
             })
@@ -158,7 +158,7 @@ export default function LoginSignupDialog(props) {
         }
         setLoading(true);
         try{
-            const response = await axios.post('api/auth/register', {
+            const response = await axios.post('/api/auth/register', {
                 firstName,
                 lastName,
                 email,

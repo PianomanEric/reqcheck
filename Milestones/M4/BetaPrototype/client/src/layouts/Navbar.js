@@ -88,10 +88,9 @@ export default function Navbar() {
       console.log("1 result, redirect to page");
       console.log(results);
       navigate(`/course/${results[0].codeID}`.toLowerCase());
-    } else if (results.length > 1) {
-      console.log("Multiple results! Redirect to search list");
     } else {
-      console.log("No results");
+      console.log("Multiple results! Redirect to search list");
+      navigate(`/course/search?query=${searchTerms}`);
     }
   }
 

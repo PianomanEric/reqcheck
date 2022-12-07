@@ -10,6 +10,7 @@ import Equivalencies from './pages/Equivalencies';
 import Roadmap from './pages/Roadmap';
 import MemberInfo from './pages/MemberInfo';
 import Course from './pages/Course';
+import CourseSearch from './pages/CourseSearch';
 import BasicLayout from './layouts/BasicLayout';
 import AuthProvider, { ROLES } from './context/AuthProvider';
 import RequireAuth from './components/RequireAuth';
@@ -29,6 +30,7 @@ function App() {
                 </Route>
                 <Route path='equivalencies' element={<Equivalencies />}/>
                 <Route path='course/:courseID' element={<Course />}/>
+                <Route path='course/search' element={<CourseSearch />}/>
                 <Route element={<RequireAuth allowedRoles={ [ROLES.STUDENT] } />}>
                   <Route path='courses' element={<Courses />}/>
                   <Route path='profile' element={<Profile />}/>
