@@ -1,23 +1,10 @@
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
     Box,
     Card,
     CardActionArea,
     CardContent,
     Container,
-    Tabs,
-    Tab,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Tooltip,
     Typography,
-    IconButton
 } from '@mui/material';
 
 import React, { useState, useEffect, useRef } from 'react';

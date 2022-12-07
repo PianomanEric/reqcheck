@@ -399,7 +399,7 @@ export default function Courses() {
             {
             DEGREE_INFO.map((category) => (
                 <Accordion defaultExpanded key={category.title} sx={{
-                    bgcolor: 'common.white'
+                    bgcolor: 'common.white',
                 }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography variant='h6'>
@@ -408,15 +408,16 @@ export default function Courses() {
                     </AccordionSummary>
                     <AccordionDetails sx={{
                         boxShadow: 'none',
+                        px: 1
                     }}>
                         <TableContainer component={TableBackground}>
                             <Table size='small'>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align='left' sx={{width: '50%'}}>Requirement</TableCell>
-                                        <TableCell align='left' sx={{width: '50%'}} colSpan={2}>Course</TableCell>
-                                        <TableCell align='center' sx={{width: '6px'}}>Units</TableCell>
-                                        <TableCell align='center' sx={{width: '6px'}}>Status</TableCell>
+                                        <TableCell align='left' sx={{width: '50%', px: 1}}>Requirement</TableCell>
+                                        <TableCell align='left' sx={{width: '50%', px: 1}} colSpan={2}>Course</TableCell>
+                                        <TableCell align='center' sx={{width: '6px', px: 1}}>Units</TableCell>
+                                        <TableCell align='center' sx={{width: '6px', px: 1}}>Status</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
