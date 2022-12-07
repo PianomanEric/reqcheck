@@ -35,7 +35,7 @@ const respondWithToken = (req, res) => {
     res.cookie('jwt', token, {
         maxAge: INACTIVITY_TIMEOUT,
         //secure: true,
-        //httpOnly: true,
+        httpOnly: true,
     });
     db.query('SELECT firstname, lastname, email FROM registration WHERE registrationID = ?', [user]).then(([results, fields]) => {
         console.log(user);
@@ -125,7 +125,7 @@ router.post('/logout', (req, res) => {
     res.cookie('jwt', null, {
         maxAge: 0,
         //secure: true,
-        //httpOnly: true,
+        httpOnly: true,
     });
     res.json(null);
 });
