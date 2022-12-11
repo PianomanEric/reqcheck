@@ -6,7 +6,7 @@ const { parse: parseHTML } = require('node-html-parser');
 const { decode: decodeHTMLEntities } = require('html-entities');
 
 router.get('/', (req, res) => {
-  db.query('SELECT * FROM reference').then(([results, fields]) => {
+  db.query('SELECT * FROM demo').then(([results, fields]) => {
     console.log(results);
     return res.json(results);
   }).catch((err) => {
@@ -20,7 +20,7 @@ router.get('/searchByRequirement', (req, res) => {
   console.log("Searching by requirement");
   const searchQuery = req.query.query;
   console.log(searchQuery);
-  db.query('SELECT * FROM reference WHERE subarea LIKE ?', [`%${searchQuery}%`]).then(([results, fields]) => {
+  db.query('SELECT * FROM demo WHERE subarea LIKE ?', [`%${searchQuery}%`]).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
   }).catch((err) => {
@@ -33,7 +33,7 @@ router.get('/searchByRequirement', (req, res) => {
 router.get('/search', (req, res) => {
   const searchQuery = req.query.query.replaceAll(/( )/g, '');
   console.log(searchQuery);
-  db.query('SELECT * FROM reference WHERE codeID LIKE ?', [`%${searchQuery}%`]).then(([results, fields]) => {
+  db.query('SELECT * FROM demo WHERE codeID LIKE ?', [`%${searchQuery}%`]).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
   }).catch((err) => {
@@ -54,6 +54,9 @@ router.get('/scrape', (req, res) => {
     const subjectAnchors = root.querySelectorAll('#atozindex li a');
     const promises = [];
     const attributeSet = new Set();
+
+    let longestDescription = 0;
+
     for (const anchor of subjectAnchors) {
       const path = anchor.attributes.href
       promises.push(new Promise((resolve, reject) => {
@@ -120,6 +123,11 @@ router.get('/scrape', (req, res) => {
                 areas.push(subject);
               }
 
+              longestDescription = Math.max(longestDescription, description.length);
+              if (longestDescription === description.length) {
+                console.log(courseID);
+              }
+
               courses.push({courseID, title, units, areas, division, description, attributes});
               //courses.push(courseID);
             } else {
@@ -146,6 +154,7 @@ router.get('/scrape', (req, res) => {
         numAttributes += 1;
       });
       console.log(`${numAttributes} attributes found!`);
+      console.log(longestDescription);
       return res.json(courseData);
     })
   })
@@ -153,7 +162,7 @@ router.get('/scrape', (req, res) => {
 
 router.get('/:courseID', (req, res) => {
   const courseID = req.params.courseID;
-  db.query('SELECT * FROM reference WHERE codeID = ?', [courseID]).then(([results, fields]) => {
+  db.query('SELECT * FROM demo WHERE codeID = ?', [courseID]).then(([results, fields]) => {
     if (results.length == 1) {
       return res.json(results[0]);
     } else {
