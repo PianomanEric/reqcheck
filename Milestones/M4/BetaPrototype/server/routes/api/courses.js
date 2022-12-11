@@ -19,8 +19,14 @@ router.get('/', (req, res) => {
 router.get('/searchByRequirement', (req, res) => {
   console.log("Searching by requirement");
   const searchQuery = req.query.query;
-  console.log(searchQuery);
-  db.query('SELECT * FROM demo WHERE subarea LIKE ?', [`%${searchQuery}%`]).then(([results, fields]) => {
+  const courseIDSplitResults = searchQuery?.match(/^([A-Z ]+)(\d+\w*)$/i);
+  let potentialCourseID = '';
+  if (courseIDSplitResults && courseIDSplitResults.length === 3) {
+    console.log(courseIDSplitResults.length);
+    potentialCourseID = courseIDSplitResults[1].trim().replace(' ', '-') + courseIDSplitResults[2].trim().replace(' ', '');
+  }
+  console.log(potentialCourseID);
+  db.query('SELECT * FROM demo WHERE subarea REGEXP ? OR codeID = ?', [`^((.)+,)*${searchQuery}(,(.)+)*$`, potentialCourseID]).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
   }).catch((err) => {

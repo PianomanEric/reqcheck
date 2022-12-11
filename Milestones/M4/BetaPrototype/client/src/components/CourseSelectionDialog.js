@@ -40,13 +40,6 @@ export default function CourseSelectionDialog(props) {
     const [options, setOptions] = useState([]);
     const [course, setCourse] = useState({});
 
-    useMemo(() => {
-        if (props.open) {
-            setShowDetails(false);
-            setOptions([]);
-        }
-    }, [props.open])
-
     const handleSeeDetails = (course) => {
         setCourse(course);
         setShowDetails(true);
@@ -69,16 +62,26 @@ export default function CourseSelectionDialog(props) {
     const updateAreaCourses = async () => {
         try {
             const response = await axios.get(`/api/courses/searchByRequirement?query=${props.area}`);
-            console.log(response.data);
             setOptions(response.data);
         } catch(err) {
 
         }
     }
 
+    useMemo(() => {
+        if (props.open) {
+            console.log("Opened!?")
+            setShowDetails(false);
+            setOptions([]);
+            updateAreaCourses();
+        }
+    }, [props.open])
+
+    /*
     useEffect(() => {
         updateAreaCourses();
     }, [props.area])
+    */
 
     return (
         <Dialog fullWidth {...props}>
