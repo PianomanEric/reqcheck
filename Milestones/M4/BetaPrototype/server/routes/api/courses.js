@@ -64,7 +64,7 @@ router.get('/scrape', (req, res) => {
           for (const div of courseDivs) {
             const courseTitleElement = div.querySelector('.courseblocktitle strong');
             const fullCourseTitle = decodeHTMLEntities(courseTitleElement?.innerHTML).trim();
-            const results = fullCourseTitle?.match(/^([A-Z \u00A0]+)(\d+\w*)[ ]+(.+?) *\(Units: (.+)\)$/i);
+            const results = fullCourseTitle?.match(/^([A-Z \u00A0]+)(\d+\w*)[ ]+(.+?) *\(Units?: (.+)\)$/i);
             if (results) {
               const subject = results[1].trim().replaceAll(/[\u00A0 ]+/gi, '-');
               const courseNumber = results[2].replaceAll(/[\u00A0 ]+/gi, '').trim();
@@ -75,7 +75,21 @@ router.get('/scrape', (req, res) => {
               const division = (courseInt < 300) ? 'Lower' : 'Upper';
 
               const courseDescriptionElement = div.querySelector('.courseblockdesc');
-              let description = courseDescriptionElement?.innerHTML + '\n' || '';
+              let description = '';
+
+              if (courseDescriptionElement) {
+                for (const node of courseDescriptionElement.childNodes) {
+                  if (node.nodeType == 3) {
+                    description += node.innerText;
+                  } else if (node.tagName == "A") {
+                    description += node.innerText;
+                  } else if (node.tagName == "BR") {
+                    description += '\n';
+                  }
+                }
+                description += '\n';
+              }
+
               for (const node of div.childNodes) {
                 if (node.nodeType == 3) {
                   description += node.innerText;
@@ -107,6 +121,9 @@ router.get('/scrape', (req, res) => {
               }
 
               courses.push({courseID, title, units, areas, division, description, attributes});
+              //courses.push(courseID);
+            } else {
+              console.log(`No results ${fullCourseTitle}`);
             }
           }
           resolve(courses);
