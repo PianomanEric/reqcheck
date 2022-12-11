@@ -50,90 +50,105 @@ const DEGREE_INFO = [
         title: 'General Education',
         courses: [
             {
+                name: 'A1: Oral Communication',
                 requirement: 'A1',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'A2: Written English Comm',
                 requirement: 'A2',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'A3: Critical Thinking',
                 requirement: 'A3',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'B1: Physical Science',
                 requirement: 'B1',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'B2: Life Science',
                 requirement: 'B2',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'B3: Lab Science',
                 requirement: 'B3',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'B4: Math/QR',
                 requirement: 'B4',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'C1: Arts',
                 requirement: 'C1',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'C2: Humanities',
                 requirement: 'C2',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
-                requirement: 'C1 or C2',
+                name: 'C1 or C2: Arts or Humanities',
+                requirement: 'C1|C2',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
-                requirement: 'D1',
+                name: 'D: Social Sciences',
+                requirement: 'D1|D2|D3',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'E: Lifelong Learning and self-Development',
                 requirement: 'E',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'UD-B: Physical Life Science',
                 requirement: 'UDB',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'UD-C: Arts and/or Humanities',
                 requirement: 'UDC',
                 choice: null,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'UD-D: Social Sciences',
                 requirement: 'UDD',
                 choice: null,
                 status: COURSE_STATUS.READY,
@@ -145,41 +160,49 @@ const DEGREE_INFO = [
         title: 'Math and Physics',
         courses: [
             {
+                name: 'MATH 226',
                 requirement: 'MATH 226',
                 choice: 'MATH 226',
                 status: COURSE_STATUS.IN_PROGRESS,
             },
             {
+                name: 'MATH 227',
                 requirement: 'MATH 227',
                 choice: 'MATH 227',
                 status: COURSE_STATUS.READY,
             },
             {
+                name: 'MATH 324',
                 requirement: 'MATH 324',
                 choice: 'MATH 324',
                 status: COURSE_STATUS.NOT_READY,
             },
             {
+                name: 'MATH 325',
                 requirement: 'MATH 325',
                 choice: 'MATH 325',
                 status: COURSE_STATUS.NOT_READY,
             },
             {
+                name: 'PHYS 220',
                 requirement: 'PHYS 220',
                 choice: 'PHYS 220',
                 status: COURSE_STATUS.NOT_READY,
             },
             {
+                name: 'PHYS 222',
                 requirement: 'PHYS 222',
                 choice: 'PHYS 222',
                 status: COURSE_STATUS.NOT_READY,
             },
             {
+                name: 'PHYS 230',
                 requirement: 'PHYS 230',
                 choice: 'PHYS 230',
                 status: COURSE_STATUS.NOT_READY,
             },
             {
+                name: 'PHYS 232',
                 requirement: 'PHYS 232',
                 choice: 'PHYS 232',
                 status: COURSE_STATUS.NOT_READY,
@@ -190,92 +213,109 @@ const DEGREE_INFO = [
         title: 'Computer Science',
         courses: [
             {
+                name: 'CSC 210',
                 requirement: 'CSC 210',
                 choice: 'CSC 210',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 211',
                 requirement: 'CSC 211',
                 choice: 'CSC 211',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 220',
                 requirement: 'CSC 220',
                 choice: 'CSC 220',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 230',
                 requirement: 'CSC 230',
                 choice: 'CSC 230',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 256',
                 requirement: 'CSC 256',
                 choice: 'CSC 256',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 300GW',
                 requirement: 'CSC 300GW',
                 choice: 'CSC 300GW',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 317',
                 requirement: 'CSC 317',
                 choice: 'CSC 317',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 340',
                 requirement: 'CSC 340',
                 choice: 'CSC 340',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 413',
                 requirement: 'CSC 413',
                 choice: 'CSC 413',
                 status: COURSE_STATUS.COMPLETED,
             },
             {
+                name: 'CSC 415',
                 requirement: 'CSC 415',
                 choice: 'CSC 415',
                 status: COURSE_STATUS.IN_PROGRESS,
             },
             {
+                name: 'CSC 510',
                 requirement: 'CSC 510',
                 choice: 'CSC 510',
                 status: COURSE_STATUS.READY,
             },
             {
+                name: 'CSC 600',
                 requirement: 'CSC 600',
                 choice: 'CSC 600',
                 status: COURSE_STATUS.NOT_READY,
             },
             {
+                name: 'CSC 648',
                 requirement: 'CSC 648',
                 choice: 'CSC 648',
                 status: COURSE_STATUS.NOT_READY,
             },
             {
+                name: 'CS Elective 1',
                 requirement: 'CSCE',
                 choice: 'CSC 631',
                 status: COURSE_STATUS.IN_PROGRESS,
                 canEdit: true,
             },
             {
+                name: 'CS Elective 2',
                 requirement: 'CSCE',
                 choice: undefined,
                 status: COURSE_STATUS.READY,
                 canEdit: true,
             },
             {
+                name: 'CS Elective 3',
                 requirement: 'CSCE',
                 choice: undefined,
-                status: COURSE_STATUS.READY,
+                status: COURSE_STATUS.NOT_READY,
                 canEdit: true,
             },
             {
+                name: 'CS Elective 4',
                 requirement: 'CSCE',
                 choice: undefined,
-                status: COURSE_STATUS.READY,
+                status: COURSE_STATUS.COMPLETED,
                 canEdit: true,
             },
         ]
@@ -333,7 +373,7 @@ export default function Courses() {
 
     const [currentTab, setCurrentTab] = useState('All');
     const [showPrerequisites, setShowPrerequisites] = useState(false);
-    const [area, setArea] = useState();
+    const [area, setArea] = useState({});
 
     const handleTabChange = (event, newTab) => {
         console.log(newTab);
@@ -424,8 +464,8 @@ export default function Courses() {
                                     {
                                     category.courses.map((course) => (
                                         isInCategory(course, currentTab) ?
-                                            <TableRow key={course.requirement}>
-                                                <TableCell align='left'>{course.requirement}</TableCell>
+                                            <TableRow key={course.name}>
+                                                <TableCell align='left'>{course.name}</TableCell>
                                                 <TableCell align='left' sx={{
                                                         color: (course.choice) ? 'common.black' : '#aaa',
                                                         fontStyle: (course.choice) ? undefined : 'italic',
@@ -439,7 +479,7 @@ export default function Courses() {
                                                     {
                                                         (course.canEdit && course.status !== COURSE_STATUS.COMPLETED && course.status !== COURSE_STATUS.IN_PROGRESS) ? (
                                                         <Tooltip title='Edit' placement='right'>
-                                                            <IconButton onClick={() => handleEditClick(course.requirement)} size='small' sx={{
+                                                            <IconButton onClick={() => handleEditClick({name: course.name, requirement: course.requirement})} size='small' sx={{
                                                                 m: 0,
                                                             }}>
                                                                 <EditSharpIcon sx={{

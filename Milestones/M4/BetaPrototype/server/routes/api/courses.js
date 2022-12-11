@@ -6,27 +6,24 @@ const { parse: parseHTML } = require('node-html-parser');
 const { decode: decodeHTMLEntities } = require('html-entities');
 
 router.get('/', (req, res) => {
-  db.query('SELECT * FROM demo').then(([results, fields]) => {
-    console.log(results);
-    return res.json(results);
-  }).catch((err) => {
-    console.log(err);
-    console.log("Could not search courses!");
-    return res.json([]);
-  });
-})
-
-router.get('/searchByRequirement', (req, res) => {
-  console.log("Searching by requirement");
-  const searchQuery = req.query.query;
-  const courseIDSplitResults = searchQuery?.match(/^([A-Z ]+)(\d+\w*)$/i);
-  let potentialCourseID = '';
-  if (courseIDSplitResults && courseIDSplitResults.length === 3) {
-    console.log(courseIDSplitResults.length);
-    potentialCourseID = courseIDSplitResults[1].trim().replace(' ', '-') + courseIDSplitResults[2].trim().replace(' ', '');
+  const regexStart = '^((.)+,)*';
+  const regexEnd = '(,(.)+)*$';
+  const baseQuery = 'SELECT * FROM demo';
+  const requirementQuery = ' WHERE subarea REGEXP ?';
+  const newRequirement = ' OR subarea REGEXP ?';
+  let query = baseQuery;
+  let queryParams = [];
+  if (req.query.requirement) {
+    const requirementString = req.query.requirement;
+    const requirements = requirementString.split('|');
+    query += requirementQuery;
+    queryParams.push(regexStart + requirements[0] + regexEnd);
+    for (let i=1; i < requirements.length; i++) {
+      query += newRequirement;
+      queryParams.push(regexStart + requirements[i] + regexEnd);
+    }
   }
-  console.log(potentialCourseID);
-  db.query('SELECT * FROM demo WHERE subarea REGEXP ? OR codeID = ?', [`^((.)+,)*${searchQuery}(,(.)+)*$`, potentialCourseID]).then(([results, fields]) => {
+  db.query(query, queryParams).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
   }).catch((err) => {
@@ -60,9 +57,6 @@ router.get('/scrape', (req, res) => {
     const subjectAnchors = root.querySelectorAll('#atozindex li a');
     const promises = [];
     const attributeSet = new Set();
-
-    let longestDescription = 0;
-
     for (const anchor of subjectAnchors) {
       const path = anchor.attributes.href
       promises.push(new Promise((resolve, reject) => {
@@ -129,11 +123,6 @@ router.get('/scrape', (req, res) => {
                 areas.push(subject);
               }
 
-              longestDescription = Math.max(longestDescription, description.length);
-              if (longestDescription === description.length) {
-                console.log(courseID);
-              }
-
               courses.push({courseID, title, units, areas, division, description, attributes});
               //courses.push(courseID);
             } else {
@@ -155,12 +144,16 @@ router.get('/scrape', (req, res) => {
       }
       console.log(`${count} courses found!`);
       let numAttributes = 0;
+      const attributeList = [];
       attributeSet.forEach((key) => {
-        console.log(key);
+        attributeList.push(key);
         numAttributes += 1;
       });
       console.log(`${numAttributes} attributes found!`);
-      console.log(longestDescription);
+      attributeList.sort();
+      for (const attribute of attributeList) {
+        console.log(attribute);
+      }
       return res.json(courseData);
     })
   })

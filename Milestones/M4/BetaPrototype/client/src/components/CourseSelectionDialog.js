@@ -61,7 +61,7 @@ export default function CourseSelectionDialog(props) {
 
     const updateAreaCourses = async () => {
         try {
-            const response = await axios.get(`/api/courses/searchByRequirement?query=${props.area}`);
+            const response = await axios.get(`/api/courses?requirement=${props.area.requirement}`);
             setOptions(response.data);
         } catch(err) {
 
@@ -86,7 +86,7 @@ export default function CourseSelectionDialog(props) {
     return (
         <Dialog fullWidth {...props}>
             <DialogTitle align='center'>
-                {props.area}
+                {props.area.name}
                 <IconButton onClick={handleClose} color='inherit' sx={{
                     position: 'absolute',
                     right: 8,
