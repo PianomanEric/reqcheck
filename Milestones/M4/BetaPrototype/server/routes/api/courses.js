@@ -4,6 +4,7 @@ const db = require('../../config/database');
 const axios = require('axios');
 const { parse: parseHTML } = require('node-html-parser');
 const { decode: decodeHTMLEntities } = require('html-entities');
+const { query } = require('../../config/database');
 
 router.get('/', (req, res) => {
   const regexStart = '^((.)+,)*';
@@ -23,6 +24,7 @@ router.get('/', (req, res) => {
       queryParams.push(regexStart + requirements[i] + regexEnd);
     }
   }
+  console.log(queryParams);
   db.query(query, queryParams).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
@@ -34,9 +36,23 @@ router.get('/', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
-  const searchQuery = req.query.query.replaceAll(/( )/g, '');
+  const searchQuery = req.query?.query
+  /*
+  if (!searchQuery) {
+    return res.json();
+  }*/
   console.log(searchQuery);
-  db.query('SELECT * FROM demo WHERE codeID LIKE ?', [`%${searchQuery}%`]).then(([results, fields]) => {
+  const queryParams = searchQuery.replaceAll(/ |\-/g, '').replaceAll(/(.)/g, '$1 ').trim().split(' ');
+  console.log(queryParams);
+  //const queryParams = req.query.query.split(/ |\-/);
+  let regexString = queryParams[0];
+  for (let i = 1; i < queryParams.length; i++) {
+    regexString += '\-?' + queryParams[i];
+  }
+
+  //const searchRegex = new RegExp(regexString, 'g');
+  console.log(regexString);
+  db.query('SELECT * FROM demo WHERE codeID REGEXP ?', [regexString]).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
   }).catch((err) => {

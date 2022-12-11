@@ -10,6 +10,7 @@ import {
 import React, { useState, useEffect, useRef } from 'react';
 import { Link as RouterLink, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { decodeCourseID } from '../util/FormatData';
 
 import QuadImage from '../assets/images/quad2.jpg';
 
@@ -29,12 +30,6 @@ export default function Course() {
     const previousSearchTerms = useRef();
     const [ results, setResults ] = useState([]);
     const loading = useRef(false);
-
-    const formatCourseID = (courseID) => {
-        if (courseID) {
-            return courseID.replace(/(^[a-zA-Z]+)/g, '$1 ');
-        }
-    }
 
     if (previousSearchTerms.current !== searchTerms) {
         console.log("Loading!");
@@ -105,7 +100,7 @@ export default function Course() {
                     <Typography gutterBottom align='center' variant='h6' sx={{
                         color: 'common.black'
                     }}>
-                        {`${result.codeID} - ${result.title} (${result.unit} credits)`}
+                        {`${decodeCourseID(result.codeID)} - ${result.title} (${result.unit} credits)`}
                     </Typography>
                     <Typography align='center' sx={{
                         color: 'common.black'

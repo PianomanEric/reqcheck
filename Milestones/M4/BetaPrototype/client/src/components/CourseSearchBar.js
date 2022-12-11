@@ -1,5 +1,6 @@
 import {
     Autocomplete,
+    Box,
     TextField,
     InputAdornment,
     IconButton
@@ -9,12 +10,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { decodeCourseID } from '../util/FormatData';
 
 export default function Course() {
     const navigate = useNavigate();
 
     const [searchResults, setSearchResults] = useState([]);
     const [searchTerms, setSearchTerms] = useState('');
+    const searchOnInputChange = useRef(false);
+    const optionHighlighted = useRef(false);
 
     const dropdownHighlighted = useRef(false);
     const searchBar = useRef();
@@ -30,7 +34,11 @@ export default function Course() {
   
     const getAutofillOptionsFromSearchResults = (results) => {
       return results.map((row) => {
-        return row.codeID.replace(/(^[a-zA-Z]+)/g, '$1 ');
+        const courseName = decodeCourseID(row.codeID);
+        return {
+          fullName: `${courseName} - ${row.title}`,
+          label: courseName,
+        };
       });
     }
   
@@ -39,8 +47,16 @@ export default function Course() {
       setSearchTerms(e.target.value || '');
     }
   
-    const runSearch = async () => {
-      const results = await getSearchResults(searchTerms);
+    const updateOptions = async (value) => {
+      getSearchResults(value).then((results) => {
+        setSearchResults(getAutofillOptionsFromSearchResults(results));
+    });
+    }
+  
+    const runSearch = async (value) => {
+      searchBar.current.blur();
+      value = value || searchTerms;
+      const results = await getSearchResults(value);
       console.log('searching');
       console.log(searchTerms);
       if (results.length == 1) {
@@ -49,18 +65,22 @@ export default function Course() {
         navigate(`/course/${results[0].codeID}`.toLowerCase());
       } else {
         console.log("Multiple results! Redirect to search list");
-        navigate(`/course/search?query=${searchTerms}`);
+        navigate(`/course/search?query=${value}`);
       }
     }
+
+    useEffect(() => {
+      updateOptions(searchTerms);
+    }, [searchTerms])
     
+    /*
     useEffect(() => {
         let searchChanged = false;
         if (searchTerms !== '') {
             getSearchResults(searchTerms).then((results) => {
-            if (!searchChanged) {
-                setSearchResults(getAutofillOptionsFromSearchResults(results));
-            }
-            //}
+                if (!searchChanged) {
+                    setSearchResults(getAutofillOptionsFromSearchResults(results));
+                }
             });
         } else {
             setSearchResults([]);
@@ -69,57 +89,133 @@ export default function Course() {
             searchChanged = true;
         };
     }, [searchTerms])
+    */
 
     return (
         <Autocomplete
-          onChange={(e, value) => {
-            console.log("setting search terms " + e.target.innerText);
-            console.log('Selected value');
-            console.log(typeof(value));
-            console.log(value);
-            setSearchTerms(value || '');
-          }}
           filterOptions={(x) => x}
-          id='free-solo-demo'
           freeSolo
+          selectOnFocus
+          clearOnBlur
           size='small'
           options={searchResults}
+          value={searchTerms}
+          //inputValue={autocompleteInputValue}
           sx={{
             mx: 1,
             width: '250px',
           }}
-          renderInput={(params) =>
-            <TextField {...params} inputRef={searchBar} InputProps={{
-              ...params.InputProps,
-              startAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton onClick={runSearch} edge='start'>
-                    <SearchIcon/>
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            placeholder='Search Courses'
-            onChange={onChangeSearch}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && e.target.value && !dropdownHighlighted.current) {
-                console.log("Submit search!");
-                runSearch(searchTerms);
-                searchBar.current.blur();
-              }
-            }}
-            />
-          }
-          onHighlightChange={(e, option) => {
-            console.log(e);
+          renderOption={(props, option) => {
             console.log(option);
-            if (option) {
-              dropdownHighlighted.current = true;
+            return <Box {...props}>
+              {option.fullName}
+            </Box>
+          }}
+          /*
+          getOptionLabel={
+            (option) => {
+              console.log(option);
+              return option.id || '';
             }
+          }
+          */
+          onChange={
+            (e, value, reason) => {
+
+              console.log("OnChange", value, reason);
+              setSearchTerms(value?.label || '');
+              //setSearchResults([]);
+              if (reason === 'selectOption') {
+                runSearch(value?.label || '');
+              }
+            }
+          }
+          onInputChange={
+            (e, value, reason) => {
+              if (reason == 'input') {
+                setSearchTerms(value || '');
+                console.log(value);
+                //updateOptions(value);
+              }
+              console.log("OnInputChange", value, reason);
+              if (reason === 'reset') {
+                console.log("RESET!");
+                //runSearch(value?.label || '');
+              }
+            }
+          }
+          onHighlightChange={
+            (e, option, reason) => {
+              if (option) {
+                optionHighlighted.current = true;
+              } else {
+                optionHighlighted.current = false;
+              }
+              console.log("OnHighlightChange", option, reason);
+            }
+          }
+          onOpen={
+            (e, newValue) => {
+              
+              console.log("OnOpen");
+            }
+          }
+          onClose={
+            (e, newValue) => {
+              
+              console.log("OnClose");
+            }
+          }
+          /*
+          renderTags={
+            (value, getProps) => {
+              console.log("We have render tags change");
+              console.log(value);
+            }
+          }
+          */
+          /*
+          getOptionLabel={
+            (option) => {
+              return 'Henlo';
+            }
+          }
+          */
+          renderInput={(params) => {
+            console.log(params);
+            return (
+            <TextField
+              {...params}
+              inputRef={searchBar}
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton onClick={() => runSearch()} edge='start'>
+                      <SearchIcon/>
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && optionHighlighted.current === false) {
+                  runSearch();
+                }
+              }}
+              placeholder='Search Courses'/>
+            )
           }}
-          onClose={(e) => {
-            dropdownHighlighted.current = false;
-          }}
-        />
+        /*
+        onHighlightChange={(e, option) => {
+          console.log(e);
+          console.log(option);
+          if (option) {
+            dropdownHighlighted.current = true;
+          }
+        }}
+        onClose={(e) => {
+          dropdownHighlighted.current = false;
+        }}*/
+      />
     );
 }

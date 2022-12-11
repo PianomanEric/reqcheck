@@ -20,6 +20,7 @@ import {
 import React, { useState, useEffect, useRef } from 'react';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
+import { decodeCourseID } from '../util/FormatData';
 
 const getCourseInfo = async (courseID) => {
     try {
@@ -36,12 +37,6 @@ export default function Course() {
     const previousCourseID = useRef(null);
     const [ courseInfo, setCourseInfo ] = useState({});
 
-    const formatCourseID = (courseID) => {
-        if (courseID) {
-            return courseID.replace(/(^[a-zA-Z]+)/g, '$1 ');
-        }
-    }
-
     if (previousCourseID.current !== courseID) {
         console.log("Loading!");
         getCourseInfo(courseID).then((info) => {
@@ -53,7 +48,7 @@ export default function Course() {
 
     useEffect(() => {
         if (courseInfo && courseInfo.codeID) {  
-            document.title = `ReqCheck | ${formatCourseID(courseInfo.codeID.toUpperCase())}`;
+            document.title = `ReqCheck | ${decodeCourseID(courseInfo.codeID.toUpperCase())}`;
         } else {
             document.title = `ReqCheck`;
         }
@@ -64,7 +59,7 @@ export default function Course() {
             p: 5,
         }}>
             <Typography align='center' variant='h4'>
-                {formatCourseID(courseInfo.codeID) + ' - ' + courseInfo.title}
+                {decodeCourseID(courseInfo.codeID) + ' - ' + courseInfo.title}
             </Typography>
             <Typography align='center' variant='h5'>
                 {'Credits: ' + courseInfo.unit}
