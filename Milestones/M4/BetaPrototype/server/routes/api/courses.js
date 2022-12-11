@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../../config/database');
 const axios = require('axios');
 const { parse: parseHTML } = require('node-html-parser');
+const { decode: decodeHTMLEntities } = require('html-entities');
 
 router.get('/', (req, res) => {
   db.query('SELECT * FROM reference').then(([results, fields]) => {
@@ -46,11 +47,13 @@ router.get('/search', (req, res) => {
 
 // Scrape all courses from SFSU's website
 // This might help for populating our database
+// Additional info to scrape: attributes, prerequisites
 router.get('/scrape', (req, res) => {
   axios.get('https://bulletin.sfsu.edu/courses').then((axiosRes) => {
     const root = parseHTML(axiosRes.data);
     const subjectAnchors = root.querySelectorAll('#atozindex li a');
     const promises = [];
+    const attributeSet = new Set();
     for (const anchor of subjectAnchors) {
       const path = anchor.attributes.href
       promises.push(new Promise((resolve, reject) => {
@@ -60,21 +63,50 @@ router.get('/scrape', (req, res) => {
           const courses = [];
           for (const div of courseDivs) {
             const courseTitleElement = div.querySelector('.courseblocktitle strong');
-            const fullCourseTitle = courseTitleElement?.innerHTML.trim();
-            const results = fullCourseTitle?.match(/^([A-Z \u00A0]+\d+\w*)[ ]+(.+?) *\(Units: (.+)\)$/i);
+            const fullCourseTitle = decodeHTMLEntities(courseTitleElement?.innerHTML).trim();
+            const results = fullCourseTitle?.match(/^([A-Z \u00A0]+)(\d+\w*)[ ]+(.+?) *\(Units: (.+)\)$/i);
             if (results) {
-              const courseID = results[1].replaceAll(/[\u00A0 ]+/gi, '');
-              const title = results[2];
-              const units = results[3];
+              const subject = results[1].trim().replaceAll(/[\u00A0 ]+/gi, '-');
+              const courseNumber = results[2].replaceAll(/[\u00A0 ]+/gi, '').trim();
+              const courseID = subject + courseNumber;
+              const title = results[3];
+              const units = results[4];
+              const courseInt = parseInt(courseNumber);
+              const division = (courseInt < 300) ? 'Lower' : 'Upper';
+
               const courseDescriptionElement = div.querySelector('.courseblockdesc');
-              let description = courseDescriptionElement?.innerHTML || '';
+              let description = courseDescriptionElement?.innerHTML + '\n' || '';
               for (const node of div.childNodes) {
                 if (node.nodeType == 3) {
-                  description += '\n' + node.innerText;
+                  description += node.innerText;
+                } else if (node.tagName == "A") {
+                  description += node.innerText;
+                } else if (node.tagName == "BR") {
+                  description += '\n';
                 }
               }
-              description = description.trim();
-              courses.push({courseID, title, units, description});
+              description = decodeHTMLEntities(description).trim();
+
+              const attributesElements = div.querySelectorAll('ul li');
+              const attributes = [];
+              const areas = [];
+              if (attributesElements) {
+                for (const attributeElement of attributesElements) {
+                  const attribute = decodeHTMLEntities(attributeElement.innerText);
+                  attributes.push(attribute);
+                  attributeSet.add(attribute);
+                  const attributeSegments = attribute.split(':');
+                  if (attributeSegments.length > 1) {
+                    areas.push(attributeSegments[0]);
+                  }
+                }
+              }
+
+              if (areas.length === 0) {
+                areas.push(subject);
+              }
+
+              courses.push({courseID, title, units, areas, division, description, attributes});
             }
           }
           resolve(courses);
@@ -91,6 +123,12 @@ router.get('/scrape', (req, res) => {
         }
       }
       console.log(`${count} courses found!`);
+      let numAttributes = 0;
+      attributeSet.forEach((key) => {
+        console.log(key);
+        numAttributes += 1;
+      });
+      console.log(`${numAttributes} attributes found!`);
       return res.json(courseData);
     })
   })
