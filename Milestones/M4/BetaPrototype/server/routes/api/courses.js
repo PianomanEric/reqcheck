@@ -140,7 +140,6 @@ router.get('/scrape', (req, res) => {
               }
 
               courses.push({courseID, title, units, areas, division, description, attributes});
-              //courses.push(courseID);
             } else {
               console.log(`No results ${fullCourseTitle}`);
             }
