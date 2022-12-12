@@ -1,5 +1,5 @@
+import React, { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { useEffect } from "react";
 import {useParams} from "react-router-dom";
 
 const memberInfo = {

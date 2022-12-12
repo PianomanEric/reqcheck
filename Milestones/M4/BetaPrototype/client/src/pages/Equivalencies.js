@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
     Accordion,
     AccordionDetails,
@@ -17,7 +18,6 @@ import {
     Typography,
     IconButton
 } from "@mui/material";
-import React, { useState, useEffect } from 'react';
 
 export default function Equivalencies() {
     useEffect(() => {
