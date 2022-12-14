@@ -88,19 +88,19 @@ export default function Course() {
                 {(results.length > 0) ? `Displaying ${results.length} result${(results.length === 1) ? '' : 's'} for "${searchTerms}"`
                 : `No results found for "${searchTerms}"`}
             </Typography>
-            {results.map((result) => <Card key={result.codeID} sx={{
+            {results.map((result) => <Card key={result.courseID} sx={{
                 width: 'auto',
                 height: 'auto',
                 m: 2,
             }}>
-                <CardActionArea component={RouterLink} to={`/course/${result.codeID}`} sx={{
+                <CardActionArea component={RouterLink} to={`/course/${result.courseID}`} sx={{
                     height: '100%',
                 }}>
                 <CardContent>
                     <Typography gutterBottom align='center' variant='h6' sx={{
                         color: 'common.black'
                     }}>
-                        {`${decodeCourseID(result.codeID)} - ${result.title} (${result.unit} credits)`}
+                        {`${decodeCourseID(result.courseID)} - ${result.title} (${result.unit} credits)`}
                     </Typography>
                     <Typography align='center' sx={{
                         color: 'common.black'

@@ -47,19 +47,19 @@ export default function Course() {
     }
 
     useEffect(() => {
-        if (courseInfo && courseInfo.codeID) {  
-            document.title = `ReqCheck | ${decodeCourseID(courseInfo.codeID.toUpperCase())}`;
+        if (courseInfo && courseInfo.courseID) {  
+            document.title = `ReqCheck | ${decodeCourseID(courseInfo.courseID.toUpperCase())}`;
         } else {
             document.title = `ReqCheck`;
         }
     }, [courseInfo]);
 
-    return ( courseInfo && courseInfo.codeID ? <>
+    return ( courseInfo && courseInfo.courseID ? <>
         <Container maxWidth='md' sx={{
             p: 5,
         }}>
             <Typography align='center' variant='h4'>
-                {decodeCourseID(courseInfo.codeID) + ' - ' + courseInfo.title}
+                {decodeCourseID(courseInfo.courseID) + ' - ' + courseInfo.title}
             </Typography>
             <Typography align='center' variant='h5'>
                 {'Credits: ' + courseInfo.unit}

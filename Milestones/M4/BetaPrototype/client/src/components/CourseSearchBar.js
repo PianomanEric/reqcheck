@@ -34,7 +34,7 @@ export default function Course() {
   
     const getAutofillOptionsFromSearchResults = (results) => {
       return results.map((row) => {
-        const courseName = decodeCourseID(row.codeID);
+        const courseName = decodeCourseID(row.courseID);
         return {
           fullName: `${courseName} - ${row.title}`,
           label: courseName,
@@ -62,7 +62,7 @@ export default function Course() {
       if (results.length == 1) {
         console.log("1 result, redirect to page");
         console.log(results);
-        navigate(`/course/${results[0].codeID}`.toLowerCase());
+        navigate(`/course/${results[0].courseID}`.toLowerCase());
       } else {
         console.log("Multiple results! Redirect to search list");
         navigate(`/course/search?query=${value}`);

@@ -8,6 +8,19 @@ const { query } = require('../../config/database');
 
 const COURSE_TABLE_NAME = 'courses';
 
+router.get('/test', (req, res) => {
+  db.query(`select COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_COLUMN_NAME, REFERENCED_TABLE_NAME
+  from information_schema.KEY_COLUMN_USAGE
+  where TABLE_NAME = 'courses';`).then(([results, fields]) => {
+    console.log(results);
+    return res.json(results);
+  }).catch((err) => {
+    console.log("Could not search courses!");
+    console.log(err.stack)
+    return res.json([]);
+  });
+});
+
 router.get('/', (req, res) => {
   const regexStart = '^((.)+,)*';
   const regexEnd = '(,(.)+)*$';
@@ -54,7 +67,7 @@ router.get('/search', (req, res) => {
 
   //const searchRegex = new RegExp(regexString, 'g');
   console.log(regexString);
-  db.query(`SELECT * FROM ${COURSE_TABLE_NAME} WHERE codeID REGEXP ?`, [regexString]).then(([results, fields]) => {
+  db.query(`SELECT * FROM ${COURSE_TABLE_NAME} WHERE courseID REGEXP ?`, [regexString]).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
   }).catch((err) => {
@@ -178,7 +191,7 @@ router.get('/scrape', (req, res) => {
 
 router.get('/:courseID', (req, res) => {
   const courseID = req.params.courseID;
-  db.query(`SELECT * FROM ${COURSE_TABLE_NAME} WHERE codeID = ?`, [courseID]).then(([results, fields]) => {
+  db.query(`SELECT * FROM ${COURSE_TABLE_NAME} WHERE courseID = ?`, [courseID]).then(([results, fields]) => {
     if (results.length == 1) {
       return res.json(results[0]);
     } else {

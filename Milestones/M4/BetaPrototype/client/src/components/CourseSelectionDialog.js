@@ -113,8 +113,8 @@ export default function CourseSelectionDialog(props) {
                         {console.log("Got to the map")}
                         {
                             options.map((course) => 
-                                <CourseListItem key={course.codeID} onClick={() => handleSeeDetails(course)}>
-                                    {course.codeID + ' - ' + course.title}
+                                <CourseListItem key={course.courseID} onClick={() => handleSeeDetails(course)}>
+                                    {course.courseID + ' - ' + course.title}
                                     {console.log("Mapping")}
                                     {console.log(course)}
                                 </CourseListItem>
@@ -126,7 +126,7 @@ export default function CourseSelectionDialog(props) {
                         <DialogContentText variant='h5' align='center' sx={{
                             fontWeight: 'bold',
                         }}>
-                            {course.codeID + ' - ' + course.title}
+                            {course.courseID + ' - ' + course.title}
                         </DialogContentText>
                         <DialogContentText variant='h7' align='center' sx={{
                             fontWeight: 'bold',
