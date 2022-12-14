@@ -22,7 +22,7 @@ const NavButton = (props) => {
   return <Button variant='contained' {...props} sx={{
     mx: 1,
     color: 'common.white',
-    flexShrink: 0,
+    //flexShrink: 0,
     ...props.sx
   }}/>
 }
@@ -100,76 +100,66 @@ export default function Navbar() {
         alignItems: 'center',
         width: '100%',
       }}>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          width: {
-            xs: '100%',
-            sm: 'auto',
-          }
-        }}>
-          <MenuButton onClick={handleDrawerToggle} sx={{
-            display: {
-              xs: "block",
-              sm: "none",
-            },
-          }}/>
-          <Link component={RouterLink} to='/'>
-            <Typography component='div' variant='h5' align='center' color='initial' sx={{
-              px: 2,
-              fontWeight: '700',
-              color: 'primary.main',
-              textStroke: '1px black',
-              display: 'flex',
-              alignItems: 'center',
-            }}>
-              <CheckIcon fontSize='medium' sx={{
-                p: 0,
-                display: 'inline',
-                stroke: '#0c0',
-                strokeWidth: 1.5,
-                fill: '#0c0',
-              }} />
-              ReqCheck
-            </Typography>
-          </Link>
-        </Box>
-        <Box sx={{
+        <MenuButton onClick={handleDrawerToggle} sx={{
+          display: {
+            xs: "block",
+            sm: "none",
+          },
+        }}/>
+        <Link component={RouterLink} to='/' sx={{
           display: {
             xs: 'none',
-            sm: 'flex',
-          },
-          flexDirection: 'row',
-          alignItems: 'center',
-          flexGrow: 0,
+            sm: 'block',
+          }
         }}>
-          <Link component={RouterLink} to='/'>
-            <Typography variant='body1' align='center' color='initial' sx={{
-              px: 2,
-              py: 1,
-            }}>
-              Home
-            </Typography>
-          </Link>
-          <Link component={RouterLink} to='/about'>
-            <Typography variant='body1' align='center' color='initial' sx={{
-              px: 2,
-              py: 1,
-            }}>
-              About Us
-            </Typography>
-          </Link>
-        </Box>
+          <Typography component='div' variant='h5' align='center' color='initial' sx={{
+            px: 2,
+            fontWeight: '700',
+            color: 'primary.main',
+            textStroke: '1px black',
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+            <CheckIcon fontSize='medium' sx={{
+              p: 0,
+              display: 'inline',
+              stroke: '#0c0',
+              strokeWidth: 1.5,
+              fill: '#0c0',
+            }} />
+            ReqCheck
+          </Typography>
+        </Link>
+        <Link component={RouterLink} to='/'>
+          <Typography variant='body1' align='center' color='initial' sx={{
+            px: 2,
+            py: 1,
+            display: {
+              xs: 'none',
+              sm: 'block',
+            },
+          }}>
+            Home
+          </Typography>
+        </Link>
+        <Link component={RouterLink} to='/about'>
+          <Typography variant='body1' align='center' color='initial' sx={{
+            px: 2,
+            py: 1,
+            display: {
+              xs: 'none',
+              sm: 'block',
+            },
+          }}>
+            About Us
+          </Typography>
+        </Link>
         <Box sx={{
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'flex-end',
-          flexGrow: {
-            xs: 0,
-            sm: 1,
-          }
+          flexGrow: 1,
         }}>
           <CourseSearchBar sx={{
             display: {
@@ -220,10 +210,30 @@ export default function Navbar() {
         <Box sx={{
           display: "flex",
           flexDirection: "row-reverse",
+          justifyContent: 'space-between',
           width: "250px",
           p: 1,
         }}>
           <CloseButton onClose={handleDrawerToggle} />
+          <Link component={RouterLink} to='/'>
+            <Typography component='div' variant='h5' align='center' color='initial' sx={{
+              p: 2,
+              fontWeight: '700',
+              color: 'primary.main',
+              textStroke: '1px black',
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+              <CheckIcon fontSize='medium' sx={{
+                p: 0,
+                display: 'inline',
+                stroke: '#0c0',
+                strokeWidth: 1.5,
+                fill: '#0c0',
+              }} />
+              ReqCheck
+            </Typography>
+          </Link>
         </Box>
         <List sx={{
           flexGrow: 1,

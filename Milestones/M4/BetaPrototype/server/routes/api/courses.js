@@ -8,6 +8,7 @@ const { query } = require('../../config/database');
 
 const COURSE_TABLE_NAME = 'courses';
 
+/*
 router.get('/test', (req, res) => {
   db.query(`select COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_COLUMN_NAME, REFERENCED_TABLE_NAME
   from information_schema.KEY_COLUMN_USAGE
@@ -20,6 +21,7 @@ router.get('/test', (req, res) => {
     return res.json([]);
   });
 });
+*/
 
 router.get('/', (req, res) => {
   const regexStart = '^((.)+,)*';
