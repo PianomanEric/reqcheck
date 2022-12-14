@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { decodeCourseID } from '../util/FormatData';
 
-export default function Course() {
+export default function Course(props) {
     const navigate = useNavigate();
 
     const [searchResults, setSearchResults] = useState([]);
@@ -101,10 +101,6 @@ export default function Course() {
           options={searchResults}
           value={searchTerms}
           //inputValue={autocompleteInputValue}
-          sx={{
-            mx: 1,
-            width: '250px',
-          }}
           renderOption={(props, option) => {
             console.log(option);
             return <Box {...props}>
@@ -204,6 +200,12 @@ export default function Course() {
               }}
               placeholder='Search Courses'/>
             )
+          }}
+          {...props}
+          sx={{
+            mx: 1,
+            width: '100%',
+            ...props.sx,
           }}
         /*
         onHighlightChange={(e, option) => {
