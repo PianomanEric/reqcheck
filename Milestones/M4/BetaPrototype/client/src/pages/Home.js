@@ -61,6 +61,7 @@ export default function Home() {
         }}>
             <Box sx={{
                 m: 0,
+                mb: 3,
                 width: '100%',
                 height: '100%',
                 backdropFilter: `brightness(0.35) blur(3px)`,
