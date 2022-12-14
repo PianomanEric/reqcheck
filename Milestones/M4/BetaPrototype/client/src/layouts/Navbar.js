@@ -99,6 +99,8 @@ export default function Navbar() {
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end',
       }}>
         <MenuButton onClick={handleDrawerToggle} sx={{
           display: {
@@ -108,7 +110,7 @@ export default function Navbar() {
         }}/>
         <Link component={RouterLink} to='/' sx={{
           display: {
-            xs: 'none',
+            //xs: 'none',
             sm: 'block',
           }
         }}>
@@ -168,26 +170,25 @@ export default function Navbar() {
             },
             flexGrow: 1,
           }}/>
-
-          {
-          !isLoggedIn() ? <>
-            <NavButton onClick={handleShowSignup}>
-              Register
-            </NavButton>
-            <NavButton onClick={handleShowLogin}>
-              Login
-            </NavButton>
-          </> : <>
-            <Typography sx={{mx: 1}}>
-              {'Logged in as ' + auth.firstname + ' ' + auth.lastname}
-            </Typography>
-            <NavButton onClick={handleLogout}>
-              Sign Out
-            </NavButton>
-          </>
-          }
-
         </Box>
+
+        {
+        !isLoggedIn() ? <>
+          <NavButton onClick={handleShowSignup}>
+            Register
+          </NavButton>
+          <NavButton onClick={handleShowLogin}>
+            Login
+          </NavButton>
+        </> : <>
+          <Typography sx={{mx: 1}}>
+            {'Logged in as ' + auth.firstname + ' ' + auth.lastname}
+          </Typography>
+          <NavButton onClick={handleLogout}>
+            Sign Out
+          </NavButton>
+        </>
+        }
         <LoginSignupDialog open={showLoginSignupDialog} page={loginSignupDialogPage} onPageChange={setLoginSignupDialogPage} onClose={handleCloseLoginSignup}></LoginSignupDialog>
       </Box>
       
