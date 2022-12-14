@@ -2,7 +2,7 @@ const mysql2 = require('mysql2');
 const connectionData = {
   host: '',
   user: '',
-  database: 'sys',
+  database: 'mydb',
   password: '',
   port: 3306,
 }

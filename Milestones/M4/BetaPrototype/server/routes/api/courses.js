@@ -6,10 +6,12 @@ const { parse: parseHTML } = require('node-html-parser');
 const { decode: decodeHTMLEntities } = require('html-entities');
 const { query } = require('../../config/database');
 
+const COURSE_TABLE_NAME = 'courses';
+
 router.get('/', (req, res) => {
   const regexStart = '^((.)+,)*';
   const regexEnd = '(,(.)+)*$';
-  const baseQuery = 'SELECT * FROM demo';
+  const baseQuery = `SELECT * FROM ${COURSE_TABLE_NAME}`;
   const requirementQuery = ' WHERE subarea REGEXP ?';
   const newRequirement = ' OR subarea REGEXP ?';
   let query = baseQuery;
@@ -52,7 +54,7 @@ router.get('/search', (req, res) => {
 
   //const searchRegex = new RegExp(regexString, 'g');
   console.log(regexString);
-  db.query('SELECT * FROM demo WHERE codeID REGEXP ?', [regexString]).then(([results, fields]) => {
+  db.query(`SELECT * FROM ${COURSE_TABLE_NAME} WHERE codeID REGEXP ?`, [regexString]).then(([results, fields]) => {
     console.log(results);
     return res.json(results);
   }).catch((err) => {
@@ -176,7 +178,7 @@ router.get('/scrape', (req, res) => {
 
 router.get('/:courseID', (req, res) => {
   const courseID = req.params.courseID;
-  db.query('SELECT * FROM demo WHERE codeID = ?', [courseID]).then(([results, fields]) => {
+  db.query(`SELECT * FROM ${COURSE_TABLE_NAME} WHERE codeID = ?`, [courseID]).then(([results, fields]) => {
     if (results.length == 1) {
       return res.json(results[0]);
     } else {
