@@ -33,6 +33,10 @@ const validateID = (studentID) => {
     }
 }
 
+const Label = (props) => {
+    return <Typography {...props} sx={{ mb: -0.5, mt: 0.5, fontSize: 14, ...props.sx}}/>
+}
+
 export default function LoginSignupDialog(props) {
 
     const { auth, login, signup } = useAuth();
@@ -199,8 +203,11 @@ export default function LoginSignupDialog(props) {
                         display: 'flex',
                         flexDirection: 'column',
                     }}>
-                        <TextField autoComplete='username' fullWidth onBlur={(e) => {setStudentIDError((studentID !== '' && !studentIDFormat.test(studentID)) ? 'Invalid student ID' : null)}} helperText={studentIDError} inputRef={idBox} error={studentIDError != null} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='text' sx={{my: 0.5}}/>
-                        <TextField autoComplete='current-password' onBlur={(e) => {setPasswordError(null)}} fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} error={passwordError != null} helperText={passwordError} placeholder='Password' type='password' sx={{my: 0.5}}/>
+                        <Label>Student ID</Label>
+                        <TextField autoComplete='username' fullWidth onBlur={(e) => {setStudentIDError((studentID !== '' && !studentIDFormat.test(studentID)) ? 'Invalid student ID' : null)}} helperText={studentIDError} inputRef={idBox} error={studentIDError != null} onKeyDown={focusOnEnterPress(passwordBox)} autoFocus size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} type='text' sx={{my: 0.5}}/>
+                        
+                        <Label>Password</Label>
+                        <TextField autoComplete='current-password' onBlur={(e) => {setPasswordError(null)}} fullWidth inputRef={passwordBox} onKeyDown={focusOnEnterPress(loginButton)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} error={passwordError != null} helperText={passwordError} type='password' sx={{my: 0.5}}/>
 
                         <Typography align='center' sx={{
                             mt: 2,
@@ -227,11 +234,21 @@ export default function LoginSignupDialog(props) {
                         display: 'flex',
                         flexDirection: 'column',
                     }}>
-                        <TextField autoComplete='given-name' fullWidth onBlur={(e) => {setFirstNameError((firstName !== '' && !nameFormat.test(firstName)) ? 'First name can only contain letters, spaces, hyphens, or apostrophes.' : null)}} error={firstNameError != null} helperText={firstNameError} inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} autoFocus size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='First Name' type='text' sx={{my: 0.5}}/>
-                        <TextField autoComplete='family-name' fullWidth onBlur={(e) => {setLastNameError((lastName !== '' && !nameFormat.test(lastName)) ? 'Last name can only contain letters, spaces, hyphens, or apostrophes.' : null)}} error={lastNameError != null} helperText={lastNameError} inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='Last Name' type='text' sx={{my: 0.5}}/>
-                        <TextField autoComplete='username' fullWidth onBlur={(e) => {setStudentIDError((studentID !== '' && !studentIDFormat.test(studentID)) ? 'Student ID must be 9 digits' : null)}} inputRef={idBox} error={studentIDError != null} helperText={studentIDError} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}} placeholder='Student ID' type='text' sx={{my: 0.5}}/>
-                        <TextField autoComplete='email' fullWidth onBlur={(e) => {setEmailError((email !== '' && !emailFormat.test(email)) ? 'Invalid email' : null)}} error={emailError != null} helperText={emailError} inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder='SFSU Email' type='email' sx={{my: 0.5}}/>
-                        <TextField autoComplete='new-password' fullWidth onBlur={(e) => {setPasswordError((password !== '' && !passwordFormat.test(password)) ? <>Password must be 8 or more characters and contain:<br />- 1 or more lowercase letters<br />- 1 or more uppercase letters<br />- 1 or more numbers<br />- 1 or more special characters</> : null)}} error={passwordError != null} helperText={passwordError} inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='Password' type='password' sx={{my: 0.5}}/>
+                        <Label>First Name</Label>
+                        <TextField autoComplete='given-name' fullWidth onBlur={(e) => {setFirstNameError((firstName !== '' && !nameFormat.test(firstName)) ? 'First name can only contain letters, spaces, hyphens, or apostrophes.' : null)}} error={firstNameError != null} helperText={firstNameError} inputRef={firstNameBox} onKeyDown={focusOnEnterPress(lastNameBox)} autoFocus size='small' value={firstName} onChange={(e) => {setFirstName(e.target.value)}} placeholder='e.g. John' type='text' sx={{my: 0.5}}/>
+                    
+                        <Label>Last Name</Label>
+                        <TextField autoComplete='family-name' fullWidth onBlur={(e) => {setLastNameError((lastName !== '' && !nameFormat.test(lastName)) ? 'Last name can only contain letters, spaces, hyphens, or apostrophes.' : null)}} error={lastNameError != null} helperText={lastNameError} inputRef={lastNameBox} onKeyDown={focusOnEnterPress(idBox)} size='small' value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder='e.g. Doe' type='text' sx={{my: 0.5}}/>
+                        
+                        <Label>Student ID</Label>
+                        <TextField autoComplete='username' fullWidth onBlur={(e) => {setStudentIDError((studentID !== '' && !studentIDFormat.test(studentID)) ? 'Student ID must be 9 digits' : null)}} inputRef={idBox} error={studentIDError != null} helperText={studentIDError} onKeyDown={focusOnEnterPress(emailBox)} size='small' value={studentID} onChange={(e) => {setStudentID(e.target.value)}}  placeholder='e.g. 123456789' type='text' sx={{my: 0.5}}/>
+                        
+                        <Label>Email</Label>
+                        <TextField autoComplete='email' fullWidth onBlur={(e) => {setEmailError((email !== '' && !emailFormat.test(email)) ? 'Invalid email' : null)}} error={emailError != null} helperText={emailError} inputRef={emailBox} onKeyDown={focusOnEnterPress(passwordBox)} size='small' value={email} onChange={(e) => {setEmail(e.target.value)}}  placeholder='e.g. jdoe@mail.sfsu.edu' type='email' sx={{my: 0.5}}/>
+                        
+                        <Label>Password</Label>
+                        <TextField autoComplete='new-password' fullWidth onBlur={(e) => {setPasswordError((password !== '' && !passwordFormat.test(password)) ? <>Password must be 8 or more characters and contain:<br />- 1 or more lowercase letters<br />- 1 or more uppercase letters<br />- 1 or more numbers<br />- 1 or more special characters</> : null)}} error={passwordError != null} helperText={passwordError} inputRef={passwordBox} onKeyDown={focusOnEnterPress(termsCheckbox)} size='small' value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder='e.g. Password123!' type='password' sx={{my: 0.5}}/>
+                        
                         <FormGroup sx={{
                             display: 'flex',
                             alignItems: 'center',
