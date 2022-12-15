@@ -1,7 +1,6 @@
 import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';

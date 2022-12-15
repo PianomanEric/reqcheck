@@ -1,5 +1,6 @@
-import { Box, Link, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import React from 'react';
+import { Box, Link, Typography } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 const links = [
   'Privacy Policy',

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
     Accordion,
     AccordionDetails,
@@ -16,8 +17,7 @@ import {
     Tooltip,
     Typography,
     IconButton
-} from '@mui/material';
-import React, { useState, useEffect } from 'react';
+} from "@mui/material";
 
 export default function Roadmap() {
     useEffect(() => {

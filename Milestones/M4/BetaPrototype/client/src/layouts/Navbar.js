@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -7,8 +8,7 @@ import {
   Link,
   List,
   Typography,
-} from '@mui/material';
-import { useState } from 'react';
+} from "@mui/material";
 import LoginSignupDialog from '../components/LoginSignupDialog';
 import CourseSearchBar from '../components/CourseSearchBar';
 import { Link as RouterLink } from 'react-router-dom';

@@ -1,7 +1,8 @@
-import { Box } from '@mui/material';
-import { Outlet } from 'react-router-dom';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import React from 'react';
+import { Box } from "@mui/material";
+import { Outlet } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 export default function BasicLayout(props) {
   return (
