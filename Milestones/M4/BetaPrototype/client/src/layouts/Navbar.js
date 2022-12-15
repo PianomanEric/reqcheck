@@ -182,7 +182,7 @@ export default function Navbar() {
           </NavButton>
         </> : <>
           <Typography sx={{mx: 1}}>
-            {'Logged in as ' + auth.firstname + ' ' + auth.lastname}
+            {'Hello, ' + auth.firstname}
           </Typography>
           <NavButton onClick={handleLogout}>
             Sign Out

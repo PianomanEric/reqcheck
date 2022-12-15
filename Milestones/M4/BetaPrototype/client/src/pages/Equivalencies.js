@@ -19,12 +19,20 @@ import {
     Typography,
     IconButton
 } from '@mui/material';
+import axios from 'axios';
 
 import EquivalencySearchBar from '../components/EquivalencySearchBar';
+import CourseCard from '../components/CourseCard';
 
 export default function Equivalencies() {
     const [university, setUniversity] = useState('');
     const [course, setCourse] = useState('');
+    const [courseData, setCourseData] = useState();
+    useEffect(() => {
+        axios.get(`/api/courses/search?query=${course}`).then((res) => {
+            setCourseData(res?.data?.[0]);
+        });
+    }, [course]);
 
     useEffect(() => {
         document.title = 'ReqCheck | Course Equivalencies';
@@ -80,40 +88,7 @@ export default function Equivalencies() {
                         <EquivalencySearchBar options={['', '4', '5', '6']} value={course} setValue={setCourse}/>
                     </Box>
                     {
-                        (course != null && course != '') ?
-                        <>
-                            <Box sx={{
-                                bgcolor: '#fff',
-                                p: 4,
-                            }}>
-                                <Typography gutterBottom align='center' variant='h4' sx={{
-                                    width: '100%',
-                                }}>
-                                    CSC 230
-                                </Typography>
-                                <Typography gutterBottom align='center' variant='h5' sx={{
-                                    width: '100%',
-                                }}>
-                                    (San Francisco State University)
-                                </Typography>
-                                <Typography gutterBottom align='center' variant='h5' sx={{
-                                    width: '100%',
-                                }}>
-                                    Credits: 3
-                                </Typography>
-                                <Typography gutterBottom sx={{
-                                    width: '100%',
-                                    fontWeight: 'bold',
-                                }}>
-                                    Description:
-                                </Typography>
-                                <Typography gutterBottom sx={{
-                                    width: '100%',
-                                }}>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut elit non eros condimentum mattis. Phasellus augue lacus, ultricies sit amet nisi non, cursus ultricies nisi. Aenean bibendum interdum dui in tincidunt. Suspendisse potenti. Morbi et iaculis felis. Donec dictum nibh at dui pharetra, at rhoncus sapien aliquet. Nullam ultrices purus non nisl semper elementum. Morbi vulputate ex in felis vulputate, nec molestie lectus consectetur. Integer non enim id est mattis ultrices. Aliquam nibh nisl, rhoncus et euismod sed, condimentum non elit. In iaculis diam a dolor hendrerit, egestas sagittis libero egestas. Proin id placerat urna.
-                                </Typography>
-                            </Box>
-                    </> : undefined
+                        (course != null && course != '') ? <CourseCard courseData={courseData}/>: undefined
                     }
                 </> : undefined 
             }

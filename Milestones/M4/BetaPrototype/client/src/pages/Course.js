@@ -21,6 +21,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import { decodeCourseID } from '../util/FormatData';
+import CourseCard from '../components/CourseCard';
 
 const getCourseInfo = async (courseID) => {
     try {
@@ -58,15 +59,7 @@ export default function Course() {
         <Container maxWidth='md' sx={{
             p: 5,
         }}>
-            <Typography align='center' variant='h4'>
-                {decodeCourseID(courseInfo.courseID) + ' - ' + courseInfo.title}
-            </Typography>
-            <Typography align='center' variant='h5'>
-                {'Credits: ' + courseInfo.unit}
-            </Typography>
-            <Typography align='center' variant='h5'>
-                {'Division: ' + courseInfo.division}
-            </Typography>
+            <CourseCard courseData={courseInfo}/>
         </Container>
     </> : <></>);
 }

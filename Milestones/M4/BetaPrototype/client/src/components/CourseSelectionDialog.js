@@ -143,7 +143,7 @@ export default function CourseSelectionDialog(props) {
                         <DialogContentText variant='h7' align='left' sx={{
                             mb: 2,
                         }}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Unknown
                         </DialogContentText>
 
                         <DialogContentText variant='h7' align='left' sx={{
@@ -155,7 +155,7 @@ export default function CourseSelectionDialog(props) {
                         <DialogContentText variant='h7' align='left' sx={{
                             mb: 2,
                         }}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt. Eu mi bibendum neque egestas congue quisque egestas diam in. Ultricies tristique nulla aliquet enim. Velit aliquet sagittis id consectetur. Ullamcorper eget nulla facilisi etiam dignissim. Turpis tincidunt id aliquet risus feugiat in. Odio eu feugiat pretium nibh. Morbi enim nunc faucibus a. Aenean et tortor at risus viverra. Dolor sed viverra ipsum nunc aliquet bibendum enim facilisis gravida. Eu turpis egestas pretium aenean pharetra magna. Tincidunt vitae semper quis lectus nulla at volutpat diam ut. Tempor orci eu lobortis elementum nibh.
+                            {course.description}
                         </DialogContentText>
 
                     </DialogContent>

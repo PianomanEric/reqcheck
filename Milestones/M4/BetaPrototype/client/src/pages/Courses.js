@@ -15,7 +15,9 @@ import {
     TableRow,
     Tooltip,
     Typography,
-    IconButton
+    IconButton,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -386,6 +388,9 @@ export default function Courses() {
         console.log(area);
     }
 
+    const theme = useTheme();
+    const small = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (<>
         <Box sx={{
             bgcolor: 'common.white',
@@ -433,8 +438,13 @@ export default function Courses() {
                 </Tabs>
             </Box>
         </Box>
-        <Container maxWidth='md' sx={{
-            p: 5,
+        {console.log(small)}
+        <Container disableGutters={true} maxWidth='md' sx={{
+            p: {
+                xs: 1,
+                sm: 2,
+                md: 3,
+            },
         }}>
             {
             DEGREE_INFO.map((category) => (
