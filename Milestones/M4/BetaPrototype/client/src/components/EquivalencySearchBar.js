@@ -12,41 +12,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Course(props) {
-    const navigate = useNavigate();
-
-    const [searchTerms, setSearchTerms] = useState('');
-    const optionHighlighted = useRef(false);
-
-    const searchBar = useRef();
-  
-    
-    /*
-    useEffect(() => {
-        let searchChanged = false;
-        if (searchTerms !== '') {
-            getSearchResults(searchTerms).then((results) => {
-                if (!searchChanged) {
-                    setSearchResults(getAutofillOptionsFromSearchResults(results));
-                }
-            });
-        } else {
-            setSearchResults([]);
-        }
-        return () => {
-            searchChanged = true;
-        };
-    }, [searchTerms])
-    */
-
     return (
         <Autocomplete
+          autoHighlight
           selectOnFocus
           clearOnBlur
           options={props.options}
-          value={props.value}
+          fullWidth
+          //inputValue={props.value}
           sx={{
             mx: 1,
-            width: '100%',
             mx: '0',
           }}
           /*
@@ -59,27 +34,19 @@ export default function Course(props) {
           */
           onChange={
             (e, value, reason) => {
-              if (reason === 'selectOption') {
-                console.log('Option selected');
-                props.setValue(value);
-              }
+              console.log(value);
+              props.setValue(value);
             }
           }
           onInputChange={
             (e, value, reason) => {
-              if (reason == 'input') {
-                setSearchTerms(value || '');
-                console.log(value);
-              }
-            }
-          }
-          onHighlightChange={
-            (e, option, reason) => {
-              if (option) {
-                optionHighlighted.current = true;
-              } else {
-                optionHighlighted.current = false;
-              }
+              /*
+              console.log("Input changed!");
+              console.log(e);
+              console.log(reason);
+              console.log(value);
+              */
+              //props.setValue(value);
             }
           }
           renderInput={(params) => {
@@ -87,12 +54,8 @@ export default function Course(props) {
             return (
             <TextField
               {...params}
-              inputRef={searchBar}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && optionHighlighted.current === false) {
-                }
-              }}
-              />
+              placeholder={props.placeholder}
+            />
             )
           }}
       />

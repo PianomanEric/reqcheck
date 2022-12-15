@@ -17,6 +17,8 @@ import NavigateNextSharpIcon from '@mui/icons-material/NavigateNextSharp';
 import NavigateBeforeSharpIcon from '@mui/icons-material/NavigateBeforeSharp';
 import axios from 'axios';
 
+import { decodeCourseID } from '../util/FormatData';
+
 const CourseListItem = (props) => <>
     <ListItem {...props} sx={{
         p: 0,
@@ -56,6 +58,7 @@ export default function CourseSelectionDialog(props) {
     }
 
     const handleCourseSelection = () => {
+        props.onSelect(props.area.reqID, course.courseID);
         handleClose();
     }
 
@@ -114,7 +117,7 @@ export default function CourseSelectionDialog(props) {
                         {
                             options.map((course) => 
                                 <CourseListItem key={course.courseID} onClick={() => handleSeeDetails(course)}>
-                                    {course.courseID + ' - ' + course.title}
+                                    {decodeCourseID(course.courseID) + ' - ' + course.title}
                                     {console.log("Mapping")}
                                     {console.log(course)}
                                 </CourseListItem>
@@ -126,7 +129,7 @@ export default function CourseSelectionDialog(props) {
                         <DialogContentText variant='h5' align='center' sx={{
                             fontWeight: 'bold',
                         }}>
-                            {course.courseID + ' - ' + course.title}
+                            {decodeCourseID(course.courseID) + ' - ' + course.title}
                         </DialogContentText>
                         <DialogContentText variant='h7' align='center' sx={{
                             fontWeight: 'bold',

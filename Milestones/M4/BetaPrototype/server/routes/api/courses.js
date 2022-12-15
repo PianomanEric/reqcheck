@@ -5,6 +5,7 @@ const axios = require('axios');
 const { parse: parseHTML } = require('node-html-parser');
 const { decode: decodeHTMLEntities } = require('html-entities');
 const { query } = require('../../config/database');
+const { requireAuth } = require('../../middleware/auth');
 
 const COURSE_TABLE_NAME = 'courses';
 
@@ -43,6 +44,9 @@ router.get('/', (req, res) => {
   }
   console.log(queryParams);
   db.query(query, queryParams).then(([results, fields]) => {
+    for (const result of results) {
+      result.description = result.description.replaceAll('\\n', '\n');
+    }
     console.log(results);
     return res.json(results);
   }).catch((err) => {
@@ -67,9 +71,14 @@ router.get('/search', (req, res) => {
     regexString += '\-?' + queryParams[i];
   }
 
-  //const searchRegex = new RegExp(regexString, 'g');
-  console.log(regexString);
+  if (!regexString || regexString === '') {
+    return res.json([]);
+  }
+
   db.query(`SELECT * FROM ${COURSE_TABLE_NAME} WHERE courseID REGEXP ?`, [regexString]).then(([results, fields]) => {
+    for (const result of results) {
+      result.description = result.description.replaceAll('\\n', '\n');
+    }
     console.log(results);
     return res.json(results);
   }).catch((err) => {
@@ -191,10 +200,36 @@ router.get('/scrape', (req, res) => {
   })
 });
 
+router.get('/plan', requireAuth, (req, res) => {
+  db.query(`SELECT reqID, codeID, category, exact, \`group\` FROM requirement WHERE userID = ?`, [req.user]).then(([results, fields]) => {
+    return res.json(results);
+  }).catch((err) => {
+    return res.json([]);
+  });
+});
+
+router.post('/plan/update', requireAuth, (req, res) => {
+  if (req.body.reqID && req.body.courseID) {
+    db.query(`UPDATE requirement SET codeID = ? WHERE userID = ? AND reqID = ?`, [req.body.courseID, req.user, req.body.reqID]).then(([results, fields]) => {
+      db.query(`SELECT reqID, codeID, category, exact, \`group\` FROM requirement WHERE userID = ?`, [req.user]).then(([results, fields]) => {
+        return res.json(results);
+      }).catch((err) => {
+        return res.json([]);
+      });
+    }).catch((err) => {
+      return res.json([]);
+    });
+  } else {
+    return res.json([]);
+  }
+});
+
 router.get('/:courseID', (req, res) => {
   const courseID = req.params.courseID;
   db.query(`SELECT * FROM ${COURSE_TABLE_NAME} WHERE courseID = ?`, [courseID]).then(([results, fields]) => {
     if (results.length == 1) {
+      // temporary fix for newline character
+      results[0].description = results[0].description.replaceAll('\\n', '\n');
       return res.json(results[0]);
     } else {
       return res.json([]);
@@ -203,5 +238,7 @@ router.get('/:courseID', (req, res) => {
     return res.json([]);
   });
 });
+
+
 
 module.exports = router;

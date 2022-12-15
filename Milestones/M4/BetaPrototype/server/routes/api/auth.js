@@ -14,6 +14,66 @@ const DAYS = 24 * HOURS;
 
 const INACTIVITY_TIMEOUT = 5 * MINUTES;
 
+const CS_DEGREE_PLAN = {
+    'General Education': {
+        'Courses': [],
+        'Requirements': ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C1|C2', 'D1|D2|D3', 'E', 'UDB', 'UDC', 'UDD'],
+    },
+    'Math and Physics': {
+        'Courses': ['MATH226', 'MATH227', 'MATH324', 'MATH325', 'PHYS220', 'PHYS222', 'PHYS230', 'PHYS232'],
+        'Requirements': [],
+    },
+    'Computer Science': {
+        'Courses': ['CSC210', 'CSC211', 'CSC220', 'CSC230', 'CSC256', 'CSC300GW', 'CSC317', 'CSC340', 'CSC413', 'CSC415', 'CSC510', 'CSC600', 'CSC648'],
+        'Requirements': ['CSCE', 'CSCE', 'CSCE', 'CSCE'],
+    },
+}
+
+const applyDegreePlan = (user, plan) => {
+    const insertData = [];
+    const additionalRequirement = ' (?, ?, ?, ?, ?),';
+    let insertStatement = 'INSERT INTO requirement (userID, codeID, category, exact, `group`) VALUES';
+    for (const [generalArea, generalAreaData] of Object.entries(plan)) {
+        for (const course of generalAreaData.Courses) {
+            insertData.push(user);
+            insertData.push(course);
+            insertData.push(course);
+            insertData.push(true);
+            insertData.push(generalArea);
+            insertStatement += additionalRequirement;
+            db.query('INSERT INTO enrollment (enrollmentID, courseID, semester, year, inprogress, completed, grade) VALUES (?, ?, ?, ?, ?, ?, ?)', [user, course, 'Spring', 2022, false, true, 'A']).then(([results, fields]) => {
+                console.log(results);
+            });
+        }
+        for (const requirement of generalAreaData.Requirements) {
+            insertData.push(user);
+            insertData.push(null);
+            insertData.push(requirement);
+            insertData.push(false);
+            insertData.push(generalArea);
+            insertStatement += additionalRequirement;
+        }
+    }
+    if (insertData.length === 0) {
+        return;
+    }
+    insertStatement = insertStatement.slice(0, -1) + ';';
+    db.query(insertStatement, insertData).then(([results, fields]) => {
+        console.log(results);
+    });
+    db.query('SELECT * FROM requirement').then(([results, fields]) => {
+        console.log('After');
+        console.log(results);
+    });
+    /*
+    db.query('SELECT * FROM enrollment').then(([results, fields]) => {
+        console.log('After');
+        console.log(results);
+    });
+    */
+    return;
+}
+
 const createAccessToken = (user) => {
     return jwt.sign(
         {
@@ -186,6 +246,7 @@ router.post('/register', registrationValidator, (req, res, next) => {
         if (results && results.affectedRows === 1) {
             console.log(results);
             console.log("Created account!");
+            applyDegreePlan(user, CS_DEGREE_PLAN);
             next();
         } else {
             console.log("Account creation failed!");

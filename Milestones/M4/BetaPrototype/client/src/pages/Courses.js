@@ -32,6 +32,9 @@ import ScheduleSharpIcon from '@mui/icons-material/ScheduleSharp';
 import InfoIcon from '@mui/icons-material/Info';
 
 import LibraryImage from '../assets/images/library2.jpg';
+import axios from 'axios';
+
+import { decodeCourseID } from '../util/FormatData';
 
 const TABS = [
     'All',
@@ -46,283 +49,6 @@ const COURSE_STATUS = {
     IN_PROGRESS: 'In Progress',
     COMPLETED: 'Completed',
 }
-
-const DEGREE_INFO = [
-    {
-        title: 'General Education',
-        courses: [
-            {
-                name: 'A1: Oral Communication',
-                requirement: 'A1',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'A2: Written English Comm',
-                requirement: 'A2',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'A3: Critical Thinking',
-                requirement: 'A3',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'B1: Physical Science',
-                requirement: 'B1',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'B2: Life Science',
-                requirement: 'B2',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'B3: Lab Science',
-                requirement: 'B3',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'B4: Math/QR',
-                requirement: 'B4',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'C1: Arts',
-                requirement: 'C1',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'C2: Humanities',
-                requirement: 'C2',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'C1 or C2: Arts or Humanities',
-                requirement: 'C1|C2',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'D: Social Sciences',
-                requirement: 'D1|D2|D3',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'E: Lifelong Learning and self-Development',
-                requirement: 'E',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'UD-B: Physical Life Science',
-                requirement: 'UDB',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'UD-C: Arts and/or Humanities',
-                requirement: 'UDC',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'UD-D: Social Sciences',
-                requirement: 'UDD',
-                choice: null,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-        ]
-    },
-    {
-        title: 'Math and Physics',
-        courses: [
-            {
-                name: 'MATH 226',
-                requirement: 'MATH 226',
-                choice: 'MATH 226',
-                status: COURSE_STATUS.READY,
-            },
-            {
-                name: 'MATH 227',
-                requirement: 'MATH 227',
-                choice: 'MATH 227',
-                status: COURSE_STATUS.READY,
-            },
-            {
-                name: 'MATH 324',
-                requirement: 'MATH 324',
-                choice: 'MATH 324',
-                status: COURSE_STATUS.READY,
-            },
-            {
-                name: 'MATH 325',
-                requirement: 'MATH 325',
-                choice: 'MATH 325',
-                status: COURSE_STATUS.READY,
-            },
-            {
-                name: 'PHYS 220',
-                requirement: 'PHYS 220',
-                choice: 'PHYS 220',
-                status: COURSE_STATUS.READY,
-            },
-            {
-                name: 'PHYS 222',
-                requirement: 'PHYS 222',
-                choice: 'PHYS 222',
-                status: COURSE_STATUS.READY,
-            },
-            {
-                name: 'PHYS 230',
-                requirement: 'PHYS 230',
-                choice: 'PHYS 230',
-                status: COURSE_STATUS.READY,
-            },
-            {
-                name: 'PHYS 232',
-                requirement: 'PHYS 232',
-                choice: 'PHYS 232',
-                status: COURSE_STATUS.READY,
-            },
-        ]
-    },
-    {
-        title: 'Computer Science',
-        courses: [
-            {
-                name: 'CSC 210',
-                requirement: 'CSC 210',
-                choice: 'CSC 210',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 211',
-                requirement: 'CSC 211',
-                choice: 'CSC 211',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 220',
-                requirement: 'CSC 220',
-                choice: 'CSC 220',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 230',
-                requirement: 'CSC 230',
-                choice: 'CSC 230',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 256',
-                requirement: 'CSC 256',
-                choice: 'CSC 256',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 300GW',
-                requirement: 'CSC 300GW',
-                choice: 'CSC 300GW',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 317',
-                requirement: 'CSC 317',
-                choice: 'CSC 317',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 340',
-                requirement: 'CSC 340',
-                choice: 'CSC 340',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 413',
-                requirement: 'CSC 413',
-                choice: 'CSC 413',
-                status: COURSE_STATUS.COMPLETED,
-            },
-            {
-                name: 'CSC 415',
-                requirement: 'CSC 415',
-                choice: 'CSC 415',
-                status: COURSE_STATUS.IN_PROGRESS,
-            },
-            {
-                name: 'CSC 510',
-                requirement: 'CSC 510',
-                choice: 'CSC 510',
-                status: COURSE_STATUS.READY,
-            },
-            {
-                name: 'CSC 600',
-                requirement: 'CSC 600',
-                choice: 'CSC 600',
-                status: COURSE_STATUS.NOT_READY,
-            },
-            {
-                name: 'CSC 648',
-                requirement: 'CSC 648',
-                choice: 'CSC 648',
-                status: COURSE_STATUS.NOT_READY,
-            },
-            {
-                name: 'CS Elective 1',
-                requirement: 'CSCE',
-                choice: 'CSC 631',
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'CS Elective 2',
-                requirement: 'CSCE',
-                choice: undefined,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'CS Elective 3',
-                requirement: 'CSCE',
-                choice: undefined,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-            {
-                name: 'CS Elective 4',
-                requirement: 'CSCE',
-                choice: undefined,
-                status: COURSE_STATUS.READY,
-                canEdit: true,
-            },
-        ]
-    },
-]
 
 const StatusButton = (props) => <Tooltip title={props.children} placement='right'>
     <IconButton size='small' onClick={props.onClick} variant='contained' {...props} color={
@@ -346,9 +72,68 @@ const TableBackground = (props) => <Box {...props} sx={{
     bgcolor: 'common.white',
 }} />
 
+const requirementNames = {
+    'A1': 'A1: Oral Communication',
+    'A2': 'A2: Written English Communication',
+    'A3': 'A3: Critical Thinking',
+    'B1': 'B1: Physical Science',
+    'B2': 'B2: Life Science',
+    'B3': 'B3: Lab Science',
+    'B4': 'B4: Math / Quantitative Reasoning',
+    'C1': 'C1: Arts',
+    'C2': 'C2: Humanities',
+    'C1|C2': 'C1 or C2: Arts or Humanities',
+    'D1|D2|D3': 'D: Social Sciences',
+    'E': 'E: Lifelong Learning Development',
+    'UDB' : 'UD-B: Physical Life Science',
+    'UDC' : 'UD-C: Arts and/or Humanities',
+    'UDD' : 'UD-D: Social Sciences',
+    'CSCE' : 'Computer Science Elective',
+}
+
 export default function Courses() {
+    const [degreePlan, setDegreePlan] = useState([]);
+
+    const translateDegreePlan = (rawPlan) => {
+        const plan = [];
+        const areas = {};
+        for (const requirement of rawPlan) {
+            console.log(requirement.group);
+            if (!areas[requirement.group]) {
+                areas[requirement.group] = [];
+            }
+            areas[requirement.group].push({
+                name: requirement.exact ? decodeCourseID(requirement.category) : (requirementNames[requirement.category] || requirement.category),
+                requirement: requirement.category,
+                choice: decodeCourseID(requirement.codeID),
+                status: COURSE_STATUS.READY,
+                canEdit: !requirement.exact,
+                reqID: requirement.reqID,
+            })
+        }
+        console.log(areas);
+        for (const [area, courses] of Object.entries(areas)) {
+            console.log(area, courses);
+            plan.push({
+                title: area,
+                courses: courses,
+            });
+        }
+        setDegreePlan(plan);
+    }
+
+    const updateDegreePlan = () => {
+        axios.get('/api/courses/plan').then((res) => {
+            console.log(res.data);
+            if (res.data) {
+                translateDegreePlan(res.data);
+            }
+        });
+    }
+
     useEffect(() => {
         document.title = 'ReqCheck | Courses';
+        updateDegreePlan();
     }, []);
 
     const [showCourseSelectionDialog, setShowCourseSelectionDialog] = useState(false);
@@ -447,7 +232,7 @@ export default function Courses() {
             },
         }}>
             {
-            DEGREE_INFO.map((category) => (
+            degreePlan.map((category) => (
                 <Accordion defaultExpanded key={category.title} sx={{
                     bgcolor: 'common.white',
                 }}>
@@ -474,7 +259,7 @@ export default function Courses() {
                                     {
                                     category.courses.map((course) => (
                                         isInCategory(course, currentTab) ?
-                                            <TableRow key={course.name}>
+                                            <TableRow key={course.reqID}>
                                                 <TableCell align='left'>{course.name}</TableCell>
                                                 <TableCell align='left' sx={{
                                                         color: (course.choice) ? 'common.black' : '#aaa',
@@ -489,7 +274,7 @@ export default function Courses() {
                                                     {
                                                         (course.canEdit && course.status !== COURSE_STATUS.COMPLETED && course.status !== COURSE_STATUS.IN_PROGRESS) ? (
                                                         <Tooltip title='Edit' placement='right'>
-                                                            <IconButton onClick={() => handleEditClick({name: course.name, requirement: course.requirement})} size='small' sx={{
+                                                            <IconButton onClick={() => handleEditClick({name: course.name, requirement: course.requirement, reqID: course.reqID})} size='small' sx={{
                                                                 m: 0,
                                                             }}>
                                                                 <EditSharpIcon sx={{
@@ -523,7 +308,16 @@ export default function Courses() {
             ))
         }
         </Container>
-        <CourseSelectionDialog onClose={() => setShowCourseSelectionDialog(false)} open={showCourseSelectionDialog} area={area}/>
+        <CourseSelectionDialog onClose={() => setShowCourseSelectionDialog(false)} open={showCourseSelectionDialog} area={area} onSelect={(reqID, option) => {
+            console.log("Option selected!");
+            axios.post('/api/courses/plan/update', {
+                reqID: reqID,
+                courseID: option,
+            }).then((res) => {
+                console.log(res.data);
+                translateDegreePlan(res.data);
+            });
+        }}/>
         <PrerequisiteDialog onClose={handleClosePrerequisites} open={showPrerequisites}/>
     </>);
 }
