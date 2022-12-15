@@ -1,6 +1,5 @@
-import React from 'react';
-import { Box, Link, Typography } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, Link, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 const links = [
   'Privacy Policy',
@@ -14,7 +13,7 @@ function GenerateLinks() {
     <Link key={label} component={RouterLink} to='/' onClick={() => {alert(`${label} page is low priority and will not be implemented this semester`)}} sx={{
       m: 1,
     }}>
-      <Typography align='center' color='common.white'>
+      <Typography color='common.white'>
         {label}
       </Typography>
     </Link>

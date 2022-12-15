@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Box, Link, Typography } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, Link, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 const teamMembers = [
     'Eric Falk',

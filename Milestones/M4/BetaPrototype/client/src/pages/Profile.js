@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import {
     Accordion,
     AccordionDetails,
@@ -17,13 +16,8 @@ import {
     Tooltip,
     Typography,
     IconButton
-} from "@mui/material";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-import { CardActionArea } from '@mui/material';
+} from '@mui/material';
+import React, { useState, useEffect } from 'react';
 
 export default function Profile() {
     useEffect(() => {
@@ -31,7 +25,6 @@ export default function Profile() {
     }, []);
 
     return (<>
-    
         <Box sx={{
             bgcolor: '#fff',
             width: '100%',
@@ -42,34 +35,8 @@ export default function Profile() {
                 p: 3,
                 width: '100%',
             }}>
-                
-            </Typography>  
-
-           
-        </Box>
-
-        <Box>
-        <Card sx={{ maxWidth: 500 }}>
-      <CardMedia
-        component="img"
-        alt="user profile img"
-        height="140"
-        src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-           User Profile
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Welcome User
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Email</Button>
-        <Button size="small">Notifications</Button>
-      </CardActions>
-    </Card>  
+                Student Profile Under Construction
+            </Typography>
         </Box>
     </>);
 }
-

@@ -1,68 +1,37 @@
-import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
   Button,
-  Drawer,
   IconButton,
   Link,
-  List,
+  TextField,
+  InputAdornment,
   Typography,
-} from "@mui/material";
+  Autocomplete
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import LoginSignupDialog from '../components/LoginSignupDialog';
-import CourseSearchBar from '../components/CourseSearchBar';
 import { Link as RouterLink } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
 
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 
-const NavButton = (props) => {
-  return <Button variant='contained' {...props} sx={{
-    mx: 1,
-    color: 'common.white',
-    //flexShrink: 0,
-    ...props.sx
-  }}/>
-}
-
-const CloseButton = (props) => {
-  return (
-    <IconButton onClick={props.onClick} key="Menu" sx={{
-      display: "flex",
-      alignItems: "center",
-      p: 1,
-    }}>
-      <CloseIcon />
-    </IconButton>
-  )
-}
-
-const MenuButton = (props) => {
-  return (
-    <IconButton onClick={props.onClick} key="Menu" {...props} sx={{
-      display: "flex",
-      alignItems: "center",
-      height: '40px',
-      ...props.sx,
-    }}>
-      <MenuIcon />
-    </IconButton>
-  )
-}
+// This is hard-coded for now, but we can use the backend to grab our filters later
+// Not sure what things we should include in the dropdown filter
+// Feel free to change these
+const filters = [
+  'Courses',
+  'Instructors',
+  'Degrees'
+];
 
 export default function Navbar() {
 
-  const { auth, setAuth, logout, isLoggedIn } = useAuth();
-
+  const [titles, setTitles] = useState([]);
+  const [showTitles, setShowTitles] = useState([]);
   const [showLoginSignupDialog, setShowLoginSignupDialog] = useState(false);
   const [loginSignupDialogPage, setLoginSignupDialogPage] = useState('Login');
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const handleLogout = () => {
-    logout();
-  }
 
   const handleShowLogin = () => {
     setShowLoginSignupDialog(true);
@@ -78,42 +47,40 @@ export default function Navbar() {
     setShowLoginSignupDialog(false);
   }
 
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  }
+  useEffect(() => {
+    async function fetchSearchData(){
+      try{
+        const response = await axios.get('/api/courses');
+        const title = response.data.map((item) => item.title);
+        setTitles([...new Set(title)]);
+        setShowTitles(titles);
+      }catch(error) {
+          console.log(error)
+      }
+    }
+    fetchSearchData();
+  },[])
 
-  const handleCloseDrawer = () => {
-    setDrawerOpen(!drawerOpen);
+  const onChangeSearch = (e) => {
+    const show = titles.filter((item) => {
+      return item.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    setShowTitles(show);
   }
 
   return (
     <AppBar position='sticky' elevation={3} sx={{
       p: 1,
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
     }}>
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-end',
       }}>
-        <MenuButton onClick={handleDrawerToggle} sx={{
-          display: {
-            xs: "block",
-            sm: "none",
-          },
-        }}/>
-        <Link component={RouterLink} to='/' sx={{
-          display: {
-            //xs: 'none',
-            sm: 'block',
-          }
-        }}>
+        <Link component={RouterLink} to='/'>
           <Typography component='div' variant='h5' align='center' color='initial' sx={{
             px: 2,
             fontWeight: '700',
@@ -132,14 +99,17 @@ export default function Navbar() {
             ReqCheck
           </Typography>
         </Link>
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        flexGrow: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+      }}>
         <Link component={RouterLink} to='/'>
           <Typography variant='body1' align='center' color='initial' sx={{
             px: 2,
             py: 1,
-            display: {
-              xs: 'none',
-              sm: 'block',
-            },
           }}>
             Home
           </Typography>
@@ -148,117 +118,61 @@ export default function Navbar() {
           <Typography variant='body1' align='center' color='initial' sx={{
             px: 2,
             py: 1,
-            display: {
-              xs: 'none',
-              sm: 'block',
-            },
           }}>
             About Us
           </Typography>
         </Link>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          flexGrow: 1,
-        }}>
-          <CourseSearchBar sx={{
-            display: {
-              xs: 'none',
-              md: 'block',
-            },
-            flexGrow: 1,
-          }}/>
-        </Box>
-
-        {
-        !isLoggedIn() ? <>
-          <NavButton onClick={handleShowSignup}>
-            Register
-          </NavButton>
-          <NavButton onClick={handleShowLogin}>
-            Login
-          </NavButton>
-        </> : <>
-          <Typography sx={{mx: 1}}>
-            {'Hello, ' + auth.firstname}
-          </Typography>
-          <NavButton onClick={handleLogout}>
-            Sign Out
-          </NavButton>
-        </>
-        }
-        <LoginSignupDialog open={showLoginSignupDialog} page={loginSignupDialogPage} onPageChange={setLoginSignupDialogPage} onClose={handleCloseLoginSignup}></LoginSignupDialog>
       </Box>
-      
-      <CourseSearchBar sx={{
-        display: {
-          xs: 'block',
-          md: 'none',
-        },
-        p: 1,
-        pt: 1.5,
-        flexGrow: 1,
-      }}/>
-      <Drawer variant="temporary" open={drawerOpen} onClose={handleDrawerToggle} PaperProps={{onClick: handleCloseDrawer}} sx={{
-        display: {
-          xs: "flex",
-          sm: "none",
-        },
-        flexDirection: "column",
-      }}>
-        <Box sx={{
-          display: "flex",
-          flexDirection: "row-reverse",
-          justifyContent: 'space-between',
-          width: "250px",
-          p: 1,
-        }}>
-          <CloseButton onClose={handleDrawerToggle} />
-          <Link component={RouterLink} to='/'>
-            <Typography component='div' variant='h5' align='center' color='initial' sx={{
-              p: 2,
-              fontWeight: '700',
-              color: 'primary.main',
-              textStroke: '1px black',
-              display: 'flex',
-              alignItems: 'center',
-            }}>
-              <CheckIcon fontSize='medium' sx={{
-                p: 0,
-                display: 'inline',
-                stroke: '#0c0',
-                strokeWidth: 1.5,
-                fill: '#0c0',
-              }} />
-              ReqCheck
-            </Typography>
-          </Link>
-        </Box>
-        <List sx={{
-          flexGrow: 1,
-        }}>
-          <Link component={RouterLink} to='/'>
-            <Typography variant='body1' color='initial' sx={{
-              px: 3,
-              py: 1,
-            }}>
-              Home
-            </Typography>
-          </Link>
-          <Link component={RouterLink} to='/about'>
-            <Typography variant='body1' color='initial' sx={{
-              px: 3,
-              py: 1,
-            }}>
-              About Us
-            </Typography>
-          </Link>
-        </List>
-      </Drawer>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
 
-    </AppBar>
-    
+      }}>
+        {/* <TextField placeholder={'Search Courses'}
+        onChange={(e) => onChangeSearch(e)}
+        sx={{
+          width: '200px',
+          // bgcolor: 'common.white',
+          // padding: 1,
+          // border: '1px solid #aaa',
+        }}/> */}
+        <Autocomplete
+          id='free-solo-demo'
+          freeSolo
+          size='small'
+          options={showTitles}
+          sx={{
+            mx: 1,
+            width: '250px',
+          }}
+          renderInput={(params) =>
+            <TextField {...params} InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position='end'>
+                  <IconButton edge='start'>
+                    <SearchIcon/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }} onChange={(e) => onChangeSearch(e)} placeholder='Search Courses'/>
+          }
+        />
+        <Button variant='contained' onClick={handleShowSignup} sx={{
+          mx: 1,
+          color: 'common.white',
+        }}>
+          Register
+        </Button>
+        <Button variant='contained' onClick={handleShowLogin} sx={{
+          mx: 1,
+          color: 'common.white',
+        }}>
+          Login
+        </Button>
+      </Box>
+      <LoginSignupDialog open={showLoginSignupDialog} page={loginSignupDialogPage} onPageChange={setLoginSignupDialogPage} onClose={handleCloseLoginSignup}></LoginSignupDialog>
+    </AppBar> 
   );
 }

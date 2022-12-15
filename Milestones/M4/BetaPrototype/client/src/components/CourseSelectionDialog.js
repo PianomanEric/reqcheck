@@ -15,16 +15,15 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import NavigateNextSharpIcon from '@mui/icons-material/NavigateNextSharp';
 import NavigateBeforeSharpIcon from '@mui/icons-material/NavigateBeforeSharp';
-import axios from 'axios';
 
-import { decodeCourseID } from '../util/FormatData';
+
 
 const CourseListItem = (props) => <>
     <ListItem {...props} sx={{
         p: 0,
     }}>
         <ListItemButton onClick={props.onClick}>
-            {props.children}
+            AAA 100 - Dummy Course
             <NavigateNextSharpIcon sx={{
                 position: 'absolute',
                 right: 8,
@@ -39,57 +38,36 @@ const CourseListItem = (props) => <>
 export default function CourseSelectionDialog(props) {
 
     const [showDetails, setShowDetails] = useState(false);
-    const [options, setOptions] = useState([]);
-    const [course, setCourse] = useState({});
 
-    const handleSeeDetails = (course) => {
-        setCourse(course);
+    useMemo(() => {
+        if (props.open) {
+            setShowDetails(false);
+        }
+    }, [props.open])
+
+    const handleSeeDetails = () => {
         setShowDetails(true);
     }
-
     const handleBackClick = () => {
         setShowDetails(false);
     }
-
     const handleClose = () => {
         if (props.onClose) {
             props.onClose();
         }
     }
-
     const handleCourseSelection = () => {
-        props.onSelect(props.area.reqID, course.courseID);
         handleClose();
     }
 
-    const updateAreaCourses = async () => {
-        try {
-            const response = await axios.get(`/api/courses?requirement=${props.area.requirement}`);
-            setOptions(response.data);
-        } catch(err) {
-
-        }
-    }
-
-    useMemo(() => {
-        if (props.open) {
-            console.log("Opened!?")
-            setShowDetails(false);
-            setOptions([]);
-            updateAreaCourses();
-        }
-    }, [props.open])
-
-    /*
     useEffect(() => {
-        updateAreaCourses();
-    }, [props.area])
-    */
+        //setShowDetails(false);
+    })
 
     return (
         <Dialog fullWidth {...props}>
             <DialogTitle align='center'>
-                {props.area.name}
+                A# - Dummy Requirement Area
                 <IconButton onClick={handleClose} color='inherit' sx={{
                     position: 'absolute',
                     right: 8,
@@ -113,28 +91,27 @@ export default function CourseSelectionDialog(props) {
                         pt: 0,
                         overflow: 'auto',
                     }}>
-                        {console.log("Got to the map")}
-                        {
-                            options.map((course) => 
-                                <CourseListItem key={course.courseID} onClick={() => handleSeeDetails(course)}>
-                                    {decodeCourseID(course.courseID) + ' - ' + course.title}
-                                    {console.log("Mapping")}
-                                    {console.log(course)}
-                                </CourseListItem>
-                            )
-                        }
+                        <CourseListItem onClick={handleSeeDetails}/>
+                        <CourseListItem onClick={handleSeeDetails}/>
+                        <CourseListItem onClick={handleSeeDetails}/>
+                        <CourseListItem onClick={handleSeeDetails}/>
+                        <CourseListItem onClick={handleSeeDetails}/>
+                        <CourseListItem onClick={handleSeeDetails}/>
+                        <CourseListItem onClick={handleSeeDetails}/>
+                        <CourseListItem onClick={handleSeeDetails}/>
+                        <CourseListItem onClick={handleSeeDetails}/>
                     </List>
                 </> : <>
                     <DialogContent>
                         <DialogContentText variant='h5' align='center' sx={{
                             fontWeight: 'bold',
                         }}>
-                            {decodeCourseID(course.courseID) + ' - ' + course.title}
+                            AAA 100 - Dummy Course
                         </DialogContentText>
                         <DialogContentText variant='h7' align='center' sx={{
                             fontWeight: 'bold',
                         }}>
-                            {'Credits: ' + course.unit}
+                            Credits: 3
                         </DialogContentText>
 
                         <DialogContentText variant='h7' align='left' sx={{
@@ -146,7 +123,7 @@ export default function CourseSelectionDialog(props) {
                         <DialogContentText variant='h7' align='left' sx={{
                             mb: 2,
                         }}>
-                            Unknown
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         </DialogContentText>
 
                         <DialogContentText variant='h7' align='left' sx={{
@@ -158,7 +135,7 @@ export default function CourseSelectionDialog(props) {
                         <DialogContentText variant='h7' align='left' sx={{
                             mb: 2,
                         }}>
-                            {course.description}
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt. Eu mi bibendum neque egestas congue quisque egestas diam in. Ultricies tristique nulla aliquet enim. Velit aliquet sagittis id consectetur. Ullamcorper eget nulla facilisi etiam dignissim. Turpis tincidunt id aliquet risus feugiat in. Odio eu feugiat pretium nibh. Morbi enim nunc faucibus a. Aenean et tortor at risus viverra. Dolor sed viverra ipsum nunc aliquet bibendum enim facilisis gravida. Eu turpis egestas pretium aenean pharetra magna. Tincidunt vitae semper quis lectus nulla at volutpat diam ut. Tempor orci eu lobortis elementum nibh.
                         </DialogContentText>
 
                     </DialogContent>
